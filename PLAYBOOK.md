@@ -31,6 +31,8 @@ cd ~/PycharmProjects/rejuve-website      # website folder
 - `192.168.1.8` is the Mac's Wi-Fi address and can change when the router restarts.
   `./pos-service.sh status` always prints the current addresses.
 - On the iPad, open a page in Safari, then **Share → Add to Home Screen** so it opens like an app.
+- **Tips:** the billing screen, kitchen screen, Web orders and Recipe Lab show short tips the first time they're opened.
+  Tap **?** (top right) to see them again. New staff: just tap **?** on each screen.
 
 ---
 
@@ -190,6 +192,14 @@ Automatic rules:
   Change the hours in Admin → Online orders.
 - **POS offline:** in Web → POS mode, if the POS hasn't synced for 10 minutes (Mac off, no internet), the website switches
   itself to WhatsApp until the POS is back. Nothing gets lost silently.
+
+**The alert:** when a website order arrives, a **bell rings** (ding-dong), a **card pops up** top-right and the browser tab
+flashes "🔔 New web order". The bell repeats every 4 seconds for a minute, then every 20 seconds, until someone acts:
+**Accept**, **Reject**, or **Remind me in 2 min**. When a UPI customer taps "I've paid", a different double ping plays and the
+card shows **Payment received · send to kitchen**.
+- Sound only works after someone has **tapped the billing screen once** since it was opened (a browser rule). If the card shows
+  "🔇 Tap here to turn on the alert sound", tap it.
+- Turn the sound on/off or **Test sound**: **Web orders** → the 🔔 chip at the top (per device). Keep the iPad/Mac volume up.
 
 **At the counter (Web orders button, top bar, badge shows how many need you):**
 - **New order** → **Accept** (customer sees "Accepted") or **Reject** with a reason (customer sees it).
@@ -354,6 +364,7 @@ Then run the website sync (3a step 3).
 |---|---|
 | POS / kitchen won't open on the iPad | On the Mac: `./pos-service.sh status`. Not running → `./pos-service.sh restart`. Check the iPad is on the same Wi-Fi (or Tailscale is on) and use the address `status` prints. |
 | Worked yesterday, address changed | The Wi-Fi IP changed. Use `./pos-service.sh status` for the new one, or the Tailscale address (doesn't change). |
+| No bell for web orders | Tap the billing screen once after opening it (browsers block sound until a tap). Check **Web orders → 🔔 Alert sound on**, then **Test sound**, and the device volume. |
 | Kitchen screen has no chime | Tap **Start service** after every reload; you should hear one beep. If not, check the iPad's volume and silent switch. |
 | New orders don't appear on the kitchen screen | The screen polls every 4 seconds. Pull to reload; check "Can't reach the POS server" message → restart the POS. |
 | SEEKU / Claude says "API key" problem | Recipe Lab → Claude settings → replace the key. "Busy / credit balance" → add credit at console.anthropic.com. "Couldn't reach Claude" → the Mac is offline. |
