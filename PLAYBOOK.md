@@ -208,8 +208,18 @@ card shows **Payment received · send to kitchen**.
 - **Pay by UPI:** the customer pays to `8816809822@ptsbi` and taps "I've paid" (optionally with the UTR).
   Check your UPI app shows the amount → **Payment received · send to kitchen**. It's billed as UPI and sent to the kitchen.
   No money arrived? **Bill at counter instead** or **Reject**.
-- When the kitchen marks the drinks made, the customer's page shows **Ready for pickup**.
+- When the kitchen marks the drinks made:
+  - **Pay-at-counter** orders become **Picked up** by themselves (the customer was at the counter to pay).
+  - **UPI** orders show **Ready**. When the customer collects, tap **Mark collected** in Web orders. Their page then shows
+    "Collected. Enjoy your drink!" and stops tracking.
+- **UPI QR:** the customer's order page shows a QR with the exact amount (scan from any UPI app), plus an
+  "Open UPI app" button on phones.
 - Kitchen tickets for web orders say `Web W482 · Name` in the note.
+
+**Bills on WhatsApp (no attaching):** when you send a bill on WhatsApp, the POS uploads the PDF to the website and the
+message includes a private link (`https://rejuve89.netlify.app/bill/…`). The customer taps it to view or save the bill.
+Staff just press Send. The greeting can use `{link}` (Admin → Settings). Links are deleted after about 4 months.
+If the website isn't connected, the PDF downloads instead and you attach it (📎 → Document) like before.
 
 **If something's wrong:** Admin → Online orders shows the connection status ("Synced 5s ago…" or the error) and has **Sync now**.
 
