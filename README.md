@@ -34,7 +34,7 @@ python3 -m http.server 8080
 
 ## Keep the menu in sync with the POS
 
-Full step-by-step guide (POS + website + recipes): `../PythonProject1/PLAYBOOK.md`.
+Full step-by-step guide (POS + website + recipes + publishing): [PLAYBOOK.md](PLAYBOOK.md) (a copy of `../PythonProject1/PLAYBOOK.md`).
 
 Menu items and prices come from the POS database. After changing the menu in POS Admin, run:
 
