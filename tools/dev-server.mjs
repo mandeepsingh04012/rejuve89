@@ -18,7 +18,7 @@ process.env.BLOBS_TEST_URL = `http://localhost:${bport}`;
 process.env.POS_SYNC_KEY ||= "local-dev-key";
 
 const routes = {};
-for (const n of ["ordering", "order", "order-status", "order-paid", "pos-sync"]) {
+for (const n of ["ordering", "order", "order-status", "order-paid", "pos-sync", "bill-upload", "bill", "order-qr"]) {
   const mod = await import(join(ROOT, "netlify/functions", `${n}.mjs`));
   routes[mod.config.path] = mod.default;
 }
@@ -27,12 +27,18 @@ const TYPES = { ".html": "text/html", ".js": "text/javascript", ".css": "text/cs
 
 createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host}`);
-  const fn = routes[url.pathname];
+  let fn = routes[url.pathname], params = {};
+  if (!fn) {
+    for (const [path, f] of Object.entries(routes)) {
+      const m = path.includes("/:") && url.pathname.match(new RegExp("^" + path.replace(/:(\w+)/g, "(?<$1>[^/]+)") + "$"));
+      if (m) { fn = f; params = m.groups; break; }
+    }
+  }
   if (fn) {
     const chunks = [];
     for await (const c of req) chunks.push(c);
     const request = new Request(url, { method: req.method, headers: req.headers, body: ["GET", "HEAD"].includes(req.method) ? undefined : Buffer.concat(chunks) });
-    const out = await fn(request, { ip: req.socket.remoteAddress });
+    const out = await fn(request, { ip: req.socket.remoteAddress, params });
     res.writeHead(out.status, Object.fromEntries(out.headers));
     res.end(Buffer.from(await out.arrayBuffer()));
     return;

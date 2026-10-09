@@ -697,21 +697,22 @@
   const isMobile = /iphone|ipad|ipod|android/i.test(navigator.userAgent) || (navigator.maxTouchPoints > 1 && /mac/i.test(navigator.platform));
   function tryUpi(link) { if (isMobile) window.location.href = link; }
 
-  const STEPS = [["received", "Received"], ["accepted", "Accepted"], ["preparing", "Being made"], ["ready", "Ready for pickup"]];
+  const STEPS = [["received", "Received"], ["accepted", "Accepted"], ["preparing", "Being made"], ["ready", "Ready"], ["collected", "Picked up"]];
   let osTimer = null, osCurrent = null;
 
   function osHTML(data) {
     const o = data.order, upi = data.upi;
     const rejected = o.status === "rejected";
-    const finished = o.status === "ready" || o.status === "collected";
-    const at = finished ? STEPS.length : Math.max(0, STEPS.findIndex(([k]) => k === o.status));
+    const at = o.status === "collected" ? STEPS.length : Math.max(0, STEPS.findIndex(([k]) => k === o.status));
     const pickup = o.pickup === "ASAP" ? "As soon as you arrive" : `Around ${o.pickup.replace(/^(\d+):(\d+)$/, (m, h, mm) => `${((+h + 11) % 12) + 1}:${mm} ${+h < 12 ? "AM" : "PM"}`)}`;
     let pay = "";
     if (o.payment === "upi") {
       if (o.payment_status === "pending") {
         pay = `<div class="os-pay">
           <p><b>Pay ${rupee(o.total)} by UPI</b> to start your order.</p>
-          ${isMobile && upi ? `<a class="btn btn--primary btn--block" href="${esc(upi.link)}">Open UPI app · ${rupee(o.total)}</a>` : ""}
+          ${upi ? `<div class="os-qr"><img src="/api/order-qr?id=${encodeURIComponent(o.id)}&t=${encodeURIComponent(osCurrent ? osCurrent.token : "")}" alt="UPI QR code for ${rupee(o.total)}" width="200" height="200">
+            <span>Scan with any UPI app<br><small>GPay · PhonePe · Paytm · BHIM</small><b>${rupee(o.total)}</b></span></div>` : ""}
+          ${isMobile && upi ? `<a class="btn btn--primary btn--block" href="${esc(upi.link)}">Open UPI app on this phone · ${rupee(o.total)}</a>` : ""}
           ${upi ? `<p class="os-upi">UPI ID <b>${esc(upi.pa)}</b> · note <b>Order ${esc(o.code)}</b></p>` : ""}
           <label class="os-ref"><span>UPI reference / UTR (optional)</span><input type="text" id="osRef" inputmode="numeric" maxlength="30" placeholder="12-digit number from your UPI app"></label>
           <button class="btn btn--ghost btn--block" id="osPaid">I've paid</button>
@@ -732,7 +733,7 @@
       <p class="os-sub">Show this code at the counter · ${esc(pickup)}</p>
       ${rejected ? `<div class="os-pay is-bad">Sorry, we couldn't take this order${o.message ? `: ${esc(o.message)}` : "."} Please call us or order at the counter.</div>` : `
       <ol class="os-steps">${STEPS.map(([k, label], i) => `<li class="${i < at ? "done" : i === at ? "now" : ""}"><span></span>${label}</li>`).join("")}</ol>
-      ${o.message ? `<p class="os-msg">${esc(o.message)}</p>` : ""}`}
+      ${o.message ? `<p class="os-msg${o.status === "collected" ? " is-done" : ""}">${esc(o.message)}</p>` : ""}`}
       ${pay}
       <ul class="os-lines">${o.lines.map(l => `<li><span>${l.qty} × ${esc(l.name)}${l.size ? ` <small>${esc(l.size)}</small>` : ""}${[...l.opts, ...l.adds.map(a => "+ " + a)].length ? `<small>${esc([...l.opts, ...l.adds.map(a => "+ " + a)].join(" · "))}</small>` : ""}</span><b>${rupee(l.unit * l.qty)}</b></li>`).join("")}
         <li class="os-total"><span>Total</span><b>${rupee(o.total)}</b></li></ul>`;
@@ -763,6 +764,7 @@
       };
       const o = data.order;
       if (["ready", "collected", "rejected"].includes(o.status)) markMyOrder(id, o.status !== "ready");
+      if (["collected", "rejected"].includes(o.status)) clearInterval(osTimer);
     };
     if (first) draw(first); else body.innerHTML = `<p class="os-loading">Loading your order…</p>`;
     const tick = async () => {

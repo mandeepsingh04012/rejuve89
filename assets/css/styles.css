@@ -878,7 +878,9 @@ body.is-locked { position: fixed; left: 0; right: 0; overflow: hidden; }
 .paywith { border: 0; padding: 0; margin: 0; display: grid; gap: 8px; }
 .paywith legend { font-size: 13px; font-weight: 600; color: var(--ink-2); margin-bottom: 6px; padding: 0; }
 .paywith__opt { flex-direction: row !important; align-items: flex-start; gap: 12px !important; padding: 12px 14px; border-radius: var(--r-sm); border: 1.5px solid var(--line); background: #fff; cursor: pointer; }
-.paywith__opt input { margin-top: 3px; accent-color: var(--g-700); width: 18px; height: 18px; }
+.paywith__opt input { margin-top: 3px; accent-color: var(--g-700); width: 18px; height: 18px; flex-shrink: 0; }
+.paywith__ic { width: 40px; height: 40px; flex-shrink: 0; margin-top: -2px; }
+.paywith__ic svg { width: 100%; height: 100%; display: block; }
 .paywith__opt b { display: block; color: var(--ink); font-size: 14.5px; }
 .paywith__opt small { display: block; font-weight: 500; color: var(--muted); font-size: 12.5px; margin-top: 2px; }
 .paywith__opt:has(input:checked) { border-color: var(--g-700); background: var(--g-100); }
@@ -919,3 +921,11 @@ body.is-locked { position: fixed; left: 0; right: 0; overflow: hidden; }
 .mytrack__dot { width: 9px; height: 9px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 0 0 rgba(198, 227, 107, .7); animation: my-ping 1.6s infinite; }
 @keyframes my-ping { 70% { box-shadow: 0 0 0 9px rgba(198, 227, 107, 0); } 100% { box-shadow: 0 0 0 0 rgba(198, 227, 107, 0); } }
 .pickform [hidden], .drawer__foot [hidden] { display: none !important; }
+.os-steps { grid-template-columns: repeat(5, 1fr); }
+.os-qr { display: flex; align-items: center; gap: 14px; padding: 10px; border-radius: var(--r-sm); background: var(--g-100); }
+.os-qr img { width: 150px; height: 150px; border-radius: 10px; background: #fff; padding: 6px; flex-shrink: 0; }
+.os-qr span { font-size: 14px; font-weight: 600; color: var(--g-800); line-height: 1.35; }
+.os-qr small { color: var(--muted); font-weight: 500; }
+.os-qr b { display: block; margin-top: 8px; font-size: 22px; font-family: var(--ff-display); }
+.os-msg.is-done { background: var(--g-700); color: #fff; font-weight: 600; text-align: center; }
+.pickform .paywith__opt input[type=radio] { appearance: auto; -webkit-appearance: radio; width: 20px; height: 20px; min-height: 0; padding: 0; margin: 10px 0 0; border: 0; border-radius: 50%; box-shadow: none; background: none; accent-color: var(--g-700); flex: 0 0 20px; }

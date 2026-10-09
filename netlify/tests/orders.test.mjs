@@ -15,7 +15,7 @@ before(async () => {
   const { port } = await server.start();
   process.env.BLOBS_TEST_URL = `http://localhost:${port}`;
   process.env.POS_SYNC_KEY = KEY;
-  for (const n of ["ordering", "order", "order-status", "order-paid", "pos-sync"]) fn[n] = (await import(`../functions/${n}.mjs`)).default;
+  for (const n of ["ordering", "order", "order-status", "order-paid", "pos-sync", "bill-upload", "bill", "order-qr"]) fn[n] = (await import(`../functions/${n}.mjs`)).default;
 });
 after(async () => server.stop());
 
@@ -117,4 +117,33 @@ test("paused mode and rate limit", async () => {
   for (let i = 0; i < 7; i++) last = await call("order", { method: "POST", ip: "5.5.5.5",
     body: { name: "Bot", phone: "9810012345", pickup_in: 0, payment: "counter", items: [ITEMS[2]] } });
   assert.equal(last.status, 429);
+});
+
+test("bill upload gives a private PDF link", async () => {
+  const pdf = Buffer.concat([Buffer.from("%PDF-1.4\n"), Buffer.alloc(300, 65)]).toString("base64");
+  assert.equal((await call("bill-upload", { method: "POST", body: { pdf } })).status, 403);   // POS key needed
+  const bad = await call("bill-upload", { method: "POST", headers: { "x-pos-key": KEY }, body: { pdf: Buffer.from("hello").toString("base64") } });
+  assert.equal(bad.status, 400);
+  const up = await call("bill-upload", { method: "POST", headers: { "x-pos-key": KEY }, body: { pdf, name: "re.juve89-Bill-7.pdf" } });
+  assert.equal(up.status, 201);
+  assert.match(up.data.url, /^http:\/\/site\/bill\/\d{6}-[0-9a-f]{24}$/);
+  const res = await fn["bill"](new Request(up.data.url), { params: { id: up.data.id } });
+  assert.equal(res.status, 200);
+  assert.equal(res.headers.get("content-type"), "application/pdf");
+  assert.match(res.headers.get("content-disposition"), /re\.juve89-Bill-7\.pdf/);
+  assert.equal(Buffer.from(await res.arrayBuffer()).subarray(0, 5).toString(), "%PDF-");
+  assert.equal((await fn["bill"](new Request("http://site/bill/202610-" + "0".repeat(24)), { params: { id: "202610-" + "0".repeat(24) } })).status, 404);
+});
+
+test("UPI QR for an order", async () => {
+  await sync({ config: { ...allDay, mode: "web_pos" } });
+  const placed = await order({ payment: "upi" });
+  const { id } = placed.data.order;
+  const ok = await fn["order-qr"](new Request(`http://site/api/order-qr?id=${id}&t=${placed.data.token}`));
+  assert.equal(ok.status, 200);
+  assert.equal(ok.headers.get("content-type"), "image/svg+xml");
+  assert.match(await ok.text(), /^<svg/);
+  assert.equal((await fn["order-qr"](new Request(`http://site/api/order-qr?id=${id}&t=nope`))).status, 404);
+  const counter = await order({ payment: "counter" });
+  assert.equal((await fn["order-qr"](new Request(`http://site/api/order-qr?id=${counter.data.order.id}&t=${counter.data.token}`))).status, 404);
 });
