@@ -308,6 +308,8 @@ The POS and the website share a secret key so only your POS can read orders.
 - The **POS code** (`PythonProject1`) isn't in GitHub; it's backed up only on this Mac. Ask Claude Code if you want
   a separate private repo for it (the database, backups and API keys would be excluded).
 - **Asking Claude Code for help:** say "follow PLAYBOOK.md section 5c to publish the website" and it has everything above.
+- This playbook lives in `PythonProject1/PLAYBOOK.md`; a copy is kept in the website repo so it's backed up on GitHub.
+  After editing it: `cp ~/PycharmProjects/PythonProject1/PLAYBOOK.md ~/PycharmProjects/rejuve-website/` and commit.
 
 ## 6. Claude API key (Recipe Lab drafts, taste fixes, SEEKU)
 
