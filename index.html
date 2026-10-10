@@ -177,7 +177,7 @@
         </div>
       </div>
 
-      <a href="#lines" class="scroll-cue" aria-label="Scroll down">
+      <a href="#menu" class="scroll-cue" aria-label="Scroll down">
         <span></span>
       </a>
     </section>
@@ -191,40 +191,6 @@
       </div>
     </div>
     </div>
-
-    <!-- ============ Pickup lines ============ -->
-    <section class="lines" id="lines">
-      <div class="wrap lines__inner">
-        <p class="eyebrow eyebrow--light reveal">Our pickup lines</p>
-        <blockquote class="lines__quote" aria-live="polite">
-          <span class="lines__mark" aria-hidden="true">“</span>
-          <p id="lineText">You had me at “no added sugar.”</p>
-        </blockquote>
-        <div class="lines__actions reveal">
-          <button class="btn btn--cream" id="nextLine">
-            <svg viewBox="0 0 24 24" class="ic"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5"/></svg>
-            Another one
-          </button>
-          <a class="btn btn--outline-light" id="shareLine" href="#" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" class="ic"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7L4 20Z"/></svg>
-            Send it to your crush
-          </a>
-        </div>
-        <p class="lines__note reveal">Use one at the counter and we might just add an extra mint leaf.</p>
-      </div>
-      <div class="lines__fruit lines__fruit--a" aria-hidden="true">🍋</div>
-      <div class="lines__fruit lines__fruit--b" aria-hidden="true">🍓</div>
-      <div class="lines__fruit lines__fruit--c" aria-hidden="true">🥝</div>
-    </section>
-
-    <!-- ============ Category tiles ============ -->
-    <section class="cats wrap" aria-labelledby="catsTitle">
-      <div class="section-head">
-        <p class="eyebrow reveal">Five ways to reset</p>
-        <h2 id="catsTitle" class="h2 reveal">What are you <em>craving</em> today?</h2>
-      </div>
-      <div class="cats__grid" id="catTiles"><!-- filled by JS --></div>
-    </section>
 
     <!-- ============ Menu ============ -->
     <section class="menu" id="menu" aria-labelledby="menuTitle">
@@ -253,110 +219,34 @@
         <p class="menu__blurb" id="menuBlurb"></p>
         <div class="menu__grid" id="menuGrid" role="tabpanel" aria-live="polite"><!-- JS --></div>
 
-        <div class="custom reveal">
-          <div class="custom__title">
+        <details class="custom reveal">
+          <summary class="custom__title">
             <svg viewBox="0 0 24 24" class="ic"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>
-            Make it your way, free
-          </div>
+            <span>Make it your way <small>No sugar, less ice, extra whey…</small></span>
+            <svg viewBox="0 0 24 24" class="ic custom__chev"><path d="M6 9l6 6 6-6"/></svg>
+          </summary>
           <ul class="custom__list" id="customList"><!-- JS --></ul>
-        </div>
-        <p class="nutri-note">Calories and protein are approximate, for the glass size you pick and without added sugar. Extra whey adds about 120 kcal and 24g protein.</p>
+          <p class="nutri-note">Calories and protein are approximate, for the glass size you pick and without added sugar. Extra whey adds about 120 kcal and 24g protein.</p>
+        </details>
       </div>
     </section>
 
-    <!-- ============ Build your own ============ -->
-    <section class="build" id="build" aria-labelledby="buildTitle">
-      <div class="wrap">
-        <div class="section-head section-head--center">
-          <p class="eyebrow reveal">RE:BLEND</p>
-          <h2 id="buildTitle" class="h2 reveal">Build your <em>own</em> juice.</h2>
-          <p class="section-head__sub reveal">Pick up to three, watch your glass fill, and send it to us. We'll blend it fresh.</p>
-        </div>
-
-        <div class="build__grid">
-          <div class="build__stage reveal">
-            <div class="build__name">
-              <span class="build__label">Your blend</span>
-              <strong id="blendName">An empty glass</strong>
-            </div>
-            <div class="glass" id="glass" aria-hidden="true">
-              <div class="glass__garnish" id="garnish"></div>
-              <svg viewBox="0 0 240 320" class="glass__svg">
-                <defs>
-                  <clipPath id="glassClip"><path d="M34 42 L206 42 L188 296 Q187 304 179 304 L61 304 Q53 304 52 296 Z"/></clipPath>
-                  <linearGradient id="glassShine" x1="0" x2="1">
-                    <stop offset="0" stop-color="#fff" stop-opacity=".55"/>
-                    <stop offset=".18" stop-color="#fff" stop-opacity=".08"/>
-                    <stop offset=".8" stop-color="#fff" stop-opacity="0"/>
-                    <stop offset="1" stop-color="#fff" stop-opacity=".25"/>
-                  </linearGradient>
-                </defs>
-                <rect class="glass__stream" id="stream" x="112" y="-20" width="16" height="0" rx="8"/>
-                <g clip-path="url(#glassClip)">
-                  <rect x="0" y="0" width="240" height="320" fill="rgba(255,255,255,.35)"/>
-                  <g class="glass__liquid" id="liquid">
-                    <path class="glass__wave" id="wave" d="M0 10 Q30 0 60 10 T120 10 T180 10 T240 10 T300 10 T360 10 T420 10 T480 10 V400 H0 Z"/>
-                    <circle class="bubble" cx="80" cy="300" r="4"/>
-                    <circle class="bubble" cx="140" cy="300" r="3"/>
-                    <circle class="bubble" cx="168" cy="300" r="5"/>
-                    <circle class="bubble" cx="110" cy="300" r="2.5"/>
-                  </g>
-                </g>
-                <rect class="glass__straw" x="150" y="-10" width="12" height="230" rx="6" transform="rotate(14 156 100)"/>
-                <path d="M34 42 L206 42 L188 296 Q187 304 179 304 L61 304 Q53 304 52 296 Z" fill="url(#glassShine)" stroke="rgba(21,56,41,.35)" stroke-width="3"/>
-                <ellipse cx="120" cy="42" rx="86" ry="7" fill="none" stroke="rgba(21,56,41,.3)" stroke-width="3"/>
-              </svg>
-              <div class="glass__shadow"></div>
-            </div>
-            <p class="build__meta" id="blendMeta">Tap a fruit to start pouring</p>
-          </div>
-
-          <div class="build__panel reveal" style="--d:.1s">
-            <div class="build__head">
-              <h3>Pick your fruits</h3>
-              <span class="build__count"><b id="blendCount">0</b>/3</span>
-            </div>
-            <div class="fruits" id="fruits"><!-- JS --></div>
-
-            <h3 class="build__sub">Glass size</h3>
-            <div class="pills" id="blendSizes" role="radiogroup" aria-label="Blend size">
-              <button class="pill" role="radio" aria-checked="true" data-size="300ml">300ml</button>
-              <button class="pill" role="radio" aria-checked="false" data-size="450ml">450ml</button>
-              <button class="pill" role="radio" aria-checked="false" data-size="600ml">600ml</button>
-            </div>
-
-            <div class="build__actions">
-              <button class="btn btn--primary btn--lg" id="blendSend" disabled>
-                <svg viewBox="0 0 24 24" class="ic"><path d="M12 5v14M5 12h14"/></svg>
-                <span id="blendSendLabel">Add to my order</span>
-              </button>
-              <button class="btn btn--ghost btn--lg" id="blendShare" disabled>
-                <svg viewBox="0 0 24 24" class="ic"><path d="M12 3v12M7 8l5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>
-                Share
-              </button>
-            </div>
-            <div class="build__tools">
-              <button class="link-btn" id="blendRandom">🎲 Surprise me</button>
-              <button class="link-btn" id="blendReset">↺ Start over</button>
-            </div>
-            <p class="build__fine">Every blend has a fixed price and its own recipe at the counter. Add it to your pickup order and pay when you collect.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ Quiz ============ -->
-    <section class="quiz" id="quiz" aria-labelledby="quizTitle">
-      <div class="quiz__bg" aria-hidden="true"></div>
-      <div class="wrap">
-        <div class="section-head section-head--center">
-          <p class="eyebrow eyebrow--light reveal">4 taps · 20 seconds</p>
-          <h2 id="quizTitle" class="h2 h2--light reveal">Which juice <em>are you?</em></h2>
-        </div>
-        <div class="quiz__card reveal" id="quizCard" aria-live="polite">
-          <!-- JS -->
-        </div>
-      </div>
+    <!-- ============ Build your own + quiz (each opens as its own full-screen page) ============ -->
+    <section class="play wrap" aria-label="Build your own juice, or take the quiz">
+      <a class="play__card play__card--build reveal" href="#build">
+        <span class="play__kicker">RE:BLEND</span>
+        <strong class="play__title">Build your <em>own</em> juice</strong>
+        <span class="play__sub">Pick up to 3 fruits and watch it pour</span>
+        <span class="play__art" aria-hidden="true">🍊🍉🥕</span>
+        <span class="play__go">Start blending <svg viewBox="0 0 24 24" class="ic"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="play__card play__card--quiz reveal" href="#quiz" style="--d:.08s">
+        <span class="play__kicker">4 taps · 20 sec</span>
+        <strong class="play__title">Which juice <em>are you?</em></strong>
+        <span class="play__sub">A quick quiz that picks your drink</span>
+        <span class="play__art" aria-hidden="true">😴😎⚡</span>
+        <span class="play__go">Take the quiz <svg viewBox="0 0 24 24" class="ic"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
     </section>
 
     <!-- ============ Pickup steps ============ -->
@@ -370,20 +260,20 @@
           <li class="step reveal" style="--d:0s">
             <span class="step__n">01</span>
             <div class="step__ic">🥤</div>
-            <h3>Pick your drinks</h3>
-            <p>Choose your size, add a protein scoop and tell us how you like it.</p>
+            <h3>Pick</h3>
+            <p>Your drinks, size and how you like them.</p>
           </li>
           <li class="step reveal" style="--d:.1s">
             <span class="step__n">02</span>
-            <div class="step__ic">💬</div>
-            <h3>Send it on WhatsApp</h3>
-            <p>Your order lands with us in one tap. Add a pickup time if you're on the move.</p>
+            <div class="step__ic">📲</div>
+            <h3>Order</h3>
+            <p>Online or on WhatsApp, in one tap.</p>
           </li>
           <li class="step reveal" style="--d:.2s">
             <span class="step__n">03</span>
             <div class="step__ic">🏃</div>
-            <h3>Walk in, walk out</h3>
-            <p>Pay with UPI, card or cash at the counter. Your glass will be cold and ready.</p>
+            <h3>Grab</h3>
+            <p>Pay by UPI, card or cash. Walk in, walk out.</p>
           </li>
         </ol>
         <div class="pickup__cta reveal">
@@ -392,6 +282,65 @@
             <svg viewBox="0 0 24 24" class="ic"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7L4 20Z"/></svg>
             Just chat with us
           </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Pickup lines ============ -->
+    <section class="lines" id="lines">
+      <div class="wrap lines__inner">
+        <p class="eyebrow eyebrow--light reveal">Our pickup lines</p>
+        <blockquote class="lines__quote" aria-live="polite">
+          <span class="lines__mark" aria-hidden="true">“</span>
+          <p id="lineText">You had me at “no added sugar.”</p>
+        </blockquote>
+        <div class="lines__actions reveal">
+          <button class="btn btn--cream" id="nextLine">
+            <svg viewBox="0 0 24 24" class="ic"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5"/></svg>
+            Another one
+          </button>
+          <a class="btn btn--outline-light" id="shareLine" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" class="ic"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7L4 20Z"/></svg>
+            Send it to your crush
+          </a>
+        </div>
+        <p class="lines__note reveal">Use one at the counter and we might just add an extra mint leaf.</p>
+      </div>
+      <div class="lines__fruit lines__fruit--a" aria-hidden="true">🍋</div>
+      <div class="lines__fruit lines__fruit--b" aria-hidden="true">🍓</div>
+      <div class="lines__fruit lines__fruit--c" aria-hidden="true">🥝</div>
+    </section>
+
+    <!-- ============ Reviews ============ -->
+    <section class="reviews" id="reviews" aria-labelledby="reviewsTitle">
+      <div class="wrap">
+        <div class="section-head section-head--center">
+          <p class="eyebrow reveal">Reviews</p>
+          <h2 id="reviewsTitle" class="h2 reveal">Had a re.juve? <em>Tell us</em> how we did.</h2>
+          <p class="section-head__sub reveal">We're new in Sector 89, and every review helps neighbours find us. It takes 30 seconds on Google.</p>
+        </div>
+        <!-- Real customer reviews only (copy from Google, first name + initial). Add new ones at the top of the list:
+          <li class="review reveal">
+            <div class="review__stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+            <blockquote>Review text, word for word.</blockquote>
+            <p class="review__who">Riya S. · Google review</p>
+          </li>
+        -->
+        <ul class="reviews__list">
+          <li class="review reveal">
+            <div class="review__stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+            <blockquote>Love the idea behind re.juve-89! A refreshing place for juices and smoothies when you're trying to make better everyday food choices.</blockquote>
+            <p class="review__who">Deepshikha R. · Google review</p>
+          </li>
+          <li class="review reveal">
+            <div class="review__stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+            <blockquote>Great place to grab a refreshing drink after a workout. I like having juice and smoothie options nearby. Looking forward to trying more items from the menu.</blockquote>
+            <p class="review__who">FitClub89 · Google review</p>
+          </li>
+        </ul>
+        <div class="reviews__cta reveal">
+          <a class="btn btn--primary btn--lg" href="https://g.page/r/CcPdn0szTbUwECE/review" target="_blank" rel="noopener">★ Write a Google review</a>
+          <a class="btn btn--ghost btn--lg" href="https://share.google/xPvnZDgEUmgQwu2e9" target="_blank" rel="noopener">See us on Google</a>
         </div>
       </div>
     </section>
@@ -528,40 +477,6 @@
       </div>
     </section>
 
-    <!-- ============ Reviews ============ -->
-    <section class="reviews" id="reviews" aria-labelledby="reviewsTitle">
-      <div class="wrap">
-        <div class="section-head section-head--center">
-          <p class="eyebrow reveal">Reviews</p>
-          <h2 id="reviewsTitle" class="h2 reveal">Had a re.juve? <em>Tell us</em> how we did.</h2>
-          <p class="section-head__sub reveal">We're new in Sector 89, and every review helps neighbours find us. It takes 30 seconds on Google.</p>
-        </div>
-        <!-- Real customer reviews only (copy from Google, first name + initial). Add new ones at the top of the list:
-          <li class="review reveal">
-            <div class="review__stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-            <blockquote>Review text, word for word.</blockquote>
-            <p class="review__who">Riya S. · Google review</p>
-          </li>
-        -->
-        <ul class="reviews__list">
-          <li class="review reveal">
-            <div class="review__stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-            <blockquote>Love the idea behind re.juve-89! A refreshing place for juices and smoothies when you're trying to make better everyday food choices.</blockquote>
-            <p class="review__who">Deepshikha R. · Google review</p>
-          </li>
-          <li class="review reveal">
-            <div class="review__stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-            <blockquote>Great place to grab a refreshing drink after a workout. I like having juice and smoothie options nearby. Looking forward to trying more items from the menu.</blockquote>
-            <p class="review__who">FitClub89 · Google review</p>
-          </li>
-        </ul>
-        <div class="reviews__cta reveal">
-          <a class="btn btn--primary btn--lg" href="https://g.page/r/CcPdn0szTbUwECE/review" target="_blank" rel="noopener">★ Write a Google review</a>
-          <a class="btn btn--ghost btn--lg" href="https://share.google/xPvnZDgEUmgQwu2e9" target="_blank" rel="noopener">See us on Google</a>
-        </div>
-      </div>
-    </section>
-
     <!-- ============ Final CTA ============ -->
     <section class="finale">
       <img class="finale__bg" src="assets/img/scene/fruit-flatlay.jpg" alt="" loading="lazy" width="1800" height="1200">
@@ -575,6 +490,109 @@
       </div>
     </section>
   </main>
+
+  <!-- ============ Build your own (full-screen page, opened from #build) ============ -->
+  <section class="view build" id="build" role="dialog" aria-modal="true" aria-labelledby="buildTitle" hidden>
+    <div class="view__bar">
+      <button class="view__back" type="button" aria-label="Back"><svg viewBox="0 0 24 24" class="ic"><path d="M15 6l-6 6 6 6"/></svg><span>Back</span></button>
+      <span class="view__title">Build your own juice</span>
+    </div>
+    <div class="wrap">
+      <div class="section-head section-head--center">
+        <p class="eyebrow reveal">RE:BLEND</p>
+        <h2 id="buildTitle" class="h2 reveal">Build your <em>own</em> juice.</h2>
+        <p class="section-head__sub reveal">Pick up to three, watch your glass fill, and send it to us. We'll blend it fresh.</p>
+      </div>
+
+      <div class="build__grid">
+        <div class="build__stage reveal">
+          <div class="build__name">
+            <span class="build__label">Your blend</span>
+            <strong id="blendName">An empty glass</strong>
+          </div>
+          <div class="glass" id="glass" aria-hidden="true">
+            <div class="glass__garnish" id="garnish"></div>
+            <svg viewBox="0 0 240 320" class="glass__svg">
+              <defs>
+                <clipPath id="glassClip"><path d="M34 42 L206 42 L188 296 Q187 304 179 304 L61 304 Q53 304 52 296 Z"/></clipPath>
+                <linearGradient id="glassShine" x1="0" x2="1">
+                  <stop offset="0" stop-color="#fff" stop-opacity=".55"/>
+                  <stop offset=".18" stop-color="#fff" stop-opacity=".08"/>
+                  <stop offset=".8" stop-color="#fff" stop-opacity="0"/>
+                  <stop offset="1" stop-color="#fff" stop-opacity=".25"/>
+                </linearGradient>
+              </defs>
+              <rect class="glass__stream" id="stream" x="112" y="-20" width="16" height="0" rx="8"/>
+              <g clip-path="url(#glassClip)">
+                <rect x="0" y="0" width="240" height="320" fill="rgba(255,255,255,.35)"/>
+                <g class="glass__liquid" id="liquid">
+                  <path class="glass__wave" id="wave" d="M0 10 Q30 0 60 10 T120 10 T180 10 T240 10 T300 10 T360 10 T420 10 T480 10 V400 H0 Z"/>
+                  <circle class="bubble" cx="80" cy="300" r="4"/>
+                  <circle class="bubble" cx="140" cy="300" r="3"/>
+                  <circle class="bubble" cx="168" cy="300" r="5"/>
+                  <circle class="bubble" cx="110" cy="300" r="2.5"/>
+                </g>
+              </g>
+              <rect class="glass__straw" x="150" y="-10" width="12" height="230" rx="6" transform="rotate(14 156 100)"/>
+              <path d="M34 42 L206 42 L188 296 Q187 304 179 304 L61 304 Q53 304 52 296 Z" fill="url(#glassShine)" stroke="rgba(21,56,41,.35)" stroke-width="3"/>
+              <ellipse cx="120" cy="42" rx="86" ry="7" fill="none" stroke="rgba(21,56,41,.3)" stroke-width="3"/>
+            </svg>
+            <div class="glass__shadow"></div>
+          </div>
+          <p class="build__meta" id="blendMeta">Tap a fruit to start pouring</p>
+        </div>
+
+        <div class="build__panel reveal" style="--d:.1s">
+          <div class="build__head">
+            <h3>Pick your fruits</h3>
+            <span class="build__count"><b id="blendCount">0</b>/3</span>
+          </div>
+          <div class="fruits" id="fruits"><!-- JS --></div>
+
+          <h3 class="build__sub">Glass size</h3>
+          <div class="pills" id="blendSizes" role="radiogroup" aria-label="Blend size">
+            <button class="pill" role="radio" aria-checked="true" data-size="300ml">300ml</button>
+            <button class="pill" role="radio" aria-checked="false" data-size="450ml">450ml</button>
+            <button class="pill" role="radio" aria-checked="false" data-size="600ml">600ml</button>
+          </div>
+
+          <div class="build__actions">
+            <button class="btn btn--primary btn--lg" id="blendSend" disabled>
+              <svg viewBox="0 0 24 24" class="ic"><path d="M12 5v14M5 12h14"/></svg>
+              <span id="blendSendLabel">Add to my order</span>
+            </button>
+            <button class="btn btn--ghost btn--lg" id="blendShare" disabled>
+              <svg viewBox="0 0 24 24" class="ic"><path d="M12 3v12M7 8l5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>
+              Share
+            </button>
+          </div>
+          <div class="build__tools">
+            <button class="link-btn" id="blendRandom">🎲 Surprise me</button>
+            <button class="link-btn" id="blendReset">↺ Start over</button>
+          </div>
+          <p class="build__fine">Every blend has a fixed price and its own recipe at the counter. Add it to your pickup order and pay when you collect.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Quiz (full-screen page, opened from #quiz) ============ -->
+  <section class="view quiz" id="quiz" role="dialog" aria-modal="true" aria-labelledby="quizTitle" hidden>
+    <div class="view__bar">
+      <button class="view__back" type="button" aria-label="Back"><svg viewBox="0 0 24 24" class="ic"><path d="M15 6l-6 6 6 6"/></svg><span>Back</span></button>
+      <span class="view__title">Which juice are you?</span>
+    </div>
+    <div class="quiz__bg" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="section-head section-head--center">
+        <p class="eyebrow eyebrow--light reveal">4 taps · 20 seconds</p>
+        <h2 id="quizTitle" class="h2 h2--light reveal">Which juice <em>are you?</em></h2>
+      </div>
+      <div class="quiz__card reveal" id="quizCard" aria-live="polite">
+        <!-- JS -->
+      </div>
+    </div>
+  </section>
 
   <!-- ============ Footer ============ -->
   <footer class="footer">
@@ -615,6 +633,15 @@
     <span class="cartbar__total" id="cartTotal">₹0</span>
     <svg viewBox="0 0 24 24" class="ic"><path d="M9 6l6 6-6 6"/></svg>
   </button>
+
+  <!-- Bottom tab bar (phones + tablets; replaces the cart bar there) -->
+  <nav class="tabbar" id="tabbar" aria-label="Quick links">
+    <a href="#top" data-tab="top"><svg viewBox="0 0 24 24" class="ic"><path d="M4 11l8-7 8 7v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1Z"/></svg>Home</a>
+    <a href="#menu" data-tab="menu"><svg viewBox="0 0 24 24" class="ic"><path d="M7 3h10l-1.5 18h-7Z"/><path d="M7.5 9h9"/></svg>Menu</a>
+    <a href="#build" data-tab="build"><svg viewBox="0 0 24 24" class="ic"><path d="M9 3h6M10 3v5l-4.5 8.5A3 3 0 0 0 8.2 21h7.6a3 3 0 0 0 2.7-4.5L14 8V3"/><path d="M7.5 14h9"/></svg>Build</a>
+    <a href="#visit" data-tab="visit"><svg viewBox="0 0 24 24" class="ic"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Visit</a>
+    <button type="button" data-tab="cart" id="tabCart" aria-label="Your pickup order"><svg viewBox="0 0 24 24" class="ic"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span class="tabbar__badge" id="tabCount" hidden>0</span>Order</button>
+  </nav>
 
   <div class="scrim" id="scrim" hidden></div>
   <aside class="drawer" id="drawer" aria-hidden="true" aria-labelledby="drawerTitle" role="dialog" aria-modal="true">

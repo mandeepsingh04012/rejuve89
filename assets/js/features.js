@@ -83,7 +83,7 @@
   const recentlyDismissed = () => {
     try { return Date.now() - (+localStorage.getItem(DISMISS_KEY) || 0) < 14 * 864e5; } catch { return false; }
   };
-  const busy = () => $(".drawer.is-open, .modal.is-open") || document.documentElement.classList.contains("menu-open");
+  const busy = () => $(".drawer.is-open, .modal.is-open, .view.is-open") || document.documentElement.classList.contains("menu-open");
 
   function showInstall(force) {
     if (isStandalone) { if (force) app.toast("You're already using the app 🙌"); return; }

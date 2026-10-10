@@ -1,6 +1,6 @@
 /* re.juve /89 service worker: fast repeat visits + works on a patchy connection.
    Bump VERSION whenever you change CSS/JS so phones pick up the new files. */
-const VERSION = "rejuve89-v10";
+const VERSION = "rejuve89-v11";
 const CORE = [
   "./",
   "index.html",

@@ -14,10 +14,10 @@
   let ordering = { channel: "whatsapp", accepting: true };
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const VIEWS = ["build", "quiz"];   // sections that open as full-screen pages
 
   const ICON_PLUS = '<svg viewBox="0 0 24 24" class="ic"><path d="M12 5v14M5 12h14"/></svg>';
   const ICON_CHECK = '<svg viewBox="0 0 24 24" class="ic"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
-  const ICON_ARROW = '<svg viewBox="0 0 24 24" class="ic"><path d="M7 17L17 7M9 7h8v8"/></svg>';
 
   /* ------------------------------------------------------------------
      Loader → page ready
@@ -77,7 +77,7 @@
   window.addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
 
   // Active link highlight
-  const sections = ["menu", "build", "quiz", "story", "visit"].map(id => document.getElementById(id));
+  const sections = ["menu", "story", "visit"].map(id => document.getElementById(id));
   const linkFor = id => $$(`.nav__links a[href="#${id}"]`);
   const activeIO = new IntersectionObserver(entries => {
     entries.forEach(e => linkFor(e.target.id).forEach(a => a.classList.toggle("is-active", e.isIntersecting)));
@@ -101,7 +101,7 @@
   burger.addEventListener("click", () => setSheet(!document.documentElement.classList.contains("menu-open")));
   $$(".sheet a").forEach(a => a.addEventListener("click", e => {
     const href = a.getAttribute("href");
-    if (!href.startsWith("#")) return;
+    if (!href.startsWith("#") || VIEWS.includes(href.slice(1))) return;   // pages are handled by the view router
     e.preventDefault();
     setSheet(false);
     requestAnimationFrame(() => document.querySelector(href)?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" }));
@@ -197,26 +197,11 @@
     return "";
   };
 
-  // Category tiles
-  $("#catTiles").innerHTML = cats.map((c, i) => {
-    const hero = c.hero || c.items[0].img;
-    return `<a class="cat reveal" style="--d:${i * 0.07}s" href="#menu" data-cat="${c.slug}">
-      <img src="${hero}" alt="" loading="lazy" width="720" height="720">
-      <span class="cat__arrow">${ICON_ARROW}</span>
-      <div class="cat__body">
-        <span class="cat__count"><span class="cat__n">${c.items.length} items · </span>from ${rupee(fromPrice(c))}</span>
-        <h3>${esc(c.name)}</h3>
-        <p>${esc(c.blurb)}</p>
-      </div>
-    </a>`;
-  }).join("");
-  observeReveals($("#catTiles"));
-  $$("#catTiles .cat").forEach(a => a.addEventListener("click", () => selectCat(a.dataset.cat, false)));
-
-  // Tabs
+  // Category tabs, each with a small round photo (they replace the big category tiles)
   const tabs = $("#tabs");
   tabs.innerHTML = cats.map(c =>
-    `<button class="tab" role="tab" id="tab-${c.slug}" aria-selected="${c.slug === activeCat}" data-cat="${c.slug}">${esc(c.name)}</button>`
+    `<button class="tab" role="tab" id="tab-${c.slug}" aria-selected="${c.slug === activeCat}" data-cat="${c.slug}">
+      <img class="tab__img" src="${c.hero || c.items[0].img}" alt="" width="30" height="30" decoding="async">${esc(c.name)}</button>`
   ).join("");
   tabs.addEventListener("click", e => { const b = e.target.closest(".tab"); if (b) selectCat(b.dataset.cat, true); });
   tabs.addEventListener("keydown", e => {
@@ -268,7 +253,7 @@
     const cat = cats.find(c => c.slug === activeCat);
     const drinks = isDrinkCat(cat);
     sizesEl.classList.toggle("is-hidden", !drinks);
-    blurb.textContent = cat.blurb;
+    blurb.textContent = `${cat.blurb} From ${rupee(fromPrice(cat))}.`;
     grid.setAttribute("aria-labelledby", `tab-${cat.slug}`);
     grid.innerHTML = cat.items.map((it, i) => {
       const s = sizeFor(it);
@@ -419,7 +404,7 @@
     b.setAttribute("aria-pressed", on);
     updateModalPrice();
   });
-  $("#mPlus").addEventListener("click", () => { mState.qty = Math.min(20, mState.qty + 1); $("#mQty").textContent = mState.qty; updateModalPrice(); });
+  $("#mPlus").addEventListener("click", () => { mState.qty = Math.min(MAX_QTY, mState.qty + 1); $("#mQty").textContent = mState.qty; updateModalPrice(); });
   $("#mMinus").addEventListener("click", () => { mState.qty = Math.max(1, mState.qty - 1); $("#mQty").textContent = mState.qty; updateModalPrice(); });
   $("#mAdd").addEventListener("click", () => {
     addToCart(mState);
@@ -469,7 +454,7 @@
     toast(add < line.qty ? `Added ${add} (up to ${MAX_QTY} of each item)` : `${add} × ${line.name} added`);
   }
 
-  const cartbar = $("#cartbar"), drawer = $("#drawer"), scrim = $("#scrim");
+  const cartbar = $("#cartbar"), drawer = $("#drawer"), scrim = $("#scrim"), tabCount = $("#tabCount");
   const drawerBody = $(".drawer__body", drawer);
   const total = () => cart.reduce((s, l) => s + l.unit * l.qty, 0);
   const count = () => cart.reduce((s, l) => s + l.qty, 0);
@@ -477,6 +462,9 @@
   function renderCart(bump) {
     const n = count(), t = total();
     $("#cartCount").textContent = n;
+    tabCount.textContent = n;
+    tabCount.hidden = n === 0;
+    if (bump && !reduceMotion) { tabCount.classList.remove("is-bump"); void tabCount.offsetWidth; tabCount.classList.add("is-bump"); }
     $("#cartTotal").textContent = rupee(t);
     $("#drawerTotal").textContent = rupee(t);
     cartbar.classList.toggle("is-visible", n > 0 && !drawer.classList.contains("is-open"));
@@ -877,6 +865,80 @@
   renderCart(false);
 
   /* ------------------------------------------------------------------
+     Full-screen pages: Build your own (#build) and the quiz (#quiz).
+     They open like a separate page (own address, phone Back closes them)
+     but share the cart with the home page.
+     ------------------------------------------------------------------ */
+  let openView = null;
+  function showView(id) {
+    if (openView === id) return;
+    if (openView) hideView();
+    const v = document.getElementById(id);
+    v.hidden = false;
+    $$(".reveal", v).forEach(el => el.classList.add("is-in"));
+    v.scrollTop = 0;
+    requestAnimationFrame(() => v.classList.add("is-open"));
+    openView = id;
+    lock();
+    setTab(id);
+    setTimeout(() => $(".view__back", v).focus({ preventScroll: true }), 50);
+  }
+  function hideView() {
+    if (!openView) return;
+    const v = document.getElementById(openView);
+    v.classList.remove("is-open");
+    setTimeout(() => { if (!v.classList.contains("is-open")) v.hidden = true; }, 320);
+    openView = null;
+    unlock();
+    setTab(lastTab);
+  }
+  // close without leaving a #build entry behind (used when jumping to another part of the page)
+  function leaveView() {
+    if (!openView) return;
+    history.replaceState(null, "", location.pathname + location.search);
+    hideView();
+  }
+  const routeView = () => { const id = location.hash.slice(1); VIEWS.includes(id) ? showView(id) : hideView(); };
+  window.addEventListener("popstate", routeView);
+  document.addEventListener("click", e => {
+    const a = e.target.closest("a[href]");
+    const id = a && a.getAttribute("href").slice(1);
+    if (!a || !VIEWS.includes(id) || a.getAttribute("href")[0] !== "#") return;
+    e.preventDefault();
+    setSheet(false);
+    if (openView !== id) history.pushState({ view: id }, "", "#" + id);
+    showView(id);
+  });
+  $$(".view__back").forEach(b => b.addEventListener("click", () => {
+    if (history.state && history.state.view) history.back();   // came from the home page: real Back
+    else leaveView();                                           // opened from a shared link
+  }));
+
+  /* Bottom tab bar (phones + tablets) */
+  const tabbar = $("#tabbar");
+  let lastTab = "top";
+  function setTab(id) { $$("[data-tab]", tabbar).forEach(t => (t.dataset.tab === id ? t.setAttribute("aria-current", "page") : t.removeAttribute("aria-current"))); }
+  tabbar.addEventListener("click", e => {
+    const t = e.target.closest("[data-tab]");
+    if (!t || VIEWS.includes(t.dataset.tab)) return;            // Build is a normal #build link
+    e.preventDefault();
+    if (t.dataset.tab === "cart") { openDrawer(); return; }
+    leaveView();
+    const target = t.dataset.tab === "top" ? document.body : document.getElementById(t.dataset.tab);
+    requestAnimationFrame(() => target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" }));
+  });
+  // highlight Home / Menu / Visit for the part of the page in view
+  const tabIO = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      lastTab = e.target.classList.contains("hero") ? "top" : e.target.id;
+      if (!openView) setTab(lastTab);
+    });
+  }, { rootMargin: "-45% 0px -50% 0px" });
+  [$(".hero"), $("#menu"), $("#visit")].forEach(el => tabIO.observe(el));
+  setTab("top");
+
+  /* ------------------------------------------------------------------
      Toast + keyboard
      ------------------------------------------------------------------ */
   const toastEl = $("#toast");
@@ -892,6 +954,7 @@
     if (e.key !== "Escape") return;
     if (modal.classList.contains("is-open")) closeModal();
     else if (drawer.classList.contains("is-open")) closeDrawer();
+    else if (openView) $(`#${openView} .view__back`).click();
     else setSheet(false);
   });
 
@@ -917,4 +980,5 @@
   };
 
   onScroll();
+  routeView();
 })();

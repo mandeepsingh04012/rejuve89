@@ -129,7 +129,8 @@ test("POS settings are checked before they reach customers", async () => {
   const r = await sync({ config: { ...allDay, mode: "web_pos", upi_id: "pay me here", open: "8am", cutoff_min: -5, whatsapp: "abc" } });
   assert.equal(r.status, 200);
   assert.deepEqual(r.data.warnings.map((w) => w.split(" ")[0]).sort(), ["cutoff_min", "open", "upi_id", "whatsapp"]);
-  assert.equal(r.data.state.upi, false);                        // a bad UPI ID turns UPI off, never shows a wrong QR
+  const { cleanConfig } = await import("../lib/shared.mjs");   // (state.upi only exists in opening hours)
+  assert.equal(cleanConfig({ upi_id: "pay me here" }).cfg.upi_id, "");   // a bad UPI ID turns UPI off, never shows a wrong QR
   assert.equal((await sync({ ack: "x" })).status, 400);
   assert.equal((await sync({ ack: [null, { id: "../state/config", v: 9 }], updates: [7, { id: "nope" }] })).status, 200);
   await sync({ config: allDay });                              // leave a good config for the next tests
