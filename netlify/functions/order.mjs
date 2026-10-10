@@ -1,13 +1,13 @@
 // POST /api/order -> place a pickup order that the POS will pull in.
 import {
-  getConfig, getHeartbeat, istParts, json, nowIso, orderingState, publicOrder, randomHex, rateLimited, store, upiLink,
-  validateOrder,
+  getConfig, getHeartbeat, istParts, json, nowIso, orderingState, publicOrder, randomHex, rateLimited, readBody, safe, store,
+  upiLink, validateOrder,
 } from "../lib/shared.mjs";
 
-export default async (req, context) => {
+export default safe(async (req, context) => {
   if (req.method !== "POST") return json({ error: "Use POST" }, 405);
-  let body;
-  try { body = await req.json(); } catch { return json({ error: "Bad request" }, 400); }
+  const body = await readBody(req);
+  if (!body) return json({ error: "Bad request" }, 400);
   if (body.website) return json({ error: "Bad request" }, 400);           // honeypot field, bots fill it
 
   const s = store();
@@ -21,12 +21,14 @@ export default async (req, context) => {
 
   // short code customers say at the counter: W + 3 digits, unique for the day
   const { date } = istParts();
-  let code, id;
-  for (let i = 0; i < 20; i++) {
+  let code, id, free = false;
+  for (let i = 0; i < 20 && !free; i++) {
     code = "W" + String(100 + Math.floor(Math.random() * 900));
     id = `${date}-${code}`;
-    if (!(await s.get(`o/${id}`))) break;
+    free = !(await s.get(`o/${id}`));
   }
+  // never overwrite someone else's order
+  if (!free) return json({ error: "We're very busy right now. Please try again in a minute, or order on WhatsApp." }, 503);
   const now = nowIso();
   const rec = {
     id, code, ...order, token: randomHex(16), status: "received",
@@ -39,6 +41,6 @@ export default async (req, context) => {
     order: publicOrder(rec), token: rec.token,
     upi: order.payment === "upi" ? { link: upiLink(config, rec), pa: config.upi_id, pn: config.upi_name, amount: rec.total } : null,
   }, 201);
-};
+});
 
 export const config = { path: "/api/order" };

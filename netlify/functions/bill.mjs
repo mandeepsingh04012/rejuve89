@@ -1,7 +1,7 @@
 // GET /bill/<id> -> the bill PDF (opened from the WhatsApp message).
-import { store } from "../lib/shared.mjs";
+import { safe, store } from "../lib/shared.mjs";
 
-export default async (req, context) => {
+export default safe(async (req, context) => {
   const id = context?.params?.id || new URL(req.url).pathname.split("/").pop();
   if (!/^\d{6}-[0-9a-f]{24}$/.test(id)) return new Response("Bill not found", { status: 404 });
   const hit = await store().getWithMetadata(`bill/${id}`, { type: "arrayBuffer" });
@@ -14,6 +14,6 @@ export default async (req, context) => {
       "x-robots-tag": "noindex",
     },
   });
-};
+});
 
 export const config = { path: "/bill/:id" };

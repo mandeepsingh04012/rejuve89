@@ -3,6 +3,9 @@
   "use strict";
 
   const WA_NUMBER = "918816809822";
+  const IG_URL = "https://www.instagram.com/rejuve89";
+  const FB_URL = "https://www.facebook.com/profile.php?id=61595347947057";
+  const REVIEW_URL = "https://g.page/r/CcPdn0szTbUwECE/review";
   const MENU = window.MENU || { categories: [], options: [], addons: [] };
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -431,7 +434,13 @@
      ------------------------------------------------------------------ */
   const CART_KEY = "rejuve89-cart-v1";
   let cart = [];
+  const MAX_QTY = 10, MAX_LINES = 20;          // same limits the order server enforces
   try { cart = JSON.parse(localStorage.getItem(CART_KEY)) || []; } catch { cart = []; }
+  // a stale or hand-edited cart must not break the page
+  cart = (Array.isArray(cart) ? cart : [])
+    .filter(l => l && typeof l.name === "string" && Number.isFinite(l.unit) && Number.isInteger(l.qty) && l.qty > 0)
+    .map(l => ({ ...l, size: String(l.size || ""), opts: Array.isArray(l.opts) ? l.opts : [], adds: Array.isArray(l.adds) ? l.adds : [], qty: Math.min(l.qty, MAX_QTY) }))
+    .slice(0, MAX_LINES);
   const saveCart = () => { try { localStorage.setItem(CART_KEY, JSON.stringify(cart)); } catch { /* private mode */ } };
 
   function addToCart(st) {
@@ -445,11 +454,19 @@
       qty: st.qty,
     };
     line.key = [line.name, line.size, ...line.opts, ...line.adds].join("|");
+    pushLine(line);
+  }
+
+  // add a line (or top up a matching one) within the per-item and per-order limits
+  function pushLine(line) {
     const existing = cart.find(l => l.key === line.key);
-    existing ? (existing.qty += line.qty) : cart.push(line);
+    if (!existing && cart.length >= MAX_LINES) { toast(`An order can have up to ${MAX_LINES} different items`, 3500); return; }
+    const have = existing ? existing.qty : 0, add = Math.min(line.qty, MAX_QTY - have);
+    if (add <= 0) { toast(`Up to ${MAX_QTY} of each item per order`, 3500); return; }
+    existing ? (existing.qty += add) : cart.push({ ...line, qty: add });
     saveCart();
     renderCart(true);
-    toast(`${st.qty} × ${st.item.name} added`);
+    toast(add < line.qty ? `Added ${add} (up to ${MAX_QTY} of each item)` : `${add} × ${line.name} added`);
   }
 
   const cartbar = $("#cartbar"), drawer = $("#drawer"), scrim = $("#scrim");
@@ -468,7 +485,7 @@
     $("#sendOrder").disabled = n === 0 || ordering.accepting === false;
     updateSendLabel();
     $("#cartList").innerHTML = cart.map((l, i) => `<li>
-      <img src="${l.img}" alt="" loading="lazy">
+      <img src="${esc(l.img || "")}" alt="" loading="lazy">
       <div>
         <div class="cart__name">${esc(l.name)}</div>
         <div class="cart__meta">${esc([l.size, ...l.opts, ...l.adds.map(a => "+ " + a)].filter(Boolean).join(" · ") || "Regular")}</div>
@@ -485,7 +502,11 @@
   }
   $("#cartList").addEventListener("click", e => {
     const inc = e.target.closest("[data-inc]"), dec = e.target.closest("[data-dec]");
-    if (inc) cart[+inc.dataset.inc].qty++;
+    if (inc) {
+      const l = cart[+inc.dataset.inc];
+      if (l.qty >= MAX_QTY) { toast(`Up to ${MAX_QTY} of each item per order`, 3500); return; }
+      l.qty++;
+    }
     else if (dec) { const l = cart[+dec.dataset.dec]; if (--l.qty <= 0) cart.splice(+dec.dataset.dec, 1); }
     else return;
     saveCart();
@@ -556,12 +577,34 @@
   };
   function payChoice() { return ($("input[name=pay]:checked") || {}).value || "counter"; }
 
+  // Call our API with a timeout. Throws an Error whose message is fit for a toast;
+  // err.status / err.data carry the server's reply when there was one.
+  async function api(url, { body, timeout = 15000 } = {}) {
+    const ctl = new AbortController(), timer = setTimeout(() => ctl.abort(), timeout);
+    let r;
+    try {
+      r = await fetch(url, { cache: "no-store", signal: ctl.signal,
+        ...(body ? { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) } : {}) });
+    } catch (e) {
+      throw new Error(navigator.onLine === false ? "You're offline. Check your internet and try again."
+        : e.name === "AbortError" ? "This is taking too long. Check your internet and try again."
+        : "Couldn't reach us. Check your internet and try again.");
+    } finally { clearTimeout(timer); }
+    const data = await r.json().catch(() => null);
+    if (!r.ok) {
+      const err = new Error(data?.error || (r.status === 429 ? "Too many tries. Please wait a minute."
+        : r.status >= 500 ? "Something went wrong on our side. Please try again." : "That didn't work. Please try again."));
+      err.status = r.status; err.data = data;
+      throw err;
+    }
+    if (!data) throw new Error("Something went wrong on our side. Please try again.");
+    return data;
+  }
+
   async function refreshOrdering() {
     try {
-      const ctl = new AbortController();
-      setTimeout(() => ctl.abort(), 5000);
-      const r = await fetch("/api/ordering", { signal: ctl.signal, cache: "no-store" });
-      if (r.ok) ordering = await r.json();
+      const d = await api("/api/ordering", { timeout: 5000 });
+      if (d && typeof d.channel === "string") ordering = d;
     } catch { /* offline, or opened from disk: keep WhatsApp ordering */ }
     applyOrdering();
   }
@@ -635,23 +678,19 @@
     btn.disabled = true;
     $("#sendLabel").textContent = "Placing order…";
     try {
-      const r = await fetch("/api/order", {
-        method: "POST", headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          name, phone, pickup_in: Number($("#pickWhen").value), note: $("#pickNote").value.trim(),
-          payment: payChoice(), website: $("#hpField").value,
-          items: cart.map(l => ({ name: l.name, size: l.size, opts: l.opts, adds: l.adds, qty: l.qty })),
-        }),
-      });
-      const data = await r.json().catch(() => ({}));
-      if (r.status === 409 && data.state) { ordering = data.state; applyOrdering(); throw new Error(data.error); }
-      if (!r.ok) throw new Error(data.error || "Couldn't place the order. Please try again.");
+      const data = await api("/api/order", { timeout: 20000, body: {
+        name, phone, pickup_in: Number($("#pickWhen").value) || 0, note: $("#pickNote").value.trim(),
+        payment: payChoice(), website: $("#hpField").value,
+        items: cart.map(l => ({ name: l.name, size: l.size, opts: l.opts, adds: l.adds, qty: l.qty })),
+      } });
+      if (!data.order || !data.token) throw new Error("Something went wrong on our side. Please try again.");
       saveMyOrder(data.order, data.token);
       cart = []; saveCart(); $("#pickNote").value = ""; closeDrawer(); renderCart(false);
       openOrderSheet(data.order.id, data.token, data);
       if (data.upi) setTimeout(() => tryUpi(data.upi.link), 400);
     } catch (e) {
-      toast(e.message);
+      if (e.status === 409 && e.data?.state) { ordering = e.data.state; applyOrdering(); }
+      toast(e.message || ordering.message || "Couldn't place the order. Please try again.", 5000);
     } finally {
       placing = false;
       applyOrdering();
@@ -659,7 +698,7 @@
   }
 
   $("#sendOrder").addEventListener("click", () => {
-    const name = nameInput.value.trim();
+    const name = nameInput.value.trim().slice(0, 40);
     if (!name) {
       nameInput.classList.add("is-invalid");
       nameInput.focus();
@@ -696,6 +735,31 @@
 
   const isMobile = /iphone|ipad|ipod|android/i.test(navigator.userAgent) || (navigator.maxTouchPoints > 1 && /mac/i.test(navigator.platform));
   function tryUpi(link) { if (isMobile) window.location.href = link; }
+
+  // follow-for-cashback (staff check the follow on the customer's phone at pickup; see PLAYBOOK.md)
+  const FOLLOW_KEY = "rejuve89-followed";
+  const followed = () => { try { return !!localStorage.getItem(FOLLOW_KEY); } catch { return false; } };
+  const ICON_IG = '<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6" fill="currentColor"/></svg>';
+  const ICON_FB = '<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M15 3h-2a4 4 0 0 0-4 4v3H7v4h2v7h4v-7h3l1-4h-4V7a1 1 0 0 1 1-1h2Z"/></svg>';
+  const FOLLOW_OK = '<p class="os-perk__ok">✓ Thanks for following! Show it on your phone at the counter to get 5% back.</p>';
+
+  function perkHTML(o) {
+    const parts = [];
+    if (o.status !== "rejected" && o.status !== "collected") parts.push(`<div class="os-perk">
+        <p><b>🎁 Get 5% cashback while you wait</b><br>Follow us on Instagram or Facebook, then show it at the counter when you collect.</p>
+        <div class="os-perk__links">
+          <a class="btn btn--ghost" href="${IG_URL}" target="_blank" rel="noopener" data-follow>${ICON_IG} Instagram</a>
+          <a class="btn btn--ghost" href="${FB_URL}" target="_blank" rel="noopener" data-follow>${ICON_FB} Facebook</a>
+        </div>
+        ${followed() ? FOLLOW_OK : ""}
+        <small>One time per customer.</small>
+      </div>`);
+    if (o.status === "ready" || o.status === "collected") parts.push(`<div class="os-review">
+        <p><b>Enjoying it?</b> A quick Google review helps our small shop a lot.</p>
+        <a class="btn btn--primary btn--block" href="${REVIEW_URL}" target="_blank" rel="noopener">★ Leave a Google review</a>
+      </div>`);
+    return parts.join("");
+  }
 
   const STEPS = [["received", "Received"], ["accepted", "Accepted"], ["preparing", "Being made"], ["ready", "Ready"], ["collected", "Picked up"]];
   let osTimer = null, osCurrent = null;
@@ -735,14 +799,20 @@
       <ol class="os-steps">${STEPS.map(([k, label], i) => `<li class="${i < at ? "done" : i === at ? "now" : ""}"><span></span>${label}</li>`).join("")}</ol>
       ${o.message ? `<p class="os-msg${o.status === "collected" ? " is-done" : ""}">${esc(o.message)}</p>` : ""}`}
       ${pay}
+      ${perkHTML(o)}
       <ul class="os-lines">${o.lines.map(l => `<li><span>${l.qty} × ${esc(l.name)}${l.size ? ` <small>${esc(l.size)}</small>` : ""}${[...l.opts, ...l.adds.map(a => "+ " + a)].length ? `<small>${esc([...l.opts, ...l.adds.map(a => "+ " + a)].join(" · "))}</small>` : ""}</span><b>${rupee(l.unit * l.qty)}</b></li>`).join("")}
         <li class="os-total"><span>Total</span><b>${rupee(o.total)}</b></li></ul>`;
   }
 
   async function loadOrder(id, token) {
-    const r = await fetch(`/api/order-status?id=${encodeURIComponent(id)}&t=${encodeURIComponent(token)}`, { cache: "no-store" });
-    if (!r.ok) throw new Error("We couldn't find that order.");
-    return r.json();
+    try {
+      const d = await api(`/api/order-status?id=${encodeURIComponent(id)}&t=${encodeURIComponent(token)}`, { timeout: 8000 });
+      if (!d.order) throw new Error("Something went wrong on our side. Please try again.");
+      return d;
+    } catch (e) {
+      if (e.status === 404) e.message = "We couldn't find that order. It may be from an earlier day.";
+      throw e;
+    }
   }
 
   async function openOrderSheet(id, token, first) {
@@ -756,20 +826,23 @@
       if (paid) paid.onclick = async () => {
         paid.disabled = true;
         try {
-          const r = await fetch("/api/order-paid", { method: "POST", headers: { "content-type": "application/json" },
-            body: JSON.stringify({ id, t: token, ref: ($("#osRef", body) || {}).value || "" }) });
-          if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || "Try again");
-          draw(await r.json().then(d => ({ ...d, upi: data.upi })));
-        } catch (e) { toast(e.message); paid.disabled = false; }
+          const d = await api("/api/order-paid", { body: { id, t: token, ref: (($("#osRef", body) || {}).value || "").trim() } });
+          draw({ ...d, upi: data.upi });
+        } catch (e) { toast(e.message, 5000); paid.disabled = false; }
       };
       const o = data.order;
       if (["ready", "collected", "rejected"].includes(o.status)) markMyOrder(id, o.status !== "ready");
       if (["collected", "rejected"].includes(o.status)) clearInterval(osTimer);
     };
     if (first) draw(first); else body.innerHTML = `<p class="os-loading">Loading your order…</p>`;
+    let shown = !!first;
     const tick = async () => {
-      try { const d = await loadOrder(id, token); if (osCurrent && osCurrent.id === id) draw(d); }
-      catch (e) { if (!first) body.innerHTML = `<p class="os-loading">${esc(e.message)}</p>`; }
+      try { const d = await loadOrder(id, token); if (osCurrent && osCurrent.id === id) { draw(d); shown = true; } }
+      catch (e) {
+        if (!osCurrent || osCurrent.id !== id) return;
+        if (!shown) body.innerHTML = `<p class="os-loading">${esc(e.message)}</p>`;   // otherwise keep the last good view; next poll retries
+        if (e.status === 404) clearInterval(osTimer);
+      }
     };
     if (!first) await tick();
     clearInterval(osTimer);
@@ -784,6 +857,12 @@
     if (location.hash.startsWith("#order=")) history.replaceState(null, "", location.pathname);
   }
   $("#osClose").addEventListener("click", closeOrderSheet);
+  $("#osBody").addEventListener("click", e => {
+    if (!e.target.closest("[data-follow]")) return;
+    try { localStorage.setItem(FOLLOW_KEY, Date.now()); } catch { /* ignore */ }
+    const perk = $(".os-perk", e.currentTarget);
+    if (perk && !$(".os-perk__ok", perk)) $(".os-perk__links", perk).insertAdjacentHTML("afterend", FOLLOW_OK);
+  });
   $("#orderSheet").addEventListener("click", e => { if (e.target.id === "orderSheet") closeOrderSheet(); });
 
   // open from a shared/bookmarked link: #order=<id>.<token>
@@ -802,11 +881,11 @@
      ------------------------------------------------------------------ */
   const toastEl = $("#toast");
   let toastTimer;
-  function toast(msg) {
+  function toast(msg, ms = 2200) {
     toastEl.textContent = msg;
     toastEl.classList.add("is-on");
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toastEl.classList.remove("is-on"), 2200);
+    toastTimer = setTimeout(() => toastEl.classList.remove("is-on"), ms);
   }
 
   document.addEventListener("keydown", e => {
@@ -819,7 +898,7 @@
   // Small API for the extra features in features.js (quiz, build-your-own)
   window.rejuve = {
     menu: MENU,
-    toast: msg => toast(msg),
+    toast: (msg, ms) => toast(msg, ms),
     lock, unlock,
     findItem: name => {
       for (const c of cats) { const i = c.items.findIndex(it => it.name === name); if (i >= 0) return { cat: c, idx: i, item: c.items[i] }; }
@@ -829,11 +908,7 @@
     addLine({ name, img, size = "", unit, qty = 1, opts = [] }) {
       const line = { name, img, size, opts, adds: [], unit, qty };
       line.key = [name, size, ...opts].join("|");
-      const existing = cart.find(l => l.key === line.key);
-      existing ? (existing.qty += qty) : cart.push(line);
-      saveCart();
-      renderCart(true);
-      toast(`${qty} × ${name} added`);
+      pushLine(line);
     },
     openItemByName(name, fromEl) {
       const f = this.findItem(name);

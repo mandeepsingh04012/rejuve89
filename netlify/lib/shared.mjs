@@ -88,7 +88,15 @@ export function cleanPhone(raw) {
   return /^[6-9]\d{9}$/.test(d) ? d : null;
 }
 
-const clip = (v, n) => String(v ?? "").replace(/[\u0000-\u001f]/g, " ").trim().slice(0, n);
+export const clip = (v, n) => String(v ?? "").replace(/[\u0000-\u001f\u007f]/g, " ").trim().slice(0, n);
+// own keys only, so names like "constructor" or "toString" never match the menu
+const has = (obj, key) => Object.prototype.hasOwnProperty.call(obj, key);
+const isObj = (v) => v !== null && typeof v === "object" && !Array.isArray(v);
+const strList = (v, what, name) => {
+  if (v === undefined || v === null || v === "") return [];
+  if (!Array.isArray(v) || v.length > 20) throw new Error(`Bad ${what} for ${name}`);
+  return [...new Set(v.map((x) => clip(x, 40)))];
+};
 
 /** Check items against the menu and price them server-side. Throws Error(message) on bad input. */
 export function priceItems(items) {
@@ -96,18 +104,19 @@ export function priceItems(items) {
   if (items.length > MAX_LINES) throw new Error(`Too many lines (max ${MAX_LINES})`);
   let total = 0;
   const lines = items.map((raw) => {
+    if (!isObj(raw)) throw new Error("Something in your order isn't right. Please clear the cart and add it again.");
     const name = clip(raw.name, 80);
-    const item = catalog.items[name];
+    const item = has(catalog.items, name) ? catalog.items[name] : null;
     if (!item) throw new Error(`"${name}" is not on the menu any more. Please remove it.`);
     const sizes = Object.keys(item.sizes);
     const size = raw.size ? clip(raw.size, 20) : sizes.length === 1 ? sizes[0] : "";
-    if (!(size in item.sizes)) throw new Error(`Pick a size for ${name}`);
-    const qty = Math.floor(Number(raw.qty));
-    if (!(qty >= 1 && qty <= MAX_QTY)) throw new Error(`Quantity for ${name} must be 1–${MAX_QTY}`);
-    const opts = [...new Set((raw.opts || []).map((o) => clip(o, 40)))];
-    const adds = [...new Set((raw.adds || []).map((a) => clip(a, 40)))];
+    if (!has(item.sizes, size)) throw new Error(`Pick a size for ${name}`);
+    const qty = Number(raw.qty);
+    if (!(Number.isInteger(qty) && qty >= 1 && qty <= MAX_QTY)) throw new Error(`Quantity for ${name} must be 1–${MAX_QTY}`);
+    const opts = strList(raw.opts, "options", name);
+    const adds = strList(raw.adds, "add-ons", name);
     for (const o of opts) if (!item.options.includes(o)) throw new Error(`"${o}" isn't available for ${name}`);
-    for (const a of adds) if (!(a in item.addons)) throw new Error(`"${a}" isn't available for ${name}`);
+    for (const a of adds) if (!has(item.addons, a)) throw new Error(`"${a}" isn't available for ${name}`);
     const unit = item.sizes[size] + adds.reduce((s, a) => s + item.addons[a], 0);
     total += unit * qty;
     return { name, size, opts, adds, qty, unit };
@@ -116,6 +125,7 @@ export function priceItems(items) {
 }
 
 export function validateOrder(body, config, now = new Date()) {
+  if (!isObj(body)) throw new Error("Bad request");
   const name = clip(body.name, 40);
   if (!name) throw new Error("Add your name so we can call it out");
   const phone = cleanPhone(body.phone);
@@ -124,8 +134,8 @@ export function validateOrder(body, config, now = new Date()) {
   if (payment === "upi" && !config.upi_id) throw new Error("Online payment isn't available right now. Choose pay at counter.");
   // pickup_in: minutes from now (0 = on my way). Stored as an India-time clock time.
   const { minutes } = istParts(now);
-  const inMin = Math.floor(Number(body.pickup_in) || 0);
-  if (!(inMin >= 0 && inMin <= 120)) throw new Error("Pick a valid pickup time");
+  const inMin = Number(body.pickup_in ?? 0);
+  if (!(Number.isInteger(inMin) && inMin >= 0 && inMin <= 120)) throw new Error("Pick a valid pickup time");
   const at = minutes + inMin, close = toMin(config.close);
   if (at > close) throw new Error(`We close at ${fmtMin(close)}. Please pick a sooner pickup time.`);
   const pickup = inMin === 0 ? "ASAP" : `${String(Math.floor(at / 60) % 24).padStart(2, "0")}:${String(at % 60).padStart(2, "0")}`;
@@ -133,7 +143,61 @@ export function validateOrder(body, config, now = new Date()) {
   return { name, phone, payment, pickup, note: clip(body.note, 200), lines, total };
 }
 
+/** Settings pushed by the POS. Bad values fall back to the defaults (and are reported back) so a typo
+ *  in POS Admin can't put a broken UPI ID on customers' QR codes or break the opening hours. */
+const HHMM = /^([01]?\d|2[0-3]):[0-5]\d$/;
+const UPI_ID = /^[A-Za-z0-9._-]{2,256}@[A-Za-z0-9.-]{2,64}$/;
+export function cleanConfig(input) {
+  const cfg = { ...DEFAULT_CONFIG }, warnings = [];
+  if (!isObj(input)) return { cfg, warnings: input === undefined ? [] : ["config ignored: not an object"] };
+  const bad = (k) => warnings.push(`${k} ignored: invalid value`);
+  const int = (k, lo, hi) => {
+    if (input[k] === undefined) return;
+    const n = Number(input[k]);
+    if (Number.isInteger(n) && n >= lo && n <= hi) cfg[k] = n; else bad(k);
+  };
+  if (input.mode !== undefined) ["whatsapp", "web_pos", "paused"].includes(input.mode) ? (cfg.mode = input.mode) : bad("mode");
+  for (const k of ["open", "close"]) if (input[k] !== undefined) HHMM.test(input[k]) ? (cfg[k] = input[k]) : bad(k);
+  if (toMin(cfg.close) <= toMin(cfg.open)) { warnings.push("open/close ignored: close must be after open"); cfg.open = DEFAULT_CONFIG.open; cfg.close = DEFAULT_CONFIG.close; }
+  int("cutoff_min", 0, 180);
+  int("offline_after_s", 60, 86400);
+  if (input.upi_id !== undefined) {
+    const id = String(input.upi_id).trim();
+    if (id === "" || UPI_ID.test(id)) cfg.upi_id = id; else { cfg.upi_id = ""; bad("upi_id"); }   // no UPI rather than a wrong one
+  }
+  if (input.upi_name !== undefined) cfg.upi_name = clip(input.upi_name, 50) || DEFAULT_CONFIG.upi_name;
+  if (input.whatsapp !== undefined) {
+    const wa = String(input.whatsapp).replace(/\D/g, "");
+    /^\d{10,15}$/.test(wa) ? (cfg.whatsapp = wa) : bad("whatsapp");
+  }
+  return { cfg, warnings };
+}
+
 // ---------------------------------------------------------------- helpers
+
+export const ORDER_ID = /^\d{8}-W\d{3}$/;
+
+/** Read a JSON object body. Returns null if it's missing, too big, not JSON or not an object. */
+export async function readBody(req, maxBytes = 32 * 1024) {
+  if (Number(req.headers.get("content-length") || 0) > maxBytes) return null;
+  let text;
+  try { text = await req.text(); } catch { return null; }
+  if (!text || text.length > maxBytes) return null;
+  try { const v = JSON.parse(text); return isObj(v) ? v : null; } catch { return null; }
+}
+
+/** Wrap a function handler so an unexpected failure (e.g. storage down) logs the error and returns a
+ *  friendly JSON 500 instead of a stack trace or an empty response. */
+export function safe(handler) {
+  return async (req, context) => {
+    try {
+      return await handler(req, context);
+    } catch (e) {
+      console.error(`${req.method} ${new URL(req.url).pathname} failed:`, e);
+      return json({ error: "Something went wrong on our side. Please try again, or order on WhatsApp." }, 500);
+    }
+  };
+}
 
 export function randomHex(bytes = 16) {
   const a = new Uint8Array(bytes);
@@ -176,6 +240,7 @@ export function upiLink(config, order) {
 
 // constant-time compare for the POS key
 export function sameSecret(a, b) {
+  a = typeof a === "string" ? a : ""; b = typeof b === "string" ? b : "";
   if (!a || !b || a.length !== b.length) return false;
   let r = 0;
   for (let i = 0; i < a.length; i++) r |= a.charCodeAt(i) ^ b.charCodeAt(i);

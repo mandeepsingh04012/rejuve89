@@ -108,6 +108,33 @@ test("rejects bad orders", async () => {
   assert.equal((await order({ website: "http://spam" })).status, 400);   // honeypot
 });
 
+test("rejects malformed or tricky input without crashing", async () => {
+  await sync({ config: { ...allDay, mode: "web_pos" } });
+  const bad = async (extra, re) => { const r = await order(extra); assert.equal(r.status, 400); if (re) assert.match(r.data.error, re); };
+  await bad({ items: [null] });
+  await bad({ items: "Orange Fresh" }, /empty/);
+  await bad({ items: [{ name: "constructor", size: "300ml", qty: 1 }] }, /not on the menu/);
+  await bad({ items: [{ name: "Orange Fresh", size: "toString", qty: 1 }] }, /size/);
+  await bad({ items: [{ name: "Banana Protein", size: "300ml", qty: 1, adds: ["toString"] }] }, /isn't available/);
+  await bad({ items: [{ name: "Banana Protein", size: "300ml", qty: 1, adds: "Extra Whey Scoop" }] }, /add-ons/);
+  await bad({ items: [{ name: "Orange Fresh", size: "300ml", qty: 1.5 }] }, /Quantity/);
+  await bad({ pickup_in: "soon" }, /pickup/);
+  for (const raw of ["not json", "null", "[1,2]", JSON.stringify({ x: "y".repeat(40000) })]) {
+    const res = await fn.order(new Request("http://site/api/order", { method: "POST", headers: { "content-type": "application/json" }, body: raw }), { ip: "7.7.7.7" });
+    assert.equal(res.status, 400, raw.slice(0, 20));
+  }
+});
+
+test("POS settings are checked before they reach customers", async () => {
+  const r = await sync({ config: { ...allDay, mode: "web_pos", upi_id: "pay me here", open: "8am", cutoff_min: -5, whatsapp: "abc" } });
+  assert.equal(r.status, 200);
+  assert.deepEqual(r.data.warnings.map((w) => w.split(" ")[0]).sort(), ["cutoff_min", "open", "upi_id", "whatsapp"]);
+  assert.equal(r.data.state.upi, false);                        // a bad UPI ID turns UPI off, never shows a wrong QR
+  assert.equal((await sync({ ack: "x" })).status, 400);
+  assert.equal((await sync({ ack: [null, { id: "../state/config", v: 9 }], updates: [7, { id: "nope" }] })).status, 200);
+  await sync({ config: allDay });                              // leave a good config for the next tests
+});
+
 test("paused mode and rate limit", async () => {
   await sync({ config: { ...allDay, mode: "paused" } });
   const r = await order();
@@ -146,4 +173,18 @@ test("UPI QR for an order", async () => {
   assert.equal((await fn["order-qr"](new Request(`http://site/api/order-qr?id=${id}&t=nope`))).status, 404);
   const counter = await order({ payment: "counter" });
   assert.equal((await fn["order-qr"](new Request(`http://site/api/order-qr?id=${counter.data.order.id}&t=${counter.data.token}`))).status, 404);
+});
+
+test("storage outage gives a friendly error, not a crash", async () => {
+  const real = process.env.BLOBS_TEST_URL, logErr = console.error;
+  process.env.BLOBS_TEST_URL = "http://127.0.0.1:9";            // nothing listens here
+  console.error = () => {};
+  try {
+    const r = await call("ordering");
+    assert.equal(r.status, 500);
+    assert.match(r.data.error, /try again/);
+  } finally {
+    process.env.BLOBS_TEST_URL = real;
+    console.error = logErr;
+  }
 });

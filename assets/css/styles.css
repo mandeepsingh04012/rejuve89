@@ -983,3 +983,24 @@ body.is-locked { position: fixed; left: 0; right: 0; overflow: hidden; }
 .os-qr b { display: block; margin-top: 8px; font-size: 22px; font-family: var(--ff-display); }
 .os-msg.is-done { background: var(--g-700); color: #fff; font-weight: 600; text-align: center; }
 .pickform .paywith__opt input[type=radio] { appearance: auto; -webkit-appearance: radio; width: 20px; height: 20px; min-height: 0; padding: 0; margin: 10px 0 0; border: 0; border-radius: 50%; box-shadow: none; background: none; accent-color: var(--g-700); flex: 0 0 20px; }
+
+/* order sheet: follow-for-cashback + Google review */
+.os-perk { margin: 0 0 14px; padding: 14px; border-radius: var(--r); background: linear-gradient(135deg, #FFF4DF, var(--g-100)); font-size: 14px; display: grid; gap: 10px; color: var(--g-800); }
+.os-perk p { margin: 0; }
+.os-perk small { color: var(--muted); font-size: 12px; }
+.os-perk__links { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.os-perk__links .btn { --bg: #fff; min-height: 46px; padding: 10px 12px; font-size: 15px; gap: 8px; }
+.os-perk__ok { padding: 8px 10px; border-radius: var(--r-sm); background: var(--g-700); color: #fff; font-weight: 600; }
+.os-review { margin: 0 0 14px; padding: 14px; border-radius: var(--r); background: #fff; border: 1px solid var(--line); font-size: 14px; display: grid; gap: 10px; }
+.os-review p { margin: 0; }
+
+/* home page reviews */
+.reviews { padding: clamp(70px, 9vw, 120px) 0; background: linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%); }
+.reviews__list { list-style: none; margin: 0 0 clamp(32px, 5vw, 48px); padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 380px)); justify-content: center; gap: 18px; }
+.reviews__list[hidden] { display: none; }
+.review { margin: 0; padding: 24px; border-radius: var(--r-lg); background: var(--paper); box-shadow: var(--sh-1); display: flex; flex-direction: column; gap: 14px; }
+.review__stars { color: var(--gold); font-size: 18px; letter-spacing: 2px; }
+.review blockquote { margin: 0; font-family: var(--ff-display); font-size: 19px; line-height: 1.45; color: var(--ink); flex: 1; }
+.review__who { margin: 0; color: var(--muted); font-size: 14px; font-weight: 600; }
+.reviews__cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+@media (max-width: 640px) { .reviews__cta .btn { flex: 1 1 100%; } }

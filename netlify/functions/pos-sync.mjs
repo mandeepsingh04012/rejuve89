@@ -3,29 +3,32 @@
 //           ack: [{id, v}],                       orders the POS has saved (removed from the inbox)
 //           updates: [{id, status, payment_status, message}] }   status changes to show the customer
 //   reply: { orders: [...new or changed orders], state }
-import { DEFAULT_CONFIG, getHeartbeat, json, nowIso, orderingState, posKey, sameSecret, store } from "../lib/shared.mjs";
+import { cleanConfig, getHeartbeat, json, nowIso, ORDER_ID, orderingState, posKey, readBody, safe, sameSecret, store } from "../lib/shared.mjs";
 
 const STATUSES = ["received", "accepted", "preparing", "ready", "collected", "rejected"];
 const PAY = ["unpaid", "pending", "claimed", "verified", "paid"];
 
-export default async (req) => {
+export default safe(async (req) => {
   if (req.method !== "POST") return json({ error: "Use POST" }, 405);
   if (!sameSecret(req.headers.get("x-pos-key") || "", posKey())) return json({ error: "Not allowed" }, 403);
-  let body;
-  try { body = await req.json(); } catch { return json({ error: "Bad request" }, 400); }
+  const body = await readBody(req, 256 * 1024);
+  if (!body) return json({ error: "Bad request" }, 400);
+  for (const k of ["ack", "updates"]) {
+    if (body[k] !== undefined && !Array.isArray(body[k])) return json({ error: `${k} must be a list` }, 400);
+  }
   const s = store();
 
-  const cfg = { ...DEFAULT_CONFIG };
-  for (const k of Object.keys(DEFAULT_CONFIG)) if (body.config && body.config[k] !== undefined) cfg[k] = body.config[k];
-  if (!["whatsapp", "web_pos", "paused"].includes(cfg.mode)) cfg.mode = "whatsapp";
+  const { cfg, warnings } = cleanConfig(body.config);
   await s.setJSON("state/config", cfg);
   await s.setJSON("state/heartbeat", { at: nowIso() });
 
   for (const a of body.ack || []) {
+    if (!ORDER_ID.test(String(a?.id))) continue;
     const box = await s.get(`inbox/${a.id}`, { type: "json" });
     if (box && box.v <= a.v) await s.delete(`inbox/${a.id}`);   // a newer change stays queued
   }
   for (const u of body.updates || []) {
+    if (!ORDER_ID.test(String(u?.id))) continue;
     const o = await s.get(`o/${u.id}`, { type: "json" });
     if (!o) continue;
     if (STATUSES.includes(u.status)) o.status = u.status;
@@ -41,7 +44,7 @@ export default async (req) => {
     const o = await s.get(`o/${b.key.slice(6)}`, { type: "json" });
     if (o) { const { token, ...rest } = o; orders.push(rest); } else await s.delete(b.key);
   }
-  return json({ orders, state: orderingState(cfg, await getHeartbeat(s)) });
-};
+  return json({ orders, state: orderingState(cfg, await getHeartbeat(s)), ...(warnings.length ? { warnings } : {}) });
+});
 
 export const config = { path: "/api/pos/sync" };

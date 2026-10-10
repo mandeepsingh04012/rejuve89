@@ -1,15 +1,15 @@
 // POST /api/order-paid {id, t, ref} -> customer says they paid by UPI; staff verify it in the POS.
-import { json, nowIso, publicOrder, store } from "../lib/shared.mjs";
+import { json, nowIso, ORDER_ID, publicOrder, readBody, safe, sameSecret, store } from "../lib/shared.mjs";
 
-export default async (req) => {
+export default safe(async (req) => {
   if (req.method !== "POST") return json({ error: "Use POST" }, 405);
-  let body;
-  try { body = await req.json(); } catch { return json({ error: "Bad request" }, 400); }
+  const body = await readBody(req, 4 * 1024);
+  if (!body) return json({ error: "Bad request" }, 400);
   const id = String(body.id || "");
-  if (!/^\d{8}-W\d{3}$/.test(id)) return json({ error: "Order not found" }, 404);
+  if (!ORDER_ID.test(id)) return json({ error: "Order not found" }, 404);
   const s = store();
   const o = await s.get(`o/${id}`, { type: "json" });
-  if (!o || o.token !== body.t) return json({ error: "Order not found" }, 404);
+  if (!o || !sameSecret(String(body.t || ""), o.token)) return json({ error: "Order not found" }, 404);
   if (o.payment !== "upi") return json({ error: "This order is pay at counter" }, 400);
   if (o.payment_status === "pending") {
     o.payment_status = "claimed";
@@ -20,6 +20,6 @@ export default async (req) => {
     await s.setJSON(`inbox/${id}`, { v: o.version });   // POS picks up the change on its next sync
   }
   return json({ order: publicOrder(o) });
-};
+});
 
 export const config = { path: "/api/order-paid" };

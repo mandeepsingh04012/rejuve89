@@ -528,6 +528,40 @@
       </div>
     </section>
 
+    <!-- ============ Reviews ============ -->
+    <section class="reviews" id="reviews" aria-labelledby="reviewsTitle">
+      <div class="wrap">
+        <div class="section-head section-head--center">
+          <p class="eyebrow reveal">Reviews</p>
+          <h2 id="reviewsTitle" class="h2 reveal">Had a re.juve? <em>Tell us</em> how we did.</h2>
+          <p class="section-head__sub reveal">We're new in Sector 89, and every review helps neighbours find us. It takes 30 seconds on Google.</p>
+        </div>
+        <!-- Real customer reviews only (copy from Google, first name + initial). Add new ones at the top of the list:
+          <li class="review reveal">
+            <div class="review__stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+            <blockquote>Review text, word for word.</blockquote>
+            <p class="review__who">Riya S. · Google review</p>
+          </li>
+        -->
+        <ul class="reviews__list">
+          <li class="review reveal">
+            <div class="review__stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+            <blockquote>Love the idea behind re.juve-89! A refreshing place for juices and smoothies when you're trying to make better everyday food choices.</blockquote>
+            <p class="review__who">Deepshikha R. · Google review</p>
+          </li>
+          <li class="review reveal">
+            <div class="review__stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+            <blockquote>Great place to grab a refreshing drink after a workout. I like having juice and smoothie options nearby. Looking forward to trying more items from the menu.</blockquote>
+            <p class="review__who">FitClub89 · Google review</p>
+          </li>
+        </ul>
+        <div class="reviews__cta reveal">
+          <a class="btn btn--primary btn--lg" href="https://g.page/r/CcPdn0szTbUwECE/review" target="_blank" rel="noopener">★ Write a Google review</a>
+          <a class="btn btn--ghost btn--lg" href="https://share.google/xPvnZDgEUmgQwu2e9" target="_blank" rel="noopener">See us on Google</a>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ Final CTA ============ -->
     <section class="finale">
       <img class="finale__bg" src="assets/img/scene/fruit-flatlay.jpg" alt="" loading="lazy" width="1800" height="1200">
@@ -600,7 +634,7 @@
       <form class="pickform" id="pickForm" autocomplete="on">
         <label>
           <span>Your name</span>
-          <input type="text" name="name" id="custName" placeholder="So we can call it out" autocomplete="name" required>
+          <input type="text" name="name" id="custName" maxlength="40" placeholder="So we can call it out" autocomplete="name" required>
         </label>
         <label>
           <span>Pickup in</span>
@@ -628,7 +662,7 @@
         <input type="text" name="website" id="hpField" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
         <label class="pickform__full">
           <span>Notes (optional)</span>
-          <input type="text" name="note" id="pickNote" placeholder="e.g. extra cold, less ice">
+          <input type="text" name="note" id="pickNote" maxlength="200" placeholder="e.g. extra cold, less ice">
         </label>
       </form>
     </div>

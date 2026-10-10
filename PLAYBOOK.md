@@ -221,6 +221,18 @@ message includes a private link (`https://rejuve89.netlify.app/bill/…`). The c
 Staff just press Send. The greeting can use `{link}` (Admin → Settings). Links are deleted after about 4 months.
 If the website isn't connected, the PDF downloads instead and you attach it (📎 → Document) like before.
 
+**Follow us = 5% cashback (web orders):** while customers wait, their order page asks them to follow us on Instagram or
+Facebook for **5% cashback**, once per customer.
+- At pickup, ask to see **@rejuve89 on Instagram** or **re.juve /89 on Facebook** with **Following** showing on their phone.
+  The green "Thanks for following" box on the order page only means they tapped the button, so check the app itself.
+- Pay at counter: take 5% off the bill. Already paid by UPI: send 5% back to the same UPI ID.
+- Once per customer: check the phone number in the POS customer history before giving it.
+
+**Google reviews:** when the order is Ready / Picked up, the page asks for a Google review. **Never give a discount or
+freebie for a review**: Google's rules ban it, and it can get our reviews removed or the listing flagged.
+Review link to share: `https://g.page/r/CcPdn0szTbUwECE/review`. To show a review on the website, send it to Claude Code
+(name + stars + text, copied from Google) and it adds it to the Reviews section.
+
 **If something's wrong:** Admin → Online orders shows the connection status ("Synced 5s ago…" or the error) and has **Sync now**.
 
 ## 5c. Publish the website: save to GitHub, then publish to Netlify
