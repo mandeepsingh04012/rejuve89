@@ -18,6 +18,8 @@ DEFAULT_DB = ROOT.parent / "PythonProject1" / "data" / "pos.db"
 OUT = ROOT / "assets" / "js" / "menu.js"
 BLENDS_OUT = ROOT / "assets" / "js" / "blends.js"
 CATALOG_OUT = ROOT / "netlify" / "lib" / "catalog.json"   # used by the order functions to check and price orders
+INDEX = ROOT / "index.html"   # gets a plain-HTML price list (search engines and link previews can't run the JS menu)
+LIST_START, LIST_END = "<!-- MENU-LIST:START", "<!-- MENU-LIST:END -->"
 
 # The POS "RE:BLEND" category holds every build-your-own combo (hundreds). They're not listed on the
 # menu; the builder looks them up in blends.js to show the exact POS price and name.
@@ -31,8 +33,15 @@ BLEND_IMAGES = {"orange": "orange", "mosambi": "mosambi", "watermelon": "waterme
 CATEGORY_META = {
     "Fresh Juices": {"slug": "juices", "blurb": "One fruit. Squeezed when you order.", "accent": "#F2A23A", "hero": "orange"},
     "RE:Wellness": {"slug": "wellness", "blurb": "Our signature blends for a mid-day reset.", "accent": "#7DB46C", "hero": "re-green"},
-    "Smoothies": {"slug": "smoothies", "blurb": "Thick, creamy, real fruit.", "accent": "#E46A7E", "hero": "berry-smoothie"},
+    "Smoothies": {"slug": "smoothies", "blurb": "Thick, creamy, real fruit.", "accent": "#E46A7E", "hero": "berry-smoothie",
+                  "why": ["🥤 Blended thick with real fruit the minute you order, never from a powder or a premix.",
+                          "🍯 Sweetness is your call: no sugar, less sugar, honey, or dates (+₹10)."]},
     "RE:Protein": {"slug": "protein", "blurb": "A full scoop of whey in every glass.", "accent": "#B98A5E", "hero": "chocolate-protein"},
+    "RE:Bowls": {"slug": "bowls", "blurb": "Fruit bowls, overnight oats and yogurt bowls, made fresh every morning.",
+                 "accent": "#E9A23B", "hero": "fruit-bowl",
+                 "why": ["🍉 Fruit bowls: cut every morning from what's in season, tropical one day, classic favourites the next. Just fruit, no preservatives, portioned to fill you up.",
+                         "🥣 Overnight oats: soaked overnight so they're soft and creamy by morning. Sweetened only with fruit, figs or dates, with no added sugar and no preservatives.",
+                         "🍓 Yogurt bowls: thick low-fat yogurt with fresh fruit and crunchy muesli. Made when you order, no artificial flavours."]},
     "RE:Bites": {"slug": "bites", "blurb": "Light, filling snacks to go with your sip.", "accent": "#D9B44A", "hero": "avocado-sandwich"},
 }
 
@@ -47,11 +56,19 @@ ITEM_IMAGES = {
     "Peanut Chaat": "peanut-chaat", "Chickpea Chaat": "chickpea-chaat", "Boiled Corn": "boiled-corn",
     "Air-Fried Corn Chaat": "corn-chaat", "Grilled Veg Sandwich": "veg-sandwich",
     "Paneer Sandwich": "paneer-sandwich", "Avocado Sandwich": "avocado-sandwich",
+    # bowls: CC0 stock photos for now (rawpixel / WordPress Photo Directory); replace with counter shots
+    "Seasonal Fruit Bowl": "fruit-bowl", "Fig & Fruit Overnight Oats": "fig-oats",
+    "Cocoa Peanut Overnight Oats": "cocoa-oats", "Berry Muesli Yogurt Bowl": "berry-yogurt-bowl",
+    "Strawberry Banana Yogurt Bowl": "strawberry-yogurt-bowl",
 }
+
+# Items with no photo yet: the card shows these emoji on a soft colour tile instead, e.g. "New Bowl": "🥣🍓".
+ITEM_ART = {}
 
 # Items to highlight with a small badge on the website.
 BADGES = {"RE:GREEN": "Bestseller", "RE:GLOW": "Signature", "ABC": "Detox", "IMMUNITY": "Vit C",
-          "Peanut Butter Protein": "Gym fav", "Avocado Sandwich": "New"}
+          "Peanut Butter Protein": "Gym fav", "Avocado Sandwich": "New",
+          "Seasonal Fruit Bowl": "New", "Cocoa Peanut Overnight Oats": "New"}
 
 # Approximate nutrition per 300ml (drinks, without added sugar) or per serving (bites).
 # kcal = calories, protein = grams, tags = up to two short benefits shown on the card.
@@ -81,13 +98,33 @@ NUTRITION = {
     "Grilled Veg Sandwich": (280, 9, ["Fibre", "Veggies"]),
     "Paneer Sandwich": (350, 18, ["Protein", "Calcium"]),
     "Avocado Sandwich": (320, 8, ["Healthy fats", "Fibre"]),
+    # bowls: kitchen estimates per bowl/jar; check them when the recipes are locked in Recipe Lab
+    "Seasonal Fruit Bowl": (170, 2, ["Seasonal fruit", "Light"]),
+    "Fig & Fruit Overnight Oats": (360, 12, ["Oats", "Fibre"]),
+    "Cocoa Peanut Overnight Oats": (430, 15, ["Oats", "Peanut"]),
+    "Berry Muesli Yogurt Bowl": (260, 10, ["Yogurt", "Muesli"]),
+    "Strawberry Banana Yogurt Bowl": (220, 8, ["Yogurt", "Fruit"]),
 }
 
 FALLBACK_IMAGE = "fruit-flatlay"
 
 
+def open_db(db_path: Path) -> sqlite3.Connection:
+    """Open the POS database for reading. Read-only mode can fail while the POS is running
+    (SQLite's write-ahead log needs its side files), so fall back to a normal connection;
+    this script only ever runs SELECTs."""
+    if not Path(db_path).exists():
+        raise SystemExit(f"POS database not found: {db_path}")
+    try:
+        con = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
+        con.execute("SELECT 1 FROM categories LIMIT 1")
+        return con
+    except sqlite3.OperationalError:
+        return sqlite3.connect(db_path)
+
+
 def export(db_path: Path) -> dict:
-    con = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
+    con = open_db(db_path)
     con.row_factory = sqlite3.Row
     cats = con.execute("SELECT id, name FROM categories WHERE active = 1 AND name != ? ORDER BY sort, id",
                        (BLEND_CATEGORY,)).fetchall()
@@ -113,6 +150,7 @@ def export(db_path: Path) -> dict:
                 "sizes": sizes,
                 "img": f"assets/img/menu/{img}.jpg" if img else f"assets/img/scene/{FALLBACK_IMAGE}.jpg",
                 "badge": BADGES.get(it["name"], ""),
+                **({"art": ITEM_ART[it["name"]]} if not img and it["name"] in ITEM_ART else {}),
                 "extras": allowed.get(c["id"], []),   # options + add-ons the POS allows for this item
             })
             if it["name"] in NUTRITION:
@@ -131,7 +169,7 @@ def export(db_path: Path) -> dict:
 
 def export_blends(db_path: Path) -> dict:
     """blend key (e.g. "orange+carrot+ginger") -> POS item name, blend name and prices."""
-    con = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
+    con = open_db(db_path)
     con.row_factory = sqlite3.Row
     row = con.execute("SELECT value FROM settings WHERE key = 'blend_map'").fetchone()
     out = {}
@@ -152,7 +190,7 @@ def export_blends(db_path: Path) -> dict:
 
 def export_catalog(db_path: Path) -> dict:
     """Every orderable item (menu + blends): sizes with prices, allowed options and paid add-ons."""
-    con = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
+    con = open_db(db_path)
     con.row_factory = sqlite3.Row
     by_cat = {}
     for r in con.execute("""SELECT ac.category_id, a.name, a.price, a.kind FROM addons a
@@ -173,15 +211,57 @@ def export_catalog(db_path: Path) -> dict:
     return {"items": items}
 
 
+def static_menu_html(menu: dict) -> str:
+    """The full menu as plain HTML, same items and POS prices as menu.js."""
+    from html import escape
+    rupee = lambda n: f"₹{n:,}"
+    out = ['<div class="pricelist__cols">']
+    for c in menu["categories"]:
+        out.append(f'            <section class="pricelist__cat"><h3>{escape(c["name"])}</h3>')
+        out.append(f'              <p>{escape(c["blurb"])}</p>')
+        out.append('              <ul>')
+        for it in c["items"]:
+            prices = " · ".join((f'{escape(s["name"])} {rupee(s["price"])}' if len(it["sizes"]) > 1 else rupee(s["price"]))
+                                for s in it["sizes"])
+            desc = f' <small>{escape(it["desc"])}</small>' if it.get("desc") else ""
+            out.append(f'                <li><span>{escape(it["name"])}{desc}</span><span>{prices}</span></li>')
+        out.append('              </ul></section>')
+    extras = [o["name"] for o in menu.get("options", [])]
+    adds = [f'{a["name"]} +{rupee(a["price"])}' for a in menu.get("addons", [])]
+    if extras or adds:
+        out.append(f'            <p class="pricelist__extras">Free: {escape(", ".join(extras))}. Add-ons: {escape(", ".join(adds))}.</p>')
+    out.append('          </div>')
+    return "\n".join(out)
+
+
+def write_static_menu(menu: dict) -> None:
+    html = INDEX.read_text(encoding="utf-8")
+    i, j = html.find(LIST_START), html.find(LIST_END)
+    if i < 0 or j < 0:
+        print(f"! {INDEX.name}: MENU-LIST markers not found, static price list not updated")
+        return
+    i = html.index("-->", i) + 3
+    html = html[:i] + "\n          " + static_menu_html(menu) + "\n          " + html[j:]
+    INDEX.write_text(html, encoding="utf-8")
+    print(f"Wrote the static price list into {INDEX.name}")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--db", type=Path, default=DEFAULT_DB)
+    ap.add_argument("--static-only", action="store_true",
+                    help="only rebuild the price list in index.html from the current menu.js (no POS needed)")
     args = ap.parse_args()
+    if args.static_only:
+        text = OUT.read_text(encoding="utf-8")
+        write_static_menu(json.loads(text[text.index("{"):text.rindex("}") + 1]))
+        return
     menu = export(args.db)
     OUT.write_text("/* Generated by tools/export_menu.py from the POS database. Do not edit by hand. */\n"
                    "window.MENU = " + json.dumps(menu, ensure_ascii=False, indent=2) + ";\n", encoding="utf-8")
     n = sum(len(c["items"]) for c in menu["categories"])
     print(f"Wrote {OUT.relative_to(ROOT)}: {len(menu['categories'])} categories, {n} items")
+    write_static_menu(menu)
     blends = export_blends(args.db)
     BLENDS_OUT.write_text("/* Generated by tools/export_menu.py from the POS database. Do not edit by hand. */\n"
                           "window.BLENDS = " + json.dumps(blends, ensure_ascii=False, separators=(",", ":")) + ";\n",

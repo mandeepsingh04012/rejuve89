@@ -31,7 +31,8 @@ window.MENU = {
             "No Sugar",
             "Less Sugar",
             "No Ice",
-            "Black Salt / Masala"
+            "Black Salt / Masala",
+            "Honey"
           ],
           "kcal": 135,
           "protein": 2,
@@ -63,7 +64,8 @@ window.MENU = {
             "No Sugar",
             "Less Sugar",
             "No Ice",
-            "Black Salt / Masala"
+            "Black Salt / Masala",
+            "Honey"
           ],
           "kcal": 120,
           "protein": 1,
@@ -95,7 +97,8 @@ window.MENU = {
             "No Sugar",
             "Less Sugar",
             "No Ice",
-            "Black Salt / Masala"
+            "Black Salt / Masala",
+            "Honey"
           ],
           "kcal": 90,
           "protein": 1,
@@ -127,7 +130,8 @@ window.MENU = {
             "No Sugar",
             "Less Sugar",
             "No Ice",
-            "Black Salt / Masala"
+            "Black Salt / Masala",
+            "Honey"
           ],
           "kcal": 150,
           "protein": 1,
@@ -159,7 +163,8 @@ window.MENU = {
             "No Sugar",
             "Less Sugar",
             "No Ice",
-            "Black Salt / Masala"
+            "Black Salt / Masala",
+            "Honey"
           ],
           "kcal": 165,
           "protein": 1,
@@ -191,7 +196,8 @@ window.MENU = {
             "No Sugar",
             "Less Sugar",
             "No Ice",
-            "Black Salt / Masala"
+            "Black Salt / Masala",
+            "Honey"
           ],
           "kcal": 120,
           "protein": 2,
@@ -232,7 +238,8 @@ window.MENU = {
             "No Sugar",
             "Less Sugar",
             "No Ice",
-            "Black Salt / Masala"
+            "Black Salt / Masala",
+            "Honey"
           ],
           "kcal": 100,
           "protein": 1,
@@ -264,7 +271,8 @@ window.MENU = {
             "No Sugar",
             "Less Sugar",
             "No Ice",
-            "Black Salt / Masala"
+            "Black Salt / Masala",
+            "Honey"
           ],
           "kcal": 140,
           "protein": 1,
@@ -296,7 +304,8 @@ window.MENU = {
             "No Sugar",
             "Less Sugar",
             "No Ice",
-            "Black Salt / Masala"
+            "Black Salt / Masala",
+            "Honey"
           ],
           "kcal": 85,
           "protein": 1,
@@ -328,7 +337,8 @@ window.MENU = {
             "No Sugar",
             "Less Sugar",
             "No Ice",
-            "Black Salt / Masala"
+            "Black Salt / Masala",
+            "Honey"
           ],
           "kcal": 125,
           "protein": 1,
@@ -344,6 +354,10 @@ window.MENU = {
       "slug": "smoothies",
       "blurb": "Thick, creamy, real fruit.",
       "accent": "#E46A7E",
+      "why": [
+        "🥤 Blended thick with real fruit the minute you order, never from a powder or a premix.",
+        "🍯 Sweetness is your call: no sugar, less sugar, honey, or dates (+₹10)."
+      ],
       "hero": "assets/img/menu/berry-smoothie.jpg",
       "items": [
         {
@@ -368,7 +382,8 @@ window.MENU = {
           "extras": [
             "No Sugar",
             "Less Sugar",
-            "No Ice"
+            "No Ice",
+            "Dates"
           ],
           "kcal": 220,
           "protein": 7,
@@ -399,7 +414,8 @@ window.MENU = {
           "extras": [
             "No Sugar",
             "Less Sugar",
-            "No Ice"
+            "No Ice",
+            "Dates"
           ],
           "kcal": 240,
           "protein": 6,
@@ -430,7 +446,8 @@ window.MENU = {
           "extras": [
             "No Sugar",
             "Less Sugar",
-            "No Ice"
+            "No Ice",
+            "Dates"
           ],
           "kcal": 200,
           "protein": 6,
@@ -461,7 +478,8 @@ window.MENU = {
           "extras": [
             "No Sugar",
             "Less Sugar",
-            "No Ice"
+            "No Ice",
+            "Dates"
           ],
           "kcal": 210,
           "protein": 6,
@@ -503,7 +521,8 @@ window.MENU = {
             "Less Sugar",
             "No Ice",
             "With Water (no milk)",
-            "Extra Whey Scoop"
+            "Extra Whey Scoop",
+            "Dates"
           ],
           "kcal": 300,
           "protein": 28,
@@ -536,7 +555,8 @@ window.MENU = {
             "Less Sugar",
             "No Ice",
             "With Water (no milk)",
-            "Extra Whey Scoop"
+            "Extra Whey Scoop",
+            "Dates"
           ],
           "kcal": 310,
           "protein": 27,
@@ -569,7 +589,8 @@ window.MENU = {
             "Less Sugar",
             "No Ice",
             "With Water (no milk)",
-            "Extra Whey Scoop"
+            "Extra Whey Scoop",
+            "Dates"
           ],
           "kcal": 380,
           "protein": 32,
@@ -602,7 +623,8 @@ window.MENU = {
             "Less Sugar",
             "No Ice",
             "With Water (no milk)",
-            "Extra Whey Scoop"
+            "Extra Whey Scoop",
+            "Dates"
           ],
           "kcal": 320,
           "protein": 27,
@@ -754,6 +776,115 @@ window.MENU = {
           ]
         }
       ]
+    },
+    {
+      "name": "RE:Bowls",
+      "slug": "bowls",
+      "blurb": "Fruit bowls, overnight oats and yogurt bowls, made fresh every morning.",
+      "accent": "#E9A23B",
+      "why": [
+        "🍉 Fruit bowls: cut every morning from what's in season, tropical one day, classic favourites the next. Just fruit, no preservatives, portioned to fill you up.",
+        "🥣 Overnight oats: soaked overnight so they're soft and creamy by morning. Sweetened only with fruit, figs or dates, with no added sugar and no preservatives.",
+        "🍓 Yogurt bowls: thick low-fat yogurt with fresh fruit and crunchy muesli. Made when you order, no artificial flavours."
+      ],
+      "hero": "assets/img/menu/fruit-bowl.jpg",
+      "items": [
+        {
+          "name": "Seasonal Fruit Bowl",
+          "desc": "Cut fresh every morning from what's in season",
+          "sizes": [
+            {
+              "name": "Regular",
+              "price": 149
+            }
+          ],
+          "img": "assets/img/menu/fruit-bowl.jpg",
+          "badge": "New",
+          "extras": [],
+          "kcal": 170,
+          "protein": 2,
+          "tags": [
+            "Seasonal fruit",
+            "Light"
+          ]
+        },
+        {
+          "name": "Fig & Fruit Overnight Oats",
+          "desc": "Oats, milk, figs, fruit · no added sugar",
+          "sizes": [
+            {
+              "name": "Regular",
+              "price": 139
+            }
+          ],
+          "img": "assets/img/menu/fig-oats.jpg",
+          "badge": "",
+          "extras": [],
+          "kcal": 360,
+          "protein": 12,
+          "tags": [
+            "Oats",
+            "Fibre"
+          ]
+        },
+        {
+          "name": "Cocoa Peanut Overnight Oats",
+          "desc": "Oats, cocoa, peanut butter, dates · no added sugar",
+          "sizes": [
+            {
+              "name": "Regular",
+              "price": 149
+            }
+          ],
+          "img": "assets/img/menu/cocoa-oats.jpg",
+          "badge": "New",
+          "extras": [],
+          "kcal": 430,
+          "protein": 15,
+          "tags": [
+            "Oats",
+            "Peanut"
+          ]
+        },
+        {
+          "name": "Berry Muesli Yogurt Bowl",
+          "desc": "Low-fat yogurt, berries, crunchy muesli",
+          "sizes": [
+            {
+              "name": "Regular",
+              "price": 220
+            }
+          ],
+          "img": "assets/img/menu/berry-yogurt-bowl.jpg",
+          "badge": "",
+          "extras": [],
+          "kcal": 260,
+          "protein": 10,
+          "tags": [
+            "Yogurt",
+            "Muesli"
+          ]
+        },
+        {
+          "name": "Strawberry Banana Yogurt Bowl",
+          "desc": "Low-fat yogurt, strawberry, banana",
+          "sizes": [
+            {
+              "name": "Regular",
+              "price": 220
+            }
+          ],
+          "img": "assets/img/menu/strawberry-yogurt-bowl.jpg",
+          "badge": "",
+          "extras": [],
+          "kcal": 220,
+          "protein": 8,
+          "tags": [
+            "Yogurt",
+            "Fruit"
+          ]
+        }
+      ]
     }
   ],
   "options": [
@@ -763,6 +894,10 @@ window.MENU = {
     },
     {
       "name": "Less Sugar",
+      "price": 0
+    },
+    {
+      "name": "Honey",
       "price": 0
     },
     {
@@ -782,6 +917,10 @@ window.MENU = {
     {
       "name": "Extra Whey Scoop",
       "price": 70
+    },
+    {
+      "name": "Dates",
+      "price": 10
     }
   ]
 };

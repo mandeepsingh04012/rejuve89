@@ -3,6 +3,7 @@
   "use strict";
 
   const WA_NUMBER = "918816809822";
+  const WA_CHANNEL = "https://whatsapp.com/channel/0029VbEFlvgHgZWYlYueCk3f";   // paste the WhatsApp Channel link here (https://whatsapp.com/channel/...) to show its buttons
   const IG_URL = "https://www.instagram.com/rejuve89";
   const FB_URL = "https://www.facebook.com/profile.php?id=61595347947057";
   const REVIEW_URL = "https://g.page/r/CcPdn0szTbUwECE/review";
@@ -14,7 +15,18 @@
   let ordering = { channel: "whatsapp", accepting: true };
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const VIEWS = ["build", "quiz"];   // sections that open as full-screen pages
+  const VIEWS = ["build", "quiz", "sugar", "about"];   // sections that open as full-screen pages
+
+  // Opening day. Until then the site shows the date and orders can't be sent (the cart still works).
+  // Staff can test orders during trial runs by opening the site once with ?trial (lasts for that tab).
+  const LAUNCH = Date.parse("2026-11-01T08:00:00+05:30");
+  try { if (/[?&]trial\b/.test(location.search)) sessionStorage.setItem("rejuve89-trial", "1"); } catch { /* ignore */ }
+  const prelaunch = () => {
+    try { if (sessionStorage.getItem("rejuve89-trial")) return false; } catch { /* ignore */ }
+    return Date.now() < LAUNCH;
+  };
+  const canOrder = () => !prelaunch() && ordering.accepting !== false;
+  const PRELAUNCH_MSG = "We open Sun, 1 Nov at 8 AM. Your order stays saved here, so you can send it then.";
 
   const ICON_PLUS = '<svg viewBox="0 0 24 24" class="ic"><path d="M12 5v14M5 12h14"/></svg>';
   const ICON_CHECK = '<svg viewBox="0 0 24 24" class="ic"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
@@ -33,6 +45,7 @@
   setTimeout(ready, 4000); // never block the page on slow networks
 
   $("#year").textContent = new Date().getFullYear();
+  if (WA_CHANNEL) $$("[data-wa-channel]").forEach(a => { a.href = WA_CHANNEL; a.hidden = false; });
 
   /* ------------------------------------------------------------------
      Body scroll lock that works on iOS Safari
@@ -77,7 +90,7 @@
   window.addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
 
   // Active link highlight
-  const sections = ["menu", "story", "visit"].map(id => document.getElementById(id));
+  const sections = ["menu", "visit"].map(id => document.getElementById(id));
   const linkFor = id => $$(`.nav__links a[href="#${id}"]`);
   const activeIO = new IntersectionObserver(entries => {
     entries.forEach(e => linkFor(e.target.id).forEach(a => a.classList.toggle("is-active", e.isIntersecting)));
@@ -234,6 +247,33 @@
   if (document.fonts) document.fonts.ready.then(moveThumb);
 
   const grid = $("#menuGrid"), blurb = $("#menuBlurb");
+
+  // "Pick by goal": filters across categories, built only from menu facts (protein, kcal, tags, price)
+  const KIDS = ["Banana Smoothie", "Mango Smoothie", "Strawberry Smoothie", "Watermelon Fresh", "Orange Fresh"];
+  const isDrink = it => it.sizes.length > 1;
+  const GOALS = [
+    { id: "workout", icon: "💪", label: "Post-workout", note: "15 g+ protein in a 300ml glass or a sandwich.", test: it => it.protein >= 15 },
+    { id: "light", icon: "🍃", label: "Light", note: "120 kcal or less in a 300ml glass, without added sugar.", test: it => isDrink(it) && it.kcal && it.kcal <= 120 },
+    { id: "hydrating", icon: "💧", label: "Hydrating", note: "Watery fruits: watermelon, mosambi, cucumber and mint.", test: it => (it.tags || []).includes("Hydrating") },
+    { id: "kids", icon: "🧒", label: "Kids, no sugar", note: "Kid favourites. Tap one and No sugar is already picked.", test: it => KIDS.includes(it.name), preset: { opts: ["No Sugar"] } },
+    { id: "under100", icon: "💸", label: "Under ₹100", note: "Every pick here starts below ₹100.", test: it => Math.min(...it.sizes.map(s => s.price)) < 100 },
+  ];
+  let activeGoal = null;
+  const goalItems = g => cats.flatMap(c => c.items.map((it, idx) => ({ cat: c, it, idx }))).filter(x => g.test(x.it));
+  const goalsEl = $("#goals");
+  goalsEl.innerHTML = GOALS.map(g => {
+    const n = goalItems(g).length;
+    return n ? `<button type="button" class="goal" aria-pressed="false" data-goal="${g.id}"><span aria-hidden="true">${g.icon}</span>${esc(g.label)}<small>${n}</small></button>` : "";
+  }).join("");
+  goalsEl.addEventListener("click", e => {
+    const b = e.target.closest("[data-goal]");
+    if (!b) return;
+    activeGoal = activeGoal === b.dataset.goal ? null : b.dataset.goal;
+    $$("[data-goal]", goalsEl).forEach(x => x.setAttribute("aria-pressed", x.dataset.goal === activeGoal));
+    $$(".tab", tabs).forEach(t => t.setAttribute("aria-selected", !activeGoal && t.dataset.cat === activeCat));
+    renderGrid();
+    if (grid.getBoundingClientRect().top < 0 || grid.getBoundingClientRect().top > innerHeight * .7) $("#menuBar").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
+  });
   const sizeFor = item => item.sizes.find(s => s.name === activeSize) || item.sizes[0];
 
   // Nutrition is stored per 300ml; scale it to the chosen glass size.
@@ -249,17 +289,29 @@
     return bits.join("");
   };
 
-  function renderGrid() {
+  // the cards on screen: a category, or every item matching the active goal
+  const shownItems = () => {
+    const g = GOALS.find(x => x.id === activeGoal);
+    if (g) return goalItems(g);
     const cat = cats.find(c => c.slug === activeCat);
-    const drinks = isDrinkCat(cat);
-    sizesEl.classList.toggle("is-hidden", !drinks);
-    blurb.textContent = `${cat.blurb} From ${rupee(fromPrice(cat))}.`;
-    grid.setAttribute("aria-labelledby", `tab-${cat.slug}`);
-    grid.innerHTML = cat.items.map((it, i) => {
+    return cat.items.map((it, idx) => ({ cat, it, idx }));
+  };
+
+  function renderGrid() {
+    const g = GOALS.find(x => x.id === activeGoal), list = shownItems();
+    const cat = cats.find(c => c.slug === activeCat);
+    sizesEl.classList.toggle("is-hidden", !list.some(x => isDrink(x.it)));
+    blurb.textContent = g ? `${g.icon} ${g.label}: ${g.note}` : `${cat.blurb} From ${rupee(fromPrice(cat))}.`;
+    const why = !g && cat.why ? cat.why : [];          // a few "why" lines for some categories (from export_menu.py)
+    $("#menuWhy").hidden = !why.length;
+    $("#menuWhy").innerHTML = why.map(w => `<li>${esc(w)}</li>`).join("");
+    if (g) grid.removeAttribute("aria-labelledby"); else grid.setAttribute("aria-labelledby", `tab-${cat.slug}`);
+    grid.innerHTML = list.map(({ cat, it, idx }, i) => {
       const s = sizeFor(it);
-      return `<article class="card" style="--i:${i}" data-idx="${i}">
-        <div class="card__media" data-open>
-          <img src="${it.img}" alt="${esc(it.name)}" loading="lazy" decoding="async" width="720" height="720">
+      return `<article class="card" style="--i:${i}" data-cat="${cat.slug}" data-idx="${idx}">
+        <div class="card__media${it.art ? " card__media--art" : ""}" data-open${it.art ? ` style="--accent:${cat.accent || "#E9A23B"}"` : ""}>
+          ${it.art ? `<span class="card__art" role="img" aria-label="${esc(it.name)}">${it.art}</span>`
+            : `<img src="${it.img}" alt="${esc(it.name)}" loading="lazy" decoding="async" width="720" height="720">`}
           ${it.badge ? `<span class="card__badge">${esc(it.badge)}</span>` : ""}
         </div>
         <div class="card__body">
@@ -282,9 +334,8 @@
   }
 
   function updatePrices() {
-    const cat = cats.find(c => c.slug === activeCat);
     $$(".card", grid).forEach(card => {
-      const it = cat.items[+card.dataset.idx];
+      const it = cats.find(c => c.slug === card.dataset.cat).items[+card.dataset.idx];
       if (it.sizes.length < 2) return;
       const s = sizeFor(it);
       const num = $(".num", card), small = $(".card__price small", card);
@@ -299,6 +350,8 @@
 
   function selectCat(slug, keepScroll) {
     activeCat = slug;
+    activeGoal = null;
+    $$("[data-goal]", goalsEl).forEach(x => x.setAttribute("aria-pressed", "false"));
     $$(".tab", tabs).forEach(t => t.setAttribute("aria-selected", t.dataset.cat === slug));
     const tab = $(`#tab-${slug}`);
     tab.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "nearest", inline: "center" });
@@ -312,7 +365,8 @@
     const t = e.target.closest("[data-open]");
     if (!t) return;
     const card = t.closest(".card");
-    openItem(cats.find(c => c.slug === activeCat), +card.dataset.idx, t.classList.contains("add") ? t : null);
+    const g = GOALS.find(x => x.id === activeGoal);
+    openItem(cats.find(c => c.slug === card.dataset.cat), +card.dataset.idx, t.classList.contains("add") ? t : null, g && g.preset);
   });
 
   // Free customisations strip
@@ -332,12 +386,20 @@
   const optionsFor = (cat, item) => MENU.options.filter(o => (item.extras || []).includes(o.name));
   const addonsFor = (cat, item) => MENU.addons.filter(a => (item.extras || []).includes(a.name));
 
-  function openItem(cat, idx, fromBtn) {
+  function openItem(cat, idx, fromBtn, preset = {}) {
     const item = cat.items[idx];
-    mState = { cat, item, size: sizeFor(item).name, opts: new Set(), adds: new Set(), qty: 1 };
+    const size = item.sizes.some(s => s.name === preset.size) ? preset.size : sizeFor(item).name;
+    mState = { cat, item, size, opts: new Set(), adds: new Set(), qty: 1 };
     lastFocus = fromBtn || document.activeElement;
     $("#mImg").src = item.img;
     $("#mImg").alt = item.name;
+    // items without a photo yet show their colour tile here too
+    const media = $(".modal__media", modal);
+    media.classList.toggle("card__media--art", !!item.art);
+    media.style.setProperty("--accent", cat.accent || "#E9A23B");
+    $("#mImg").hidden = !!item.art;
+    $(".card__art", media)?.remove();
+    if (item.art) media.insertAdjacentHTML("beforeend", `<span class="card__art" aria-hidden="true">${item.art}</span>`);
     $("#mTitle").textContent = item.name;
     $("#mDesc").textContent = describe(item, cat);
 
@@ -347,7 +409,8 @@
 
     const opts = optionsFor(cat, item);
     $("#mOptsWrap").hidden = !opts.length;
-    $("#mOpts").innerHTML = opts.map(o => `<button class="pill" aria-pressed="false" data-opt="${esc(o.name)}">${esc(o.name)}</button>`).join("");
+    (preset.opts || []).forEach(o => { if (opts.some(x => x.name === o)) mState.opts.add(o); });
+    $("#mOpts").innerHTML = opts.map(o => `<button class="pill" aria-pressed="${mState.opts.has(o.name)}" data-opt="${esc(o.name)}">${esc(o.name)}</button>`).join("");
 
     const adds = addonsFor(cat, item);
     $("#mAddWrap").hidden = !adds.length;
@@ -470,7 +533,7 @@
     cartbar.classList.toggle("is-visible", n > 0 && !drawer.classList.contains("is-open"));
     if (bump && !reduceMotion) { cartbar.classList.remove("is-bump"); void cartbar.offsetWidth; cartbar.classList.add("is-bump"); }
     drawerBody.classList.toggle("has-items", n > 0);
-    $("#sendOrder").disabled = n === 0 || ordering.accepting === false;
+    $("#sendOrder").disabled = n === 0 || !canOrder();
     updateSendLabel();
     $("#cartList").innerHTML = cart.map((l, i) => `<li>
       <img src="${esc(l.img || "")}" alt="" loading="lazy">
@@ -598,7 +661,7 @@
   }
 
   function applyOrdering() {
-    const web = ordering.channel === "web", open = ordering.accepting !== false;
+    const web = ordering.channel === "web", open = canOrder();
     $$(".web-only").forEach(el => (el.hidden = !web));
     $("#payUpiOpt").hidden = !(web && ordering.upi);
     if (!(web && ordering.upi)) { const c = $("input[name=pay][value=counter]"); if (c) c.checked = true; }
@@ -607,7 +670,7 @@
     btn.classList.toggle("btn--primary", web || !open);
     $("#sendIcon").innerHTML = web ? '<path d="M5 12l5 5L20 7"/>' : '<path d="M4 20l1.3-4A8 8 0 1 1 8 18.7L4 20Z"/>';
     notice.hidden = open && !ordering.fallback;
-    notice.textContent = !open ? ordering.message : ordering.fallback ? "Online orders are going through WhatsApp right now." : "";
+    notice.textContent = prelaunch() ? PRELAUNCH_MSG : !open ? ordering.message : ordering.fallback ? "Online orders are going through WhatsApp right now." : "";
     updateSendLabel();
     $("#drawerFine").textContent = web
       ? "Your order goes straight to our counter. You'll get a live status page."
@@ -616,9 +679,9 @@
   }
 
   function updateSendLabel() {
-    const web = ordering.channel === "web", open = ordering.accepting !== false;
+    const web = ordering.channel === "web", open = canOrder();
     const upi = web && payChoice() === "upi";
-    $("#sendLabel").textContent = !open ? (ordering.channel === "paused" ? "Ordering paused" : "Closed for online orders")
+    $("#sendLabel").textContent = !open ? (prelaunch() ? "Orders open 1 Nov, 8 AM" : ordering.channel === "paused" ? "Ordering paused" : "Closed for online orders")
       : web ? (upi ? `Place order & pay ${rupee(total())}` : `Place order · ${rupee(total())}`) : "Send order on WhatsApp";
     $("#totalLabel").textContent = upi ? "Total, pay now with UPI" : "Total, pay at the counter";
   }
@@ -695,6 +758,7 @@
     }
     nameInput.classList.remove("is-invalid");
     try { localStorage.setItem("rejuve89-name", name); } catch { /* ignore */ }
+    if (prelaunch()) { toast("Orders open Sun, 1 Nov at 8 AM 🎉", 3500); return; }
     if (ordering.accepting === false) { toast(ordering.message || "Online ordering is closed right now"); return; }
     if (ordering.channel === "web") placeWebOrder(name); else sendWhatsApp(name);
   });
@@ -903,6 +967,12 @@
   document.addEventListener("click", e => {
     const a = e.target.closest("a[href]");
     const id = a && a.getAttribute("href").slice(1);
+    if (a && openView && a.closest(".view") && a.getAttribute("href")[0] === "#" && id && !VIEWS.includes(id)) {
+      e.preventDefault();
+      leaveView();
+      requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" }));
+      return;
+    }
     if (!a || !VIEWS.includes(id) || a.getAttribute("href")[0] !== "#") return;
     e.preventDefault();
     setSheet(false);
@@ -913,6 +983,88 @@
     if (history.state && history.state.view) history.back();   // came from the home page: real Back
     else leaveView();                                           // opened from a shared link
   }));
+
+  /* "What's on" picks: prices come from the menu, a tap opens the drink (or adds a combo) */
+  const findItem = name => { for (const c of cats) { const i = c.items.findIndex(it => it.name === name); if (i >= 0) return { cat: c, idx: i, item: c.items[i] }; } return null; };
+  const priceOf = (name, size) => { const f = findItem(name); if (!f) return null; return (f.item.sizes.find(s => s.name === size) || f.item.sizes[0]).price; };
+  $$(".wo__pick[data-item]").forEach(b => {
+    const main = priceOf(b.dataset.item, b.dataset.size), extra = b.dataset.combo ? priceOf(b.dataset.combo) : 0;
+    if (main == null || extra == null) { b.closest("li").hidden = true; return; }   // not on the menu any more
+    $("[data-price]", b).textContent = rupee(main + extra);
+  });
+  document.addEventListener("click", e => {
+    const b = e.target.closest(".wo__pick[data-item]");
+    if (!b) return;
+    const f = findItem(b.dataset.item);
+    if (!f) return;
+    if (b.dataset.combo) {
+      const g = findItem(b.dataset.combo);
+      for (const [x, size] of [[f, b.dataset.size], [g, ""]]) {
+        const s = x.item.sizes.find(z => z.name === size) || x.item.sizes[0];
+        const line = { name: x.item.name, img: x.item.img, size: x.item.sizes.length > 1 ? s.name : "", opts: [], adds: [], unit: s.price, qty: 1 };
+        line.key = [line.name, line.size].join("|");
+        pushLine(line);
+      }
+      toast(`${f.item.name} + ${g.item.name} added`);
+      return;
+    }
+    const kid = b.closest(".wo--sugar, .sugar");
+    openItem(f.cat, f.idx, b, { size: b.dataset.size, opts: kid ? ["No Sugar"] : [] });
+  });
+
+  /* "New, fresh & on offer" carousel: swipe, arrows, dots, gentle autoplay */
+  const woRow = $("#woRow"), woDots = $("#woDots"), woNav = $("#woNav");
+  if (woRow) {
+    const visible = () => $$(".wo", woRow).filter(c => !c.hidden);
+    const stepW = () => { const c = visible(); return c.length > 1 ? c[1].offsetLeft - c[0].offsetLeft : woRow.clientWidth || 1; };
+    const lastIdx = () => Math.max(0, Math.round((woRow.scrollWidth - woRow.clientWidth) / stepW()));
+    const current = () => Math.min(lastIdx(), Math.round(woRow.scrollLeft / stepW()));
+    const go = i => {
+      const last = lastIdx();
+      i = i > last ? 0 : i < 0 ? last : i;                       // wrap around at the ends
+      woRow.scrollTo({ left: i * stepW(), behavior: reduceMotion ? "auto" : "smooth" });
+    };
+    const syncDots = () => { const i = current(); $$("button", woDots).forEach((b, k) => b.setAttribute("aria-current", String(k === i))); };
+    const buildDots = () => {
+      const n = lastIdx() + 1;
+      woNav.hidden = n < 2;
+      woDots.innerHTML = Array.from({ length: n }, (_, k) => `<button type="button" aria-label="Show ${k + 1} of ${n}"></button>`).join("");
+      syncDots();
+    };
+    // autoplay loops forever; a swipe, tap or hover only pauses it for a moment
+    let pausedUntil = 0, hovering = false, inView = false;
+    const stopAuto = () => { pausedUntil = Date.now() + 8000; };
+    woNav.addEventListener("click", e => {
+      const arrow = e.target.closest("[data-dir]"), dot = e.target.closest(".wo-dots button");
+      if (arrow) { stopAuto(); go(current() + Number(arrow.dataset.dir)); }
+      else if (dot) { stopAuto(); go($$("button", woDots).indexOf(dot)); }
+    });
+    ["pointerdown", "touchstart", "wheel", "keydown"].forEach(ev => woRow.addEventListener(ev, stopAuto, { passive: true }));
+    woRow.addEventListener("pointerenter", () => { hovering = true; });
+    woRow.addEventListener("pointerleave", () => { hovering = false; });
+    let scrollT;
+    woRow.addEventListener("scroll", () => { clearTimeout(scrollT); scrollT = setTimeout(syncDots, 80); }, { passive: true });
+    new IntersectionObserver(([e]) => { inView = e.isIntersecting; }, { threshold: .5 }).observe(woRow);
+    if (!reduceMotion) setInterval(() => { if (Date.now() > pausedUntil && !hovering && inView && !document.hidden) go(current() + 1); }, 5000);
+    // dated cards hide themselves (features.js): rebuild the dots when that happens, and on resize
+    new MutationObserver(buildDots).observe(woRow, { subtree: true, attributes: true, attributeFilter: ["hidden"] });
+    window.addEventListener("resize", () => { clearTimeout(scrollT); scrollT = setTimeout(buildDots, 150); });
+    requestAnimationFrame(buildDots);
+  }
+
+  /* "Why" numbers: protein comes from the menu; numbers count up once when they scroll into view */
+  const protein = cats.find(c => c.slug === "protein")?.items.map(i => i.protein).filter(Boolean) || [];
+  if (protein.length) $$("[data-protein-min]").forEach(el => { el.textContent = el.dataset.count = Math.min(...protein); });
+  const countIO = new IntersectionObserver(entries => entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    countIO.unobserve(e.target);
+    const el = e.target, to = +el.textContent || 0;
+    if (reduceMotion || to < 2) return;
+    const t0 = performance.now(), dur = 1100;
+    const step = t => { const k = Math.min(1, (t - t0) / dur); el.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  }), { threshold: .6 });
+  $$(".why [data-count]").forEach(el => countIO.observe(el));
 
   /* Bottom tab bar (phones + tablets) */
   const tabbar = $("#tabbar");
@@ -963,19 +1115,18 @@
     menu: MENU,
     toast: (msg, ms) => toast(msg, ms),
     lock, unlock,
-    findItem: name => {
-      for (const c of cats) { const i = c.items.findIndex(it => it.name === name); if (i >= 0) return { cat: c, idx: i, item: c.items[i] }; }
-      return null;
-    },
+    launch: LAUNCH,
+    prelaunch,
+    findItem,
     // add a ready-priced line to the pickup order (used by the RE:BLEND builder)
     addLine({ name, img, size = "", unit, qty = 1, opts = [] }) {
       const line = { name, img, size, opts, adds: [], unit, qty };
       line.key = [name, size, ...opts].join("|");
       pushLine(line);
     },
-    openItemByName(name, fromEl) {
+    openItemByName(name, fromEl, preset) {
       const f = this.findItem(name);
-      if (f) openItem(f.cat, f.idx, fromEl || null);
+      if (f) openItem(f.cat, f.idx, fromEl || null, preset);
     },
   };
 

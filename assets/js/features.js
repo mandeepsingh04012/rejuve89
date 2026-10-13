@@ -33,7 +33,13 @@
     return h * 60 + m;
   };
 
+  // Opening day (1 Nov 2026, 8 AM IST). Before it the header bar and status show the date; for a week
+  // after it the bar says "Now open"; then it goes away. (Remove the bar from index.html after that.)
+  const LAUNCH = app.launch || Date.parse("2026-11-01T08:00:00+05:30");
+  const NOW_OPEN_UNTIL = Date.parse("2026-11-08T00:00:00+05:30");
+
   const shopStatus = () => {
+    if (Date.now() < LAUNCH) return { state: "soon", text: "Opening Sun, 1 Nov · 8 AM", short: "Opens Sun, 1 Nov · 8 AM" };
     const now = istMinutes();
     if (now >= OPEN_MIN && now < CLOSE_MIN) {
       const left = CLOSE_MIN - now;
@@ -54,15 +60,41 @@
     const st = shopStatus();
     $$("[data-status]").forEach(el => {
       el.classList.toggle("is-open", st.state === "open");
-      el.classList.toggle("is-closing", st.state === "closing");
+      el.classList.toggle("is-closing", st.state === "closing" || st.state === "soon");
       el.classList.toggle("is-closed", st.state === "closed");
       const t = $("[data-status-text]", el);
       if (t) t.textContent = el.classList.contains("status-pill") ? st.short : st.text;
     });
   };
-  renderStatus();
-  setInterval(renderStatus, 30 * 1000);
-  document.addEventListener("visibilitychange", () => { if (!document.hidden) renderStatus(); });
+  const renderLaunch = () => {
+    const now = Date.now(), soon = now < LAUNCH, cta = $("#launchCta");
+    // buttons that collect opening-day reminders before 1 Nov and take orders after (data-pre-* / data-open-*)
+    $$("[data-launch-swap]").forEach(a => {
+      const href = soon ? a.dataset.preHref : a.dataset.openHref;
+      if (a.getAttribute("href") !== href) a.setAttribute("href", href);
+      if (href.startsWith("#")) a.removeAttribute("target"); else a.target = "_blank";
+      $("[data-swap-label]", a).textContent = soon ? a.dataset.preText : a.dataset.openText;
+    });
+    $$("[data-launch-text]").forEach(el => { el.textContent = soon ? el.dataset.pre : el.dataset.open; });
+    // dated content (campaign cards, offers): hidden outside data-show-from .. data-show-until
+    $$("[data-show-from], [data-show-until]").forEach(el => {
+      const from = Date.parse(el.dataset.showFrom || "2000-01-01T00:00:00Z"), until = Date.parse(el.dataset.showUntil || "2100-01-01T00:00:00Z");
+      el.hidden = !(now >= from && now < until);
+    });
+    if (soon) return;                                           // the HTML already says "Opening Sun, 1 Nov"
+    if (now < NOW_OPEN_UNTIL) {
+      $("#launchText").innerHTML = '🎉 <b>Now open</b><span class="launch-bar__where"> · every day 8 AM – 10 PM, beside Zudio</span>';
+      cta.textContent = "Order ahead";
+      cta.href = "#menu";
+      cta.removeAttribute("target");
+    } else {
+      document.documentElement.classList.remove("has-launch");
+    }
+  };
+  const tick = () => { renderStatus(); renderLaunch(); };
+  tick();
+  setInterval(tick, 30 * 1000);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) tick(); });
 
   /* ==================================================================
      2. Install the app (Add to Home Screen)
@@ -118,7 +150,7 @@
     try { localStorage.setItem(DISMISS_KEY, Date.now()); } catch { /* ignore */ }
     hideInstall();
   });
-  $("#footerInstall").addEventListener("click", e => { e.preventDefault(); showInstall(true); });
+  $("#footerInstall").addEventListener("click", () => showInstall(true));
   setTimeout(() => showInstall(false), 18000);
 
   /* ==================================================================
@@ -179,6 +211,9 @@
   const ORDER_IDS = FRUITS.map(f => f.id);
   const blendEntry = () => BLENDS[picked.slice().sort((a, b) => ORDER_IDS.indexOf(a) - ORDER_IDS.indexOf(b)).join("+")];
   const blendPrice = e => e && (e.sizes.find(s => s.name === blendSize) || e.sizes[0]).price;
+
+  const newBlends = Object.values(BLENDS).filter(b => !b.existing).length;
+  if (newBlends) $$("[data-blend-count]").forEach(el => { el.textContent = newBlends; });
 
   const MAX = 3;
   const picked = [];
@@ -320,6 +355,7 @@
       window.rejuve.addLine({ name: entry.name, img: entry.img, size: blendSize, unit: blendPrice(entry) });
       return;
     }
+    if (app.prelaunch && app.prelaunch()) { app.toast("Orders open Sun, 1 Nov at 8 AM 🎉", 3500); return; }
     const { name, fruits } = blendText();
     const msg = [
       `Hi ${SITE_NAME}! 🥤 I'd like a custom *RE:BLEND* for pickup:`,
@@ -333,7 +369,8 @@
   });
   $("#blendShare").addEventListener("click", () => {
     const { name, fruits } = blendText();
-    share(`My RE:BLEND: ${name}`, `I just built "${name}" (${fruits}) at ${SITE_NAME} 🥤 Build yours:`);
+    app.toast("Posting it? Tag @rejuve89 on Instagram 💚", 3500);
+    share(`My RE:BLEND: ${name}`, `I just built "${name}" (${fruits}) at ${SITE_NAME} 🥤 @rejuve89 · Build yours:`);
   });
 
   renderBlend();

@@ -233,6 +233,32 @@ freebie for a review**: Google's rules ban it, and it can get our reviews remove
 Review link to share: `https://g.page/r/CcPdn0szTbUwECE/review`. To show a review on the website, send it to Claude Code
 (name + stars + text, copied from Google) and it adds it to the Reviews section.
 
+**Opening day (Sun, 1 Nov 2026, 8 AM):** until then the website shows "Opening Sun, 1 Nov · 8 AM" at the top, and the
+order button says **Orders open 1 Nov, 8 AM** (customers can fill a cart but can't send it). From 1 Nov 8 AM it switches
+by itself: the top bar says "Now open" for a week, then disappears.
+- **Trial runs (27–31 Oct):** to place test orders, open `https://rejuve89.netlify.app/?trial` on that phone/tab first.
+- **Launch list:** "Remind me on WhatsApp" messages arrive as *"Please remind me on opening day (1 Nov). (website-launch)"*.
+  Save each number as a contact and add the label **Launch list** in WhatsApp Business. On 31 Oct send one broadcast to
+  that label (broadcasts only reach people who have saved our number).
+- **WhatsApp Channel** (https://whatsapp.com/channel/0029VbEFlvgHgZWYlYueCk3f): the website's launch card and footer
+  link to it. Anyone can follow without saving our number, so also post the opening news, offers and new items there.
+- **Where chats come from:** every WhatsApp button on the site adds a tag such as `(website-hero)`, `(website-visit)`,
+  `(website-footer)`. Search "website" in WhatsApp Business to count them each week.
+- After 8 Nov, ask Claude Code to remove the launch bar from the website code (it's already hidden by then).
+
+**Offers shown on the website ("What's on" cards; each card hides itself after its dates):**
+- **Opening upgrade, Sun 1 Nov only:** the first 100 customers get 300ml made as 450ml. Bill the 300ml price. Keep count
+  with numbered tokens or tally marks on the order pad; stop at 100.
+- **DIWALI, 1–11 Nov:** a customer who says **DIWALI** (at the counter, in WhatsApp, or in the website order note) gets
+  **10% off an order of 3 or more items**. Take it off when billing. If they already paid by UPI on the website, send the
+  10% back by UPI. WhatsApp pre-orders arrive tagged `(website-diwali)`.
+- **Morning punch card:** one stamp per juice collected **8–11 AM**. After 10 stamps the **11th juice is free, any size**.
+  Print the cards before opening. Morning WhatsApp orders arrive tagged `(website-morning)`.
+- The cards' prices come from the POS menu (the website re-reads them), and `npm test` fails if the printed card prices drift.
+
+**Menu prices on the website:** `python3 tools/export_menu.py` also writes the plain-text **Full menu & prices** list
+into `index.html` (so Google can read every item and price). `npm test` fails if that list and the menu ever differ.
+
 **If something's wrong:** Admin → Online orders shows the connection status ("Synced 5s ago…" or the error) and has **Sync now**.
 
 ## 5c. Publish the website: save to GitHub, then publish to Netlify
