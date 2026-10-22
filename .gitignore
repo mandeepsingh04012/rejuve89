@@ -4,3 +4,8 @@ node_modules/
 *.log
 .env
 .idea/
+
+# brand source files (kept locally, not published)
+Gemini_Generated_Image_*.png
+Screenshot *.png
+Gemini_Generated_Image_*-Photoroom.png

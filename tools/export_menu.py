@@ -35,7 +35,11 @@ CATEGORY_META = {
     "RE:Wellness": {"slug": "wellness", "blurb": "Our signature blends for a mid-day reset.", "accent": "#7DB46C", "hero": "re-green"},
     "Smoothies": {"slug": "smoothies", "blurb": "Thick, creamy, real fruit.", "accent": "#E46A7E", "hero": "berry-smoothie",
                   "why": ["🥤 Blended thick with real fruit the minute you order, never from a powder or a premix.",
-                          "🍯 Sweetness is your call: no sugar, less sugar, honey, or dates (+₹10)."]},
+                          "🍯 Sweetness is your call: no sugar, less sugar, or dates (+₹10)."]},
+    "Shakes": {"slug": "shakes", "blurb": "Classic milkshakes, thick and cold. Medium or large.", "accent": "#B98A5E",
+               "hero": "chocolate-shake"},
+    "Cold Coffee": {"slug": "coffee", "blurb": "Chilled coffee, blended or poured over ice.", "accent": "#8B5E3C",
+                    "hero": "iced-latte"},
     "RE:Protein": {"slug": "protein", "blurb": "A full scoop of whey in every glass.", "accent": "#B98A5E", "hero": "chocolate-protein"},
     "RE:Bowls": {"slug": "bowls", "blurb": "Fruit bowls, overnight oats and yogurt bowls, made fresh every morning.",
                  "accent": "#E9A23B", "hero": "fruit-bowl",
@@ -56,6 +60,14 @@ ITEM_IMAGES = {
     "Peanut Chaat": "peanut-chaat", "Chickpea Chaat": "chickpea-chaat", "Boiled Corn": "boiled-corn",
     "Air-Fried Corn Chaat": "corn-chaat", "Grilled Veg Sandwich": "veg-sandwich",
     "Paneer Sandwich": "paneer-sandwich", "Avocado Sandwich": "avocado-sandwich",
+    # shakes: CC0 stock photos for now (rawpixel / StockSnap / Flickr / WordPress Photo Directory)
+    "Banana Shake": "banana-shake", "Chikoo Shake": "chikoo-shake", "Chocolate Shake": "chocolate-shake",
+    "Vanilla Ice Cream Shake": "vanilla-shake", "Strawberry Shake": "strawberry-shake",
+    "Peanut Butter Shake": "pb-shake", "Whey Protein Shake": "whey-shake",
+    "Banana Chocolate Smoothie": "banana-choc-smoothie", "Protein Smoothie": "protein-smoothie",
+    # cold coffee: CC0 stock photos for now (WordPress Photo Directory)
+    "Classic Cold Coffee": "classic-cold-coffee", "Hand-Beaten Cold Coffee": "hand-beaten-coffee",
+    "Hazelnut Cold Coffee": "hazelnut-cold-coffee", "Iced Latte": "iced-latte", "Protein Cold Coffee": "protein-cold-coffee",
     # bowls: CC0 stock photos for now (rawpixel / WordPress Photo Directory); replace with counter shots
     "Seasonal Fruit Bowl": "fruit-bowl", "Fig & Fruit Overnight Oats": "fig-oats",
     "Cocoa Peanut Overnight Oats": "cocoa-oats", "Berry Muesli Yogurt Bowl": "berry-yogurt-bowl",
@@ -131,7 +143,7 @@ def export(db_path: Path) -> dict:
     menu = {"categories": [], "options": [], "addons": []}
     allowed = {}   # category id -> add-on/option names the POS allows there
     for r in con.execute("SELECT ac.category_id, a.name FROM addons a JOIN addon_categories ac ON ac.addon_id = a.id "
-                         "WHERE a.active = 1"):
+                         "WHERE a.active = 1 ORDER BY a.sort, a.id"):   # same order as the POS shows them
         allowed.setdefault(r["category_id"], []).append(r["name"])
     for c in cats:
         meta = CATEGORY_META.get(c["name"], {"slug": c["name"].lower().replace(" ", "-").replace(":", ""),

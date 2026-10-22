@@ -1,12 +1,12 @@
 # re.juve /89 — website
 
-**Sip. Reset. Repeat.** The website for re.juve /89, a juice bar at GF 02, Orris Market 89, Sector 89, Gurugram.
+**Pure. Honest. Always fresh.** The website for re.juve /89, a juice bar at GF 02, Orris Market 89, Sector 89, Gurugram.
 
 It's a plain static site (HTML, CSS and JS, no build step), so it runs on any free host.
 
 ## What's in it
 
-- Hero with animated headline, arch photo collage and spinning "SIP • RESET • REPEAT" seal
+- Hero with animated headline, arch photo collage and spinning "PURE • HONEST • ALWAYS FRESH" seal
 - Pickup lines: rotating juice-themed lines, with a button to send one on WhatsApp
 - Category tiles and the full menu, with a 300/450/600ml size switcher that updates prices live
 - Item sheet: choose size, No/Less sugar, No ice, masala, Extra Whey (+₹70), and quantity

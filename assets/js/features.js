@@ -33,13 +33,14 @@
     return h * 60 + m;
   };
 
-  // Opening day (1 Nov 2026, 8 AM IST). Before it the header bar and status show the date; for a week
-  // after it the bar says "Now open"; then it goes away. (Remove the bar from index.html after that.)
-  const LAUNCH = app.launch || Date.parse("2026-11-01T08:00:00+05:30");
-  const NOW_OPEN_UNTIL = Date.parse("2026-11-08T00:00:00+05:30");
+  // Opening day (set in index.html <html data-opening-at>). Before it the header bar and status show the
+  // date; for a week after it the bar says "Now open"; then it goes away.
+  const LAUNCH = app.launch || Infinity;
+  const WHEN = app.openingWhen || "soon";
+  const HOUR = 3600e3, NOW_OPEN_UNTIL = LAUNCH + 7 * 24 * HOUR;
 
   const shopStatus = () => {
-    if (Date.now() < LAUNCH) return { state: "soon", text: "Opening Sun, 1 Nov · 8 AM", short: "Opens Sun, 1 Nov · 8 AM" };
+    if (Date.now() < LAUNCH) return { state: "soon", text: `Opening ${WHEN}`, short: `Opens ${WHEN}` };
     const now = istMinutes();
     if (now >= OPEN_MIN && now < CLOSE_MIN) {
       const left = CLOSE_MIN - now;
@@ -68,20 +69,23 @@
   };
   const renderLaunch = () => {
     const now = Date.now(), soon = now < LAUNCH, cta = $("#launchCta");
-    // buttons that collect opening-day reminders before 1 Nov and take orders after (data-pre-* / data-open-*)
+    // buttons that collect opening-day reminders before opening and take orders after (data-pre-* / data-open-*)
     $$("[data-launch-swap]").forEach(a => {
       const href = soon ? a.dataset.preHref : a.dataset.openHref;
       if (a.getAttribute("href") !== href) a.setAttribute("href", href);
       if (href.startsWith("#")) a.removeAttribute("target"); else a.target = "_blank";
       $("[data-swap-label]", a).textContent = soon ? a.dataset.preText : a.dataset.openText;
     });
-    $$("[data-launch-text]").forEach(el => { el.textContent = soon ? el.dataset.pre : el.dataset.open; });
+    $$("[data-launch-text]").forEach(el => { el.textContent = (soon ? el.dataset.pre : el.dataset.open).replace("{when}", WHEN); });
+    // things tied to opening day: hidden N hours after opening (e.g. 16 = end of opening day, 168 = a week)
+    $$("[data-hide-after-opening]").forEach(el => { el.hidden = now >= LAUNCH + Number(el.dataset.hideAfterOpening) * HOUR; });
     // dated content (campaign cards, offers): hidden outside data-show-from .. data-show-until
     $$("[data-show-from], [data-show-until]").forEach(el => {
       const from = Date.parse(el.dataset.showFrom || "2000-01-01T00:00:00Z"), until = Date.parse(el.dataset.showUntil || "2100-01-01T00:00:00Z");
       el.hidden = !(now >= from && now < until);
     });
-    if (soon) return;                                           // the HTML already says "Opening Sun, 1 Nov"
+    if (soon) return;                                           // the bar already says "Opening …"
+    $$("[data-opened]").forEach(el => { el.innerHTML = el.dataset.opened; el.removeAttribute("data-opened"); });   // "We open …" -> open-now wording
     if (now < NOW_OPEN_UNTIL) {
       $("#launchText").innerHTML = '🎉 <b>Now open</b><span class="launch-bar__where"> · every day 8 AM – 10 PM, beside Zudio</span>';
       cta.textContent = "Order ahead";
@@ -355,7 +359,7 @@
       window.rejuve.addLine({ name: entry.name, img: entry.img, size: blendSize, unit: blendPrice(entry) });
       return;
     }
-    if (app.prelaunch && app.prelaunch()) { app.toast("Orders open Sun, 1 Nov at 8 AM 🎉", 3500); return; }
+    if (app.prelaunch && app.prelaunch()) { app.toast(`We open ${WHEN} 🎉`, 3500); return; }
     const { name, fruits } = blendText();
     const msg = [
       `Hi ${SITE_NAME}! 🥤 I'd like a custom *RE:BLEND* for pickup:`,
@@ -382,7 +386,7 @@
     { q: "How are you feeling right now?", opts: [
       { e: "😴", t: "Sleepy", s: { "Orange Fresh": 2, "RE:GLOW": 2, "IMMUNITY": 1, "Chocolate Protein": 1 } },
       { e: "😤", t: "Stressed", s: { "RE:GREEN": 2, "RE:HYDRATE": 1, "Mixed Berry Smoothie": 2, "Chocolate Protein": 1 } },
-      { e: "😎", t: "Chill", s: { "Watermelon Fresh": 2, "RE:HYDRATE": 2, "Mango Smoothie": 2 } },
+      { e: "😎", t: "Chill", s: { "Watermelon Fresh": 2, "RE:HYDRATE": 2, "Strawberry Smoothie": 2 } },
       { e: "⚡", t: "Pumped", s: { "Peanut Butter Protein": 2, "Banana Protein": 2, "ABC": 1, "Pomegranate Fresh": 1 } },
     ] },
     { q: "What's your goal today?", opts: [
@@ -392,16 +396,16 @@
       { e: "🍃", t: "Feel light", s: { "RE:GREEN": 3, "ABC": 3, "RE:HYDRATE": 1 } },
     ] },
     { q: "Pick a flavour mood", opts: [
-      { e: "🍯", t: "Sweet", s: { "Mango Smoothie": 3, "Watermelon Fresh": 1, "Banana Protein": 2, "Chocolate Protein": 2 } },
+      { e: "🍯", t: "Sweet", s: { "Strawberry Smoothie": 3, "Watermelon Fresh": 1, "Banana Protein": 2, "Chocolate Protein": 2 } },
       { e: "🍋", t: "Tangy", s: { "Orange Fresh": 3, "IMMUNITY": 2, "RE:GLOW": 2, "Pomegranate Fresh": 1 } },
       { e: "🌿", t: "Fresh & minty", s: { "RE:GREEN": 3, "RE:HYDRATE": 3, "RE:GLOW": 1 } },
-      { e: "🥛", t: "Thick & creamy", s: { "Mixed Berry Smoothie": 3, "Mango Smoothie": 2, "Peanut Butter Protein": 2, "Chocolate Protein": 2, "Banana Protein": 1 } },
+      { e: "🥛", t: "Thick & creamy", s: { "Mixed Berry Smoothie": 3, "Banana Chocolate Smoothie": 2, "Peanut Butter Protein": 2, "Chocolate Protein": 2, "Banana Protein": 1 } },
     ] },
     { q: "When are you sipping?", opts: [
       { e: "🌅", t: "Morning", s: { "Orange Fresh": 2, "ABC": 2, "IMMUNITY": 2, "RE:GREEN": 1 } },
       { e: "☀️", t: "Afternoon", s: { "RE:HYDRATE": 2, "Watermelon Fresh": 2, "RE:GLOW": 2 } },
       { e: "🏋️", t: "After a workout", s: { "Peanut Butter Protein": 3, "Banana Protein": 2, "Chocolate Protein": 2 } },
-      { e: "🌙", t: "Evening", s: { "Mixed Berry Smoothie": 2, "Mango Smoothie": 2, "Pomegranate Fresh": 2 } },
+      { e: "🌙", t: "Evening", s: { "Mixed Berry Smoothie": 2, "Strawberry Smoothie": 2, "Pomegranate Fresh": 2 } },
     ] },
   ];
   const PERSONAS = {
@@ -413,7 +417,7 @@
     "RE:GLOW": ["The Main Character", "You walk in and the room gets brighter. Radiant, social, iconic."],
     "RE:HYDRATE": ["The Cool Breeze", "Light, easy and always refreshing to be around."],
     "IMMUNITY": ["The Protector", "You look after everyone. This one looks after you."],
-    "Mango Smoothie": ["The Sunshine", "Sweet, warm and everybody's favourite. Summer, all year round."],
+    "Strawberry Smoothie": ["The Sunshine", "Sweet, bright and everybody's favourite. Summer, all year round."],
     "Mixed Berry Smoothie": ["The Romantic", "A little dreamy, a lot of fun, and full of good surprises."],
     "Banana Protein": ["The Steady Climber", "Big goals, steady energy, and you never skip a day."],
     "Peanut Butter Protein": ["Beast Mode", "No excuses, extra gains. The gym knows your name."],

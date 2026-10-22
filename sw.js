@@ -1,6 +1,6 @@
 /* re.juve /89 service worker: fast repeat visits + works on a patchy connection.
    Bump VERSION whenever you change CSS/JS so phones pick up the new files. */
-const VERSION = "rejuve89-v19";
+const VERSION = "rejuve89-v25";
 const CORE = [
   "./",
   "index.html",
@@ -13,6 +13,9 @@ const CORE = [
   "assets/img/store-900.jpg",
   "assets/img/icon-192.png",
   "assets/img/favicon.svg",
+  "assets/img/logo-mark.png",
+  "assets/img/logo-mark-light.png",
+  "assets/img/logo-sprout-light.svg",
 ];
 
 self.addEventListener("install", e => {

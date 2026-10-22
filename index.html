@@ -1,10 +1,17 @@
 <!doctype html>
-<html lang="en-IN" class="has-launch">
+<!--
+  OPENING DATE: the one place to change it.
+  - Not confirmed: data-opening-at="" and data-opening-label="mid-November"  (orders stay closed)
+  - Confirmed:     data-opening-at="2026-11-11T08:00:00+05:30" data-opening-label="Wed, 11 Nov"
+  Orders open automatically at that moment; the top bar says "Now open" for a week, then hides.
+  (For Google/WhatsApp previews also update the two "Opening mid-November" meta descriptions below.)
+-->
+<html lang="en-IN" class="has-launch" data-opening-at="" data-opening-label="mid-November">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>re.juve /89 — Fresh Juices, Smoothies & Protein Shakes · Sector 89, Gurugram</title>
-  <meta name="description" content="re.juve /89: fresh juices from ₹59, smoothies, whey protein shakes and healthy bites, made to order at GF 02, Orris Market 89 (beside Zudio), Sector 89, Gurugram. Opening 1 Nov 2026. Order ahead for pickup.">
+  <meta name="description" content="re.juve /89: fresh juices from ₹59, smoothies, whey protein shakes and healthy bites, made to order at GF 02, Orris Market 89 (beside Zudio), Sector 89, Gurugram. Opening mid-November 2026. Order ahead for pickup.">
   <link rel="canonical" href="https://rejuve89.netlify.app/">
   <meta name="theme-color" content="#153829">
   <meta name="format-detection" content="telephone=no">
@@ -17,13 +24,13 @@
   <meta property="og:site_name" content="re.juve /89">
   <meta property="og:locale" content="en_IN">
   <meta property="og:title" content="re.juve /89 · Fresh juice bar, Orris Market 89, Sector 89 Gurugram">
-  <meta property="og:description" content="Squeezed to order from ₹59. 0 g added sugar if you like. Order ahead for pickup beside Zudio, Orris Market 89. Opening Sun, 1 Nov.">
+  <meta property="og:description" content="Squeezed to order from ₹59. 0 g added sugar if you like. Order ahead for pickup beside Zudio, Orris Market 89. Opening mid-November.">
   <meta property="og:image" content="https://rejuve89.netlify.app/assets/img/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="The re.juve /89 storefront at Orris Market 89, Sector 89 Gurugram">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="re.juve /89 · Sip. Reset. Repeat.">
+  <meta name="twitter:title" content="re.juve /89 · Pure. Honest. Always fresh.">
   <meta name="twitter:description" content="Fresh juices from ₹59, smoothies and protein shakes beside Zudio, Orris Market 89, Gurugram.">
   <meta name="twitter:image" content="https://rejuve89.netlify.app/assets/img/og-image.jpg">
 
@@ -47,14 +54,13 @@
     "url": "https://rejuve89.netlify.app/",
     "logo": "https://rejuve89.netlify.app/assets/img/icon-512.png",
     "image": ["https://rejuve89.netlify.app/assets/img/store-lg.jpg", "https://rejuve89.netlify.app/assets/img/og-image.jpg"],
-    "slogan": "Sip. Reset. Repeat.",
+    "slogan": "Pure. Honest. Always fresh.",
     "description": "Fresh juices squeezed to order, smoothies, whey protein shakes and healthy bites at GF 02, Orris Market 89, Sector 89, Gurugram, beside Zudio. Order ahead for pickup.",
     "telephone": "+91-8816809822",
     "priceRange": "₹59 – ₹249",
     "currenciesAccepted": "INR",
     "paymentAccepted": "UPI, Credit Card, Debit Card, Cash",
     "servesCuisine": ["Juices", "Smoothies", "Protein Shakes", "Healthy Snacks"],
-    "foundingDate": "2026-11-01",
     "hasMenu": "https://rejuve89.netlify.app/#menu",
     "acceptsReservations": false,
     "hasMap": "https://share.google/xPvnZDgEUmgQwu2e9",
@@ -70,8 +76,7 @@
       "@type": "OpeningHoursSpecification",
       "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
       "opens": "08:00",
-      "closes": "22:00",
-      "validFrom": "2026-11-01"
+      "closes": "22:00"
     }],
     "sameAs": ["https://www.instagram.com/rejuve89", "https://www.facebook.com/profile.php?id=61595347947057", "https://share.google/xPvnZDgEUmgQwu2e9"]
   }
@@ -86,20 +91,20 @@
       <div class="loader__glass">
         <span class="loader__fill"></span>
       </div>
-      <div class="loader__logo">re.juve <span>/89</span></div>
-      <div class="loader__tag">SIP. RESET. REPEAT.</div>
+      <div class="loader__logo logo logo--light"><img class="logo__img" src="assets/img/logo-mark-light.png" alt="" width="720" height="211" decoding="async"></div>
+      <div class="loader__tag">PURE · HONEST · ALWAYS FRESH</div>
     </div>
   </div>
 
   <!-- ============ Header ============ -->
   <header class="nav" id="nav">
     <div class="launch-bar" id="launchBar" role="status">
-      <span class="launch-bar__text" id="launchText">🎉 <b>Opening Sun, 1 Nov · 8 AM</b><span class="launch-bar__where"> · GF 02, Orris Market 89 (beside Zudio)</span></span>
-      <a class="launch-bar__cta" id="launchCta" href="https://wa.me/918816809822?text=Hi%20re.juve%20%2F89%21%20Please%20remind%20me%20on%20opening%20day%20%281%20Nov%29.%20%28website-launch%29" target="_blank" rel="noopener">Remind me on WhatsApp</a>
+      <span class="launch-bar__text" id="launchText">🎉 <b>Opening <span data-opening>mid-November</span></b><span class="launch-bar__where"> · GF 02, Orris Market 89 (beside Zudio)</span></span>
+      <a class="launch-bar__cta" id="launchCta" href="https://wa.me/918816809822?text=Hi%20re.juve%20%2F89%21%20Please%20remind%20me%20on%20opening%20day.%20%28website-launch%29" target="_blank" rel="noopener">Remind me on WhatsApp</a>
     </div>
     <div class="nav__inner wrap">
       <a href="#top" class="logo" aria-label="re.juve /89 home">
-        <span class="logo__word">re.juve</span><span class="logo__num">/89</span>
+        <img class="logo__img" src="assets/img/logo-mark.png" alt="" width="720" height="211" decoding="async">
       </a>
       <nav class="nav__links" aria-label="Primary">
         <a href="#menu">Menu</a>
@@ -169,7 +174,7 @@
               Order ahead · ready in 15 min
               <svg viewBox="0 0 24 24" class="ic"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </a>
-            <a href="https://wa.me/918816809822?text=Hi%20re.juve%20%2F89%21%20I%27d%20like%20to%20order%20for%20pickup.%20%28website-hero%29" class="btn btn--ghost btn--lg" id="heroWa" target="_blank" rel="noopener" data-launch-swap data-open-href="https://wa.me/918816809822?text=Hi%20re.juve%20%2F89%21%20I%27d%20like%20to%20order%20for%20pickup.%20%28website-hero%29" data-pre-text="Remind me on opening day" data-open-text="Order on WhatsApp" data-pre-href="https://wa.me/918816809822?text=Hi%20re.juve%20%2F89%21%20Please%20remind%20me%20on%20opening%20day%20%281%20Nov%29.%20%28website-launch%29">
+            <a href="https://wa.me/918816809822?text=Hi%20re.juve%20%2F89%21%20I%27d%20like%20to%20order%20for%20pickup.%20%28website-hero%29" class="btn btn--ghost btn--lg" id="heroWa" target="_blank" rel="noopener" data-launch-swap data-open-href="https://wa.me/918816809822?text=Hi%20re.juve%20%2F89%21%20I%27d%20like%20to%20order%20for%20pickup.%20%28website-hero%29" data-pre-text="Remind me on opening day" data-open-text="Order on WhatsApp" data-pre-href="https://wa.me/918816809822?text=Hi%20re.juve%20%2F89%21%20Please%20remind%20me%20on%20opening%20day.%20%28website-launch%29">
               <svg viewBox="0 0 24 24" class="ic"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7L4 20Z"/></svg>
               <span data-swap-label>Order on WhatsApp</span>
             </a>
@@ -194,9 +199,9 @@
           <div class="seal">
             <svg viewBox="0 0 200 200" class="seal__ring">
               <defs><path id="circle" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"/></defs>
-              <text><textPath href="#circle">SIP • RESET • REPEAT • SIP • RESET • REPEAT • </textPath></text>
+              <text><textPath href="#circle" textLength="486" lengthAdjust="spacing">PURE • HONEST • ALWAYS FRESH • </textPath></text>
             </svg>
-            <span class="seal__core">/89</span>
+            <span class="seal__core"><img src="assets/img/logo-sprout-light.svg" alt="" width="82" height="66"></span>
           </div>
           <div class="chip chip--a"><span>🍊</span> Squeezed to order</div>
           <div class="chip chip--b"><span>🌿</span> Pure. Honest. Always fresh.</div>
@@ -228,8 +233,8 @@
         </div>
       </div>
       <div class="whatson__row" id="woRow" role="region" aria-roledescription="carousel" aria-label="New, fresh and on offer">
-        <article class="wo wo--launch reveal" data-show-until="2026-11-08T00:00:00+05:30">
-          <p class="wo__kicker" data-launch-text data-pre="🎉 We open Sun, 1 Nov · 8 AM" data-open="🎉 Now open · 8 AM – 10 PM">🎉 We open Sun, 1 Nov · 8 AM</p>
+        <article class="wo wo--launch reveal" data-hide-after-opening="168">
+          <p class="wo__kicker" data-launch-text data-pre="🎉 Opening {when}" data-open="🎉 Now open · 8 AM – 10 PM">🎉 Opening mid-November</p>
           <h3 class="wo__title">What's on the menu at re.juve /89</h3>
           <p class="wo__text">Squeezed to order at an open counter, sugar your choice. A fresh glass from <b>₹59</b>.</p>
           <p class="wo__label">Top picks</p>
@@ -238,14 +243,14 @@
             <li><button type="button" class="wo__pick" data-item="Chocolate Protein" data-size="300ml"><span class="wo__pick-name">Chocolate Protein <small>1 scoop whey</small></span><b class="wo__price" data-price>₹149</b></button></li>
             <li><button type="button" class="wo__pick" data-item="Paneer Sandwich"><span class="wo__pick-name">Paneer Sandwich</span><b class="wo__price" data-price>₹149</b></button></li>
           </ul>
-          <p class="wo__offer" data-show-until="2026-11-02T00:00:00+05:30">🎁 <b>First 100 customers on 1 Nov:</b> free upgrade from 300ml to 450ml.</p>
-          <a class="btn btn--primary btn--block wo__cta" data-launch-swap href="https://wa.me/918816809822?text=Hi%20re.juve%20%2F89%21%20Please%20remind%20me%20on%20opening%20day%20%281%20Nov%29.%20%28website-launch%29" target="_blank" rel="noopener"
-             data-pre-href="https://wa.me/918816809822?text=Hi%20re.juve%20%2F89%21%20Please%20remind%20me%20on%20opening%20day%20%281%20Nov%29.%20%28website-launch%29" data-pre-text="Remind me on WhatsApp" data-open-href="#menu" data-open-text="Order ahead · ready in 15 min"><span data-swap-label>Remind me on WhatsApp</span></a>
+          <p class="wo__offer" data-hide-after-opening="16">🎁 <b>First 100 customers on opening day:</b> free upgrade from 300ml to 450ml.</p>
+          <a class="btn btn--primary btn--block wo__cta" data-launch-swap href="https://wa.me/918816809822?text=Hi%20re.juve%20%2F89%21%20Please%20remind%20me%20on%20opening%20day.%20%28website-launch%29" target="_blank" rel="noopener"
+             data-pre-href="https://wa.me/918816809822?text=Hi%20re.juve%20%2F89%21%20Please%20remind%20me%20on%20opening%20day.%20%28website-launch%29" data-pre-text="Remind me on WhatsApp" data-open-href="#menu" data-open-text="Order ahead · ready in 15 min"><span data-swap-label>Remind me on WhatsApp</span></a>
           <a class="wo__channel" data-wa-channel href="#" target="_blank" rel="noopener" hidden>or follow our WhatsApp Channel</a>
         </article>
 
-        <article class="wo wo--diwali reveal" style="--d:.06s" data-show-until="2026-11-12T00:00:00+05:30">
-          <p class="wo__kicker">🪔 Diwali · Sun, 8 Nov</p>
+        <article class="wo wo--diwali reveal" style="--d:.06s" data-show-until="2026-11-16T00:00:00+05:30">
+          <p class="wo__kicker">🪔 Post-Diwali · 11–15 Nov</p>
           <h3 class="wo__title">A fresh break between shopping bags</h3>
           <p class="wo__text">Shopping at Zudio? Pre-order and collect on your way out.</p>
           <ul class="wo__picks">
@@ -257,7 +262,7 @@
             <li><button type="button" class="wo__pick" data-item="RE:GREEN" data-size="300ml"><span class="wo__pick-name">RE:GREEN <small>Apple + Cucumber + Mint + Lemon</small></span><b class="wo__price" data-price>₹99</b></button></li>
             <li><button type="button" class="wo__pick" data-item="RE:HYDRATE" data-size="300ml"><span class="wo__pick-name">RE:HYDRATE <small>Watermelon + Lemon + Mint</small></span><b class="wo__price" data-price>₹79</b></button></li>
           </ul>
-          <p class="wo__offer">🎁 <b>Family offer, 1–11 Nov:</b> say <b>DIWALI</b> for 10% off orders of 3 or more items.</p>
+          <p class="wo__offer">🎁 <b>Family offer, 11–15 Nov:</b> say <b>DIWALI</b> for 10% off orders of 3 or more items.</p>
           <a class="btn btn--primary btn--block wo__cta" href="https://wa.me/918816809822?text=Hi%20re.juve%20%2F89%21%20DIWALI%3A%20I%27d%20like%20to%20pre-order%20for%20pickup%3A%20%28website-diwali%29" target="_blank" rel="noopener">Pre-order on WhatsApp</a>
         </article>
 
@@ -280,8 +285,8 @@
           <p class="wo__text">No sugar, less sugar, honey or dates (+₹10). Fruit cut when you order, never the night before. Calories and protein shown for your glass size.</p>
           <p class="wo__label">Kid-friendly picks</p>
           <ul class="wo__picks">
-            <li><button type="button" class="wo__pick" data-item="Banana Smoothie" data-size="300ml"><span class="wo__pick-name">Banana Smoothie</span><b class="wo__price" data-price>₹89</b></button></li>
-            <li><button type="button" class="wo__pick" data-item="Mango Smoothie" data-size="300ml"><span class="wo__pick-name">Mango Smoothie</span><b class="wo__price" data-price>₹99</b></button></li>
+            <li><button type="button" class="wo__pick" data-item="Banana Chocolate Smoothie" data-size="300ml"><span class="wo__pick-name">Banana Chocolate Smoothie</span><b class="wo__price" data-price>₹129</b></button></li>
+            <li><button type="button" class="wo__pick" data-item="Strawberry Smoothie" data-size="300ml"><span class="wo__pick-name">Strawberry Smoothie</span><b class="wo__price" data-price>₹139</b></button></li>
           </ul>
           <a class="btn btn--ghost btn--block wo__cta" href="#sugar">How we make it</a>
         </article>
@@ -364,10 +369,30 @@
             <section class="pricelist__cat"><h3>Smoothies</h3>
               <p>Thick, creamy, real fruit.</p>
               <ul>
-                <li><span>Banana Smoothie</span><span>300ml ₹89 · 450ml ₹129 · 600ml ₹169</span></li>
-                <li><span>Mango Smoothie</span><span>300ml ₹99 · 450ml ₹139 · 600ml ₹179</span></li>
-                <li><span>Strawberry Smoothie</span><span>300ml ₹109 · 450ml ₹159 · 600ml ₹209</span></li>
-                <li><span>Mixed Berry Smoothie</span><span>300ml ₹119 · 450ml ₹169 · 600ml ₹219</span></li>
+                <li><span>Banana Chocolate Smoothie</span><span>300ml ₹129 · 450ml ₹169 · 600ml ₹209</span></li>
+                <li><span>Strawberry Smoothie</span><span>300ml ₹139 · 450ml ₹179 · 600ml ₹219</span></li>
+                <li><span>Mixed Berry Smoothie</span><span>300ml ₹149 · 450ml ₹199 · 600ml ₹249</span></li>
+                <li><span>Protein Smoothie</span><span>300ml ₹189 · 450ml ₹209 · 600ml ₹239</span></li>
+              </ul></section>
+            <section class="pricelist__cat"><h3>Shakes</h3>
+              <p>Classic milkshakes, thick and cold. Medium or large.</p>
+              <ul>
+                <li><span>Banana Shake <small>Ripe banana, chilled milk</small></span><span>Medium (450ml) ₹119 · Large (600ml) ₹149</span></li>
+                <li><span>Chikoo Shake <small>Ripe chikoo, chilled milk</small></span><span>Medium (450ml) ₹129 · Large (600ml) ₹159</span></li>
+                <li><span>Chocolate Shake <small>Cocoa, chocolate, chilled milk</small></span><span>Medium (450ml) ₹139 · Large (600ml) ₹169</span></li>
+                <li><span>Vanilla Ice Cream Shake <small>Vanilla ice cream, chilled milk</small></span><span>Medium (450ml) ₹149 · Large (600ml) ₹179</span></li>
+                <li><span>Strawberry Shake <small>Fresh strawberries, chilled milk</small></span><span>Medium (450ml) ₹139 · Large (600ml) ₹169</span></li>
+                <li><span>Peanut Butter Shake <small>Peanut butter, banana, chilled milk</small></span><span>Medium (450ml) ₹149 · Large (600ml) ₹179</span></li>
+                <li><span>Whey Protein Shake <small>1 scoop whey, banana, chilled milk</small></span><span>Medium (450ml) ₹189 · Large (600ml) ₹229</span></li>
+              </ul></section>
+            <section class="pricelist__cat"><h3>Cold Coffee</h3>
+              <p>Chilled coffee, blended or poured over ice.</p>
+              <ul>
+                <li><span>Classic Cold Coffee <small>Blended coffee, chilled milk</small></span><span>Small (300ml) ₹70 · Medium (450ml) ₹100 · Large (600ml) ₹130</span></li>
+                <li><span>Hand-Beaten Cold Coffee <small>Whipped coffee foam over chilled milk</small></span><span>Small (300ml) ₹80 · Medium (450ml) ₹110 · Large (600ml) ₹140</span></li>
+                <li><span>Hazelnut Cold Coffee <small>Blended coffee, hazelnut, chilled milk</small></span><span>Small (300ml) ₹85 · Medium (450ml) ₹115 · Large (600ml) ₹145</span></li>
+                <li><span>Iced Latte <small>Strong coffee over milk and ice</small></span><span>Small (300ml) ₹80 · Medium (450ml) ₹110 · Large (600ml) ₹140</span></li>
+                <li><span>Protein Cold Coffee <small>Blended coffee, 1 scoop whey, chilled milk</small></span><span>Small (300ml) ₹90 · Medium (450ml) ₹120 · Large (600ml) ₹150</span></li>
               </ul></section>
             <section class="pricelist__cat"><h3>RE:Protein</h3>
               <p>A full scoop of whey in every glass.</p>
@@ -375,7 +400,6 @@
                 <li><span>Banana Protein <small>1 scoop whey</small></span><span>300ml ₹139 · 450ml ₹179 · 600ml ₹229</span></li>
                 <li><span>Chocolate Protein <small>1 scoop whey</small></span><span>300ml ₹149 · 450ml ₹189 · 600ml ₹239</span></li>
                 <li><span>Peanut Butter Protein <small>1 scoop whey</small></span><span>300ml ₹159 · 450ml ₹199 · 600ml ₹249</span></li>
-                <li><span>Mango Protein <small>1 scoop whey</small></span><span>300ml ₹159 · 450ml ₹199 · 600ml ₹249</span></li>
               </ul></section>
             <section class="pricelist__cat"><h3>RE:Bites</h3>
               <p>Light, filling snacks to go with your sip.</p>
@@ -397,7 +421,7 @@
                 <li><span>Berry Muesli Yogurt Bowl <small>Low-fat yogurt, berries, crunchy muesli</small></span><span>₹220</span></li>
                 <li><span>Strawberry Banana Yogurt Bowl <small>Low-fat yogurt, strawberry, banana</small></span><span>₹220</span></li>
               </ul></section>
-            <p class="pricelist__extras">Free: No Sugar, Less Sugar, Honey, No Ice, Black Salt / Masala, With Water (no milk). Add-ons: Extra Whey Scoop +₹70, Dates +₹10.</p>
+            <p class="pricelist__extras">Free: No Sugar, Less Sugar, Honey, Jaggery, No Ice, Black Salt / Masala, With Water (no milk). Add-ons: Extra Whey Scoop +₹70, Dates +₹10, Ice Cream +₹20, Protein Milk +₹40, Whey Protein Scoop (22–26 g protein) +₹90.</p>
           </div>
           <!-- MENU-LIST:END -->
         </details>
@@ -490,7 +514,7 @@
         <div class="section-head section-head--center">
           <p class="eyebrow reveal">Reviews</p>
           <h2 id="reviewsTitle" class="h2 reveal">Early words from <em>neighbours</em>.</h2>
-          <p class="section-head__sub reveal">We open on 1 Nov. Had a re.juve? A Google review helps neighbours find us, and takes 30 seconds.</p>
+          <p class="section-head__sub reveal" data-opened="Had a re.juve? A Google review helps neighbours find us, and takes 30 seconds.">We open <span data-opening>mid-November</span>. Had a re.juve? A Google review helps neighbours find us, and takes 30 seconds.</p>
         </div>
         <!-- Real customer reviews only (copy from Google, first name + initial). Add new ones at the top of the list:
           <li class="review reveal">
@@ -572,7 +596,7 @@
               <span class="visit__ic"><svg viewBox="0 0 24 24" class="ic"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
               <div>
                 <h3>Opening hours</h3>
-                <p class="visit__hours">Every day · 8 AM – 10 PM <span class="visit__from">from Sun, 1 Nov</span></p>
+                <p class="visit__hours">Every day · 8 AM – 10 PM <span class="visit__from" data-hide-after-opening="0">from <span data-opening="date">mid-November</span></span></p>
                 <span class="status-pill" data-status><span class="dot"></span><span data-status-text>Open daily</span></span>
               </div>
             </div>
@@ -634,7 +658,7 @@
           <h2 id="faqTitle" class="h2 reveal">Questions? We've got <em>answers</em>.</h2>
         </div>
         <div class="faq__list">
-          <details class="reveal"><summary>When do you open?</summary><p>Sunday, 1 Nov 2026 at 8 AM. After that we're open every day, 8 AM – 10 PM, at GF 02, Orris Market 89, beside Zudio.</p></details>
+          <details class="reveal"><summary data-opened="What are your hours?">When do you open?</summary><p data-opened="Every day, 8 AM – 10 PM, at GF 02, Orris Market 89, beside Zudio.">We open <span data-opening>mid-November</span>. After that we're open every day, 8 AM – 10 PM, at GF 02, Orris Market 89, beside Zudio. Tap "Remind me" at the top and we'll message you on opening day.</p></details>
           <details class="reveal"><summary>Do you add sugar?</summary><p>Only if you ask. Every juice can be 0 g added sugar: choose no sugar, less sugar or black salt masala. Prefer it sweet without sugar? Ask for honey (free) or dates (+₹10).</p></details>
           <details class="reveal"><summary>How much protein is in a RE:Protein shake?</summary><p>Each shake has a full scoop of whey blended with real fruit or peanut butter. Tap any shake on the menu to see the protein for your glass size. An extra scoop adds about 24 g protein and 120 kcal.</p></details>
           <details class="reveal"><summary>Can I order ahead?</summary><p>Yes. Order on this site or on WhatsApp, pick a time from 15 minutes to an hour, and collect at the counter. Pay by UPI, card or cash.</p></details>
@@ -843,8 +867,8 @@
 
       <h3 class="sugar__h">Kid-friendly picks<span class="sugar__tag" data-show-from="2026-11-07T00:00:00+05:30" data-show-until="2026-11-15T00:00:00+05:30">Children's Day · 14 Nov</span></h3>
       <ul class="wo__picks sugar__picks">
-        <li><button type="button" class="wo__pick" data-item="Banana Smoothie" data-size="300ml"><span class="wo__pick-name">Banana Smoothie</span><b class="wo__price" data-price>₹89</b></button></li>
-        <li><button type="button" class="wo__pick" data-item="Mango Smoothie" data-size="300ml"><span class="wo__pick-name">Mango Smoothie</span><b class="wo__price" data-price>₹99</b></button></li>
+        <li><button type="button" class="wo__pick" data-item="Banana Chocolate Smoothie" data-size="300ml"><span class="wo__pick-name">Banana Chocolate Smoothie</span><b class="wo__price" data-price>₹129</b></button></li>
+        <li><button type="button" class="wo__pick" data-item="Strawberry Smoothie" data-size="300ml"><span class="wo__pick-name">Strawberry Smoothie</span><b class="wo__price" data-price>₹139</b></button></li>
         <li><button type="button" class="wo__pick" data-item="Watermelon Fresh" data-size="300ml"><span class="wo__pick-name">Watermelon Fresh</span><b class="wo__price" data-price>₹59</b></button></li>
       </ul>
       <p class="sugar__note">Tap a drink to order it with <b>No sugar</b> already picked.</p>
@@ -856,8 +880,8 @@
   <footer class="footer">
     <div class="wrap footer__grid">
       <div class="footer__brand">
-        <a href="#top" class="logo logo--light"><span class="logo__word">re.juve</span><span class="logo__num">/89</span></a>
-        <p class="footer__tag">SIP. RESET. REPEAT.</p>
+        <a href="#top" class="logo logo--light" aria-label="re.juve /89 home"><img class="logo__img" src="assets/img/logo-mark-light.png" alt="" width="720" height="211" decoding="async"></a>
+        <p class="footer__tag">PURE · HONEST · ALWAYS FRESH</p>
         <p class="footer__sub">Fresh juices · Smoothies · Protein shakes</p>
         <a class="footer__channel" data-wa-channel href="#" target="_blank" rel="noopener" hidden><svg viewBox="0 0 24 24" class="ic"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7L4 20Z"/></svg> Follow our WhatsApp Channel</a>
         <div class="social social--footer">
@@ -868,7 +892,7 @@
       <div>
         <h4>Visit</h4>
         <address>GF 02, Orris Market 89 (beside Zudio)<br>Sector 89, Gurugram 122505</address>
-        <p class="footer__hours">Open every day from 1 Nov<br>8 AM – 10 PM</p>
+        <p class="footer__hours" data-opened="Open every day<br>8 AM – 10 PM">Open every day from <span data-opening="date">mid-November</span><br>8 AM – 10 PM</p>
       </div>
       <div>
         <h4>Talk to us</h4>

@@ -102,7 +102,7 @@ test("rejects bad orders", async () => {
   await bad({ phone: "12345" }, /mobile/);
   await bad({ items: [] }, /empty/);
   await bad({ items: [{ name: "Free Beer", size: "300ml", qty: 1 }] }, /not on the menu/);
-  await bad({ items: [{ name: "Mango Smoothie", size: "300ml", qty: 1, adds: ["Extra Whey Scoop"] }] }, /isn't available/);
+  await bad({ items: [{ name: "Strawberry Smoothie", size: "300ml", qty: 1, adds: ["Extra Whey Scoop"] }] }, /isn't available/);
   await bad({ items: [{ name: "Orange Fresh", size: "900ml", qty: 1 }] }, /size/);
   await bad({ items: [{ name: "Orange Fresh", size: "300ml", qty: 50 }] }, /Quantity/);
   assert.equal((await order({ website: "http://spam" })).status, 400);   // honeypot

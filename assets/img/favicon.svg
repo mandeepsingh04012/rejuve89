@@ -1,1 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#153829"/><text x="32" y="42" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-weight="700" font-size="28" fill="#F7F3EA">r<tspan fill="#C6E36B">.</tspan>j</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="#F7F3EA"/><g transform="translate(17.60 14.00) scale(0.9)"><path d="M38.6 64.8 C37.4 56 37.6 47.5 39.8 40 C41.4 35 43.8 31.6 47.2 29" fill="none" stroke="#C9A46A" stroke-width="3.6" stroke-linecap="round"/>
+  <path d="M38.4 50 C35.8 44.6 32.4 40.8 28.6 38.2" fill="none" stroke="#1F4D3A" stroke-width="3.2" stroke-linecap="round"/>
+  <path d="M30 38.6 C19.6 41.8 4.6 36.4 1.4 17.2 C15.2 14.6 28.6 21.4 33.2 35.6 C32.4 36.8 31.4 37.8 30 38.6 Z" fill="#1F4D3A"/>
+  <path d="M5.8 20.6 C14.2 23 22.4 28 29.2 35.4" fill="none" stroke="#F7F3EA" stroke-width="1.7" stroke-linecap="round"/>
+  <path d="M45.6 31.6 C38.2 20.4 45 4.8 68.6 1.2 C72.4 15.2 64.6 29.8 49 32.6 C47.8 32.6 46.6 32.2 45.6 31.6 Z" fill="#C9A46A"/>
+  <path d="M47.6 29 C52.4 20.4 57.6 13 64.2 6.2" fill="none" stroke="#F7F3EA" stroke-width="1.7" stroke-linecap="round"/><circle cx="38.6" cy="74" r="6" fill="#1F4D3A"/></g></svg>

@@ -17,16 +17,21 @@
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const VIEWS = ["build", "quiz", "sugar", "about"];   // sections that open as full-screen pages
 
-  // Opening day. Until then the site shows the date and orders can't be sent (the cart still works).
+  // Opening day comes from <html data-opening-at data-opening-label> in index.html (the one place to change it).
+  // No date yet = orders stay closed. Until opening the cart still works but orders can't be sent.
   // Staff can test orders during trial runs by opening the site once with ?trial (lasts for that tab).
-  const LAUNCH = Date.parse("2026-11-01T08:00:00+05:30");
+  const root = document.documentElement;
+  const LAUNCH = Date.parse(root.dataset.openingAt || "") || Infinity;
+  const OPENING_LABEL = root.dataset.openingLabel || "soon";
+  const OPENING_WHEN = OPENING_LABEL + (LAUNCH < Infinity ? " · 8 AM" : "");   // "Wed, 11 Nov · 8 AM" or "mid-November"
+  $$("[data-opening]").forEach(el => { el.textContent = el.dataset.opening === "date" ? OPENING_LABEL : OPENING_WHEN; });
   try { if (/[?&]trial\b/.test(location.search)) sessionStorage.setItem("rejuve89-trial", "1"); } catch { /* ignore */ }
   const prelaunch = () => {
     try { if (sessionStorage.getItem("rejuve89-trial")) return false; } catch { /* ignore */ }
     return Date.now() < LAUNCH;
   };
   const canOrder = () => !prelaunch() && ordering.accepting !== false;
-  const PRELAUNCH_MSG = "We open Sun, 1 Nov at 8 AM. Your order stays saved here, so you can send it then.";
+  const PRELAUNCH_MSG = `We open ${OPENING_WHEN}. Your order stays saved here, so you can send it then.`;
 
   const ICON_PLUS = '<svg viewBox="0 0 24 24" class="ic"><path d="M12 5v14M5 12h14"/></svg>';
   const ICON_CHECK = '<svg viewBox="0 0 24 24" class="ic"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
@@ -173,7 +178,7 @@
   const lineText = $("#lineText"), shareLine = $("#shareLine");
   let lineIdx = 0;
   const setShare = () => {
-    const msg = `${LINES[lineIdx]}\n\n🥤 Let's grab a juice at re.juve /89, Orris Market 89, Gurugram. Sip. Reset. Repeat.`;
+    const msg = `${LINES[lineIdx]}\n\n🥤 Let's grab a juice at re.juve /89, Orris Market 89, Gurugram. Pure. Honest. Always fresh.`;
     shareLine.href = `https://wa.me/?text=${encodeURIComponent(msg)}`;
   };
   const nextLine = () => {
@@ -197,7 +202,10 @@
      ------------------------------------------------------------------ */
   const cats = MENU.categories;
   const isDrinkCat = c => c.items.some(i => i.sizes.length > 1);
-  const allSizes = [...new Set(cats.filter(isDrinkCat).flatMap(c => c.items.flatMap(i => i.sizes.map(s => s.name))))];
+  // the size switch works in ml, so "450ml" and "Medium (450ml)" are the same glass
+  const mlOf = name => { const m = String(name).match(/(\d+)\s*ml/i); return m ? +m[1] : 0; };
+  const allSizes = [...new Set(cats.filter(isDrinkCat).flatMap(c => c.items.flatMap(i => i.sizes.map(s => mlOf(s.name)))))]
+    .filter(Boolean).sort((a, b) => a - b).map(ml => `${ml}ml`);
   let activeCat = cats[0]?.slug;
   let activeSize = allSizes[0];
 
@@ -249,7 +257,7 @@
   const grid = $("#menuGrid"), blurb = $("#menuBlurb");
 
   // "Pick by goal": filters across categories, built only from menu facts (protein, kcal, tags, price)
-  const KIDS = ["Banana Smoothie", "Mango Smoothie", "Strawberry Smoothie", "Watermelon Fresh", "Orange Fresh"];
+  const KIDS = ["Banana Chocolate Smoothie", "Strawberry Smoothie", "Banana Shake", "Chocolate Shake", "Watermelon Fresh", "Orange Fresh"];
   const isDrink = it => it.sizes.length > 1;
   const GOALS = [
     { id: "workout", icon: "💪", label: "Post-workout", note: "15 g+ protein in a 300ml glass or a sandwich.", test: it => it.protein >= 15 },
@@ -274,10 +282,10 @@
     renderGrid();
     if (grid.getBoundingClientRect().top < 0 || grid.getBoundingClientRect().top > innerHeight * .7) $("#menuBar").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
   });
-  const sizeFor = item => item.sizes.find(s => s.name === activeSize) || item.sizes[0];
+  const sizeFor = item => item.sizes.find(s => mlOf(s.name) === mlOf(activeSize)) || item.sizes[0];
 
   // Nutrition is stored per 300ml; scale it to the chosen glass size.
-  const sizeScale = sizeName => { const ml = parseInt(sizeName, 10); return ml ? ml / 300 : 1; };
+  const sizeScale = sizeName => { const ml = mlOf(sizeName); return ml ? ml / 300 : 1; };
   const nutriHTML = (item, sizeName, extraWhey = 0) => {
     if (!item.kcal) return "";
     const f = item.sizes.length > 1 ? sizeScale(sizeName) : 1;
@@ -681,7 +689,7 @@
   function updateSendLabel() {
     const web = ordering.channel === "web", open = canOrder();
     const upi = web && payChoice() === "upi";
-    $("#sendLabel").textContent = !open ? (prelaunch() ? "Orders open 1 Nov, 8 AM" : ordering.channel === "paused" ? "Ordering paused" : "Closed for online orders")
+    $("#sendLabel").textContent = !open ? (prelaunch() ? `Orders open ${OPENING_LABEL}` : ordering.channel === "paused" ? "Ordering paused" : "Closed for online orders")
       : web ? (upi ? `Place order & pay ${rupee(total())}` : `Place order · ${rupee(total())}`) : "Send order on WhatsApp";
     $("#totalLabel").textContent = upi ? "Total, pay now with UPI" : "Total, pay at the counter";
   }
@@ -758,7 +766,7 @@
     }
     nameInput.classList.remove("is-invalid");
     try { localStorage.setItem("rejuve89-name", name); } catch { /* ignore */ }
-    if (prelaunch()) { toast("Orders open Sun, 1 Nov at 8 AM 🎉", 3500); return; }
+    if (prelaunch()) { toast(`We open ${OPENING_WHEN} 🎉`, 3500); return; }
     if (ordering.accepting === false) { toast(ordering.message || "Online ordering is closed right now"); return; }
     if (ordering.channel === "web") placeWebOrder(name); else sendWhatsApp(name);
   });
@@ -1116,6 +1124,7 @@
     toast: (msg, ms) => toast(msg, ms),
     lock, unlock,
     launch: LAUNCH,
+    openingWhen: OPENING_WHEN,
     prelaunch,
     findItem,
     // add a ready-priced line to the pickup order (used by the RE:BLEND builder)

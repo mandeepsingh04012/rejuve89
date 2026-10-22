@@ -233,12 +233,16 @@ freebie for a review**: Google's rules ban it, and it can get our reviews remove
 Review link to share: `https://g.page/r/CcPdn0szTbUwECE/review`. To show a review on the website, send it to Claude Code
 (name + stars + text, copied from Google) and it adds it to the Reviews section.
 
-**Opening day (Sun, 1 Nov 2026, 8 AM):** until then the website shows "Opening Sun, 1 Nov · 8 AM" at the top, and the
-order button says **Orders open 1 Nov, 8 AM** (customers can fill a cart but can't send it). From 1 Nov 8 AM it switches
-by itself: the top bar says "Now open" for a week, then disappears.
-- **Trial runs (27–31 Oct):** to place test orders, open `https://rejuve89.netlify.app/?trial` on that phone/tab first.
-- **Launch list:** "Remind me on WhatsApp" messages arrive as *"Please remind me on opening day (1 Nov). (website-launch)"*.
-  Save each number as a contact and add the label **Launch list** in WhatsApp Business. On 31 Oct send one broadcast to
+**Opening day (moved from 1 Nov; now "mid-November", exact date to be confirmed):** the date lives in ONE place, the
+`<html>` tag at the top of the website's `index.html`:
+- Not confirmed (now): `data-opening-at=""` `data-opening-label="mid-November"`. The site says "Opening mid-November"
+  and the order button says **Orders open mid-November** (customers can fill a cart but can't send it).
+- Confirmed: e.g. `data-opening-at="2026-11-11T08:00:00+05:30"` `data-opening-label="Wed, 11 Nov"`, then publish.
+  Orders open by themselves at that moment; the top bar says "Now open" for a week, then disappears.
+  Also change "Opening mid-November" in the two meta descriptions (Google/WhatsApp previews). Or just ask Claude Code.
+- **Trial runs (the days before opening):** to place test orders, open `https://rejuve89.netlify.app/?trial` on that phone/tab first.
+- **Launch list:** "Remind me on WhatsApp" messages arrive as *"Please remind me on opening day. (website-launch)"* (older ones say "(1 Nov)").
+  Save each number as a contact and add the label **Launch list** in WhatsApp Business. The day before opening, send one broadcast to
   that label (broadcasts only reach people who have saved our number).
 - **WhatsApp Channel** (https://whatsapp.com/channel/0029VbEFlvgHgZWYlYueCk3f): the website's launch card and footer
   link to it. Anyone can follow without saving our number, so also post the opening news, offers and new items there.
@@ -247,9 +251,9 @@ by itself: the top bar says "Now open" for a week, then disappears.
 - After 8 Nov, ask Claude Code to remove the launch bar from the website code (it's already hidden by then).
 
 **Offers shown on the website ("What's on" cards; each card hides itself after its dates):**
-- **Opening upgrade, Sun 1 Nov only:** the first 100 customers get 300ml made as 450ml. Bill the 300ml price. Keep count
+- **Opening upgrade, opening day only:** the first 100 customers get 300ml made as 450ml. Bill the 300ml price. Keep count
   with numbered tokens or tally marks on the order pad; stop at 100.
-- **DIWALI, 1–11 Nov:** a customer who says **DIWALI** (at the counter, in WhatsApp, or in the website order note) gets
+- **DIWALI, 11–15 Nov** (post-Diwali; only if we are open by then): a customer who says **DIWALI** (at the counter, in WhatsApp, or in the website order note) gets
   **10% off an order of 3 or more items**. Take it off when billing. If they already paid by UPI on the website, send the
   10% back by UPI. WhatsApp pre-orders arrive tagged `(website-diwali)`.
 - **Morning punch card:** one stamp per juice collected **8–11 AM**. After 10 stamps the **11th juice is free, any size**.
@@ -382,6 +386,52 @@ The POS and the website share a secret key so only your POS can read orders.
 
 ---
 
+## 6b. Logo and app icons
+
+The re.juve/89 logo (green + gold sprout wordmark) is used on the website **and** the POS
+(added 19 Oct 2026). The designer's original is `POS folder/data/Gemini_Generated_Image_wl8xipwl8xipwl8x-Photoroom.jpg`;
+keep it, it's the source for every file below.
+
+**Website** (`website folder/assets/img/`): the master copies.
+
+| File | Used for |
+|---|---|
+| `logo.png` / `logo-light.png` | Full wordmark, large (1185 × 347, transparent). `-light` = cream + gold, for dark green backgrounds |
+| `logo-mark.png` / `logo-mark-light.png` | Same wordmark, trimmed for the site header, footer and loading screen (720 × 211) |
+| `logo-sprout.svg` / `logo-sprout-light.svg` | Just the two leaves (the round seal on the home page) |
+| `favicon.svg`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png`, `icon-maskable-512.png` | Browser tab, iPhone/iPad home screen, installed-app icons |
+
+**POS** (`POS folder/pos/static/brand/`): copies of the website files, same names.
+
+| File | Where it shows in the POS |
+|---|---|
+| `logo-light.png` | Green header bar on every screen, splash screen, kitchen start screen, top of the bill PDF |
+| `logo.png` | Admin and Recipe Lab sign-in cards (white background) |
+| `logo-sprout.svg`, `logo-sprout-light.svg` | Spare, for future use |
+| `icon.svg` (= the website's `favicon.svg`), `apple-touch-icon.png`, `icon-192.png`, `icon-512.png` | Browser tab and the iPad home-screen icon |
+
+- The 58 mm printed receipt stays text-only on purpose (thermal printers print images badly).
+- If a logo file is missing, the POS shows the shop name as text, and the bill PDF falls back to the
+  shop photo from Admin → Settings → *Shop photo*. Nothing breaks.
+
+**To replace the logo:**
+1. Make the new files with **the same names and roughly the same shape** (wide wordmark, transparent
+   background; a light version for dark green and a dark version for white).
+2. Put them in the website: `website folder/assets/img/` (replace the old ones).
+3. Copy them into the POS:
+   ```bash
+   cd ~/PycharmProjects/rejuve-website/assets/img
+   cp logo.png logo-light.png logo-sprout.svg logo-sprout-light.svg \
+      apple-touch-icon.png icon-192.png icon-512.png ~/PycharmProjects/PythonProject1/pos/static/brand/
+   cp favicon.svg ~/PycharmProjects/PythonProject1/pos/static/brand/icon.svg
+   ```
+4. Restart the POS: `cd ~/PycharmProjects/PythonProject1 && ./pos-service.sh restart`,
+   then refresh each screen (Mac and iPad). Check the bill PDF: Orders → a bill → WhatsApp → **View**.
+5. iPad home-screen icons only update if you delete the icon and **Add to Home Screen** again.
+6. Publish the website (section 5c).
+
+---
+
 ## 7. Backups and restore
 
 - **Automatic:** one copy per day in `data/backups/auto-YYYYMMDD.db` (last 30 kept).
@@ -423,6 +473,11 @@ Then run the website sync (3a step 3).
 | "Today is already closed" when billing | Reports → reopen the day (admin PIN). |
 | Website orders not arriving in the POS | Admin → Online orders: is the mode **Web → POS**? Does the status say "Synced…"? "refused the POS key" → `POS_SYNC_KEY` on Netlify doesn't match → set it and redeploy. "Can't reach the website" → Mac offline. |
 | Website still shows WhatsApp in Web → POS mode | The POS hasn't synced for 10 min (offline fallback) or it's outside hours. Check the POS is running and online. |
+| Red bar "Can't reach the POS server. Retrying…" | That device lost the Mac. It reconnects by itself; check the Mac is on and the device is on the shop Wi-Fi (or Tailscale is on). |
+| Payment screen: "Couldn't confirm the bill was saved" | Check the connection, then tap **Complete** again. It won't bill twice (the POS recognises the repeat). |
+| "Something went wrong on the POS (ref K3F9QA)" | Note the ref. On the Mac: `grep K3F9QA data/logs/app.log` shows exactly what happened. |
+| "Too many wrong PIN attempts" | 5 wrong PINs lock the admin PIN for 5 minutes on that device. Wait, then use the right PIN. |
+| Logo missing or shows as text | A file in `pos/static/brand/` is missing or renamed. See section 6b. |
 | Something else is broken | `./pos-service.sh logs` and send the last lines to Claude Code. |
 
 ---
@@ -452,7 +507,11 @@ Then run the website sync (3a step 3).
 | `data/pos.db` | Everything: menu, orders, recipes, taste tests, settings (SQLite) |
 | `data/anthropic_key` | Claude API key (owner-only file) |
 | `data/backups/` | Automatic and manual backups |
-| `data/logs/pos.log` | Service log |
+| `data/logs/app.log` | Every change made in the POS, warnings and errors (crashes with a `ref`, see section 8) |
+| `data/logs/audit.log` | Bills, voids, collections, day close, menu/settings/image changes, wrong PINs |
+| `data/logs/pos.log` | Service start-up messages only |
+| `pos/static/brand/` | Logo and app icons (section 6b) |
+| `pos/errors.py` | Logging, friendly error/validation messages, PIN lockout |
 | `pos/main.py` | Billing, menu, orders, reports API |
 | `pos/kitchen.py` | Kitchen queue, recipes, Recipe Lab API |
 | `pos/chef.py` | Claude: writing and tuning recipes |

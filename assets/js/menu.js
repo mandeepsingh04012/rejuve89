@@ -30,9 +30,9 @@ window.MENU = {
           "extras": [
             "No Sugar",
             "Less Sugar",
+            "Honey",
             "No Ice",
-            "Black Salt / Masala",
-            "Honey"
+            "Black Salt / Masala"
           ],
           "kcal": 135,
           "protein": 2,
@@ -63,9 +63,9 @@ window.MENU = {
           "extras": [
             "No Sugar",
             "Less Sugar",
+            "Honey",
             "No Ice",
-            "Black Salt / Masala",
-            "Honey"
+            "Black Salt / Masala"
           ],
           "kcal": 120,
           "protein": 1,
@@ -96,9 +96,9 @@ window.MENU = {
           "extras": [
             "No Sugar",
             "Less Sugar",
+            "Honey",
             "No Ice",
-            "Black Salt / Masala",
-            "Honey"
+            "Black Salt / Masala"
           ],
           "kcal": 90,
           "protein": 1,
@@ -129,9 +129,9 @@ window.MENU = {
           "extras": [
             "No Sugar",
             "Less Sugar",
+            "Honey",
             "No Ice",
-            "Black Salt / Masala",
-            "Honey"
+            "Black Salt / Masala"
           ],
           "kcal": 150,
           "protein": 1,
@@ -162,9 +162,9 @@ window.MENU = {
           "extras": [
             "No Sugar",
             "Less Sugar",
+            "Honey",
             "No Ice",
-            "Black Salt / Masala",
-            "Honey"
+            "Black Salt / Masala"
           ],
           "kcal": 165,
           "protein": 1,
@@ -195,9 +195,9 @@ window.MENU = {
           "extras": [
             "No Sugar",
             "Less Sugar",
+            "Honey",
             "No Ice",
-            "Black Salt / Masala",
-            "Honey"
+            "Black Salt / Masala"
           ],
           "kcal": 120,
           "protein": 2,
@@ -237,9 +237,9 @@ window.MENU = {
           "extras": [
             "No Sugar",
             "Less Sugar",
+            "Honey",
             "No Ice",
-            "Black Salt / Masala",
-            "Honey"
+            "Black Salt / Masala"
           ],
           "kcal": 100,
           "protein": 1,
@@ -270,9 +270,9 @@ window.MENU = {
           "extras": [
             "No Sugar",
             "Less Sugar",
+            "Honey",
             "No Ice",
-            "Black Salt / Masala",
-            "Honey"
+            "Black Salt / Masala"
           ],
           "kcal": 140,
           "protein": 1,
@@ -303,9 +303,9 @@ window.MENU = {
           "extras": [
             "No Sugar",
             "Less Sugar",
+            "Honey",
             "No Ice",
-            "Black Salt / Masala",
-            "Honey"
+            "Black Salt / Masala"
           ],
           "kcal": 85,
           "protein": 1,
@@ -336,9 +336,9 @@ window.MENU = {
           "extras": [
             "No Sugar",
             "Less Sugar",
+            "Honey",
             "No Ice",
-            "Black Salt / Masala",
-            "Honey"
+            "Black Salt / Masala"
           ],
           "kcal": 125,
           "protein": 1,
@@ -356,72 +356,34 @@ window.MENU = {
       "accent": "#E46A7E",
       "why": [
         "🥤 Blended thick with real fruit the minute you order, never from a powder or a premix.",
-        "🍯 Sweetness is your call: no sugar, less sugar, honey, or dates (+₹10)."
+        "🍯 Sweetness is your call: no sugar, less sugar, or dates (+₹10)."
       ],
       "hero": "assets/img/menu/berry-smoothie.jpg",
       "items": [
         {
-          "name": "Banana Smoothie",
+          "name": "Banana Chocolate Smoothie",
           "desc": "",
           "sizes": [
             {
               "name": "300ml",
-              "price": 89
-            },
-            {
-              "name": "450ml",
               "price": 129
             },
             {
-              "name": "600ml",
-              "price": 169
-            }
-          ],
-          "img": "assets/img/menu/banana-smoothie.jpg",
-          "badge": "",
-          "extras": [
-            "No Sugar",
-            "Less Sugar",
-            "No Ice",
-            "Dates"
-          ],
-          "kcal": 220,
-          "protein": 7,
-          "tags": [
-            "Energy",
-            "Potassium"
-          ]
-        },
-        {
-          "name": "Mango Smoothie",
-          "desc": "",
-          "sizes": [
-            {
-              "name": "300ml",
-              "price": 99
-            },
-            {
               "name": "450ml",
-              "price": 139
+              "price": 169
             },
             {
               "name": "600ml",
-              "price": 179
+              "price": 209
             }
           ],
-          "img": "assets/img/menu/mango-smoothie.jpg",
+          "img": "assets/img/menu/banana-choc-smoothie.jpg",
           "badge": "",
           "extras": [
             "No Sugar",
             "Less Sugar",
             "No Ice",
             "Dates"
-          ],
-          "kcal": 240,
-          "protein": 6,
-          "tags": [
-            "Vit A",
-            "Energy"
           ]
         },
         {
@@ -430,15 +392,15 @@ window.MENU = {
           "sizes": [
             {
               "name": "300ml",
-              "price": 109
+              "price": 139
             },
             {
               "name": "450ml",
-              "price": 159
+              "price": 179
             },
             {
               "name": "600ml",
-              "price": 209
+              "price": 219
             }
           ],
           "img": "assets/img/menu/strawberry-smoothie.jpg",
@@ -462,15 +424,15 @@ window.MENU = {
           "sizes": [
             {
               "name": "300ml",
-              "price": 119
+              "price": 149
             },
             {
               "name": "450ml",
-              "price": 169
+              "price": 199
             },
             {
               "name": "600ml",
-              "price": 219
+              "price": 249
             }
           ],
           "img": "assets/img/menu/berry-smoothie.jpg",
@@ -486,6 +448,347 @@ window.MENU = {
           "tags": [
             "Antioxidants",
             "Fibre"
+          ]
+        },
+        {
+          "name": "Protein Smoothie",
+          "desc": "",
+          "sizes": [
+            {
+              "name": "300ml",
+              "price": 189
+            },
+            {
+              "name": "450ml",
+              "price": 209
+            },
+            {
+              "name": "600ml",
+              "price": 239
+            }
+          ],
+          "img": "assets/img/menu/protein-smoothie.jpg",
+          "badge": "",
+          "extras": [
+            "No Sugar",
+            "Less Sugar",
+            "No Ice",
+            "Dates"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Shakes",
+      "slug": "shakes",
+      "blurb": "Classic milkshakes, thick and cold. Medium or large.",
+      "accent": "#B98A5E",
+      "hero": "assets/img/menu/chocolate-shake.jpg",
+      "items": [
+        {
+          "name": "Banana Shake",
+          "desc": "Ripe banana, chilled milk",
+          "sizes": [
+            {
+              "name": "Medium (450ml)",
+              "price": 119
+            },
+            {
+              "name": "Large (600ml)",
+              "price": 149
+            }
+          ],
+          "img": "assets/img/menu/banana-shake.jpg",
+          "badge": "",
+          "extras": [
+            "No Sugar",
+            "Less Sugar",
+            "Honey",
+            "Jaggery",
+            "No Ice",
+            "Ice Cream",
+            "Protein Milk",
+            "Whey Protein Scoop (22–26 g protein)"
+          ]
+        },
+        {
+          "name": "Chikoo Shake",
+          "desc": "Ripe chikoo, chilled milk",
+          "sizes": [
+            {
+              "name": "Medium (450ml)",
+              "price": 129
+            },
+            {
+              "name": "Large (600ml)",
+              "price": 159
+            }
+          ],
+          "img": "assets/img/menu/chikoo-shake.jpg",
+          "badge": "",
+          "extras": [
+            "No Sugar",
+            "Less Sugar",
+            "Honey",
+            "Jaggery",
+            "No Ice",
+            "Ice Cream",
+            "Protein Milk",
+            "Whey Protein Scoop (22–26 g protein)"
+          ]
+        },
+        {
+          "name": "Chocolate Shake",
+          "desc": "Cocoa, chocolate, chilled milk",
+          "sizes": [
+            {
+              "name": "Medium (450ml)",
+              "price": 139
+            },
+            {
+              "name": "Large (600ml)",
+              "price": 169
+            }
+          ],
+          "img": "assets/img/menu/chocolate-shake.jpg",
+          "badge": "",
+          "extras": [
+            "No Sugar",
+            "Less Sugar",
+            "Honey",
+            "Jaggery",
+            "No Ice",
+            "Ice Cream",
+            "Protein Milk",
+            "Whey Protein Scoop (22–26 g protein)"
+          ]
+        },
+        {
+          "name": "Vanilla Ice Cream Shake",
+          "desc": "Vanilla ice cream, chilled milk",
+          "sizes": [
+            {
+              "name": "Medium (450ml)",
+              "price": 149
+            },
+            {
+              "name": "Large (600ml)",
+              "price": 179
+            }
+          ],
+          "img": "assets/img/menu/vanilla-shake.jpg",
+          "badge": "",
+          "extras": [
+            "No Sugar",
+            "Less Sugar",
+            "Honey",
+            "Jaggery",
+            "No Ice",
+            "Ice Cream",
+            "Protein Milk",
+            "Whey Protein Scoop (22–26 g protein)"
+          ]
+        },
+        {
+          "name": "Strawberry Shake",
+          "desc": "Fresh strawberries, chilled milk",
+          "sizes": [
+            {
+              "name": "Medium (450ml)",
+              "price": 139
+            },
+            {
+              "name": "Large (600ml)",
+              "price": 169
+            }
+          ],
+          "img": "assets/img/menu/strawberry-shake.jpg",
+          "badge": "",
+          "extras": [
+            "No Sugar",
+            "Less Sugar",
+            "Honey",
+            "Jaggery",
+            "No Ice",
+            "Ice Cream",
+            "Protein Milk",
+            "Whey Protein Scoop (22–26 g protein)"
+          ]
+        },
+        {
+          "name": "Peanut Butter Shake",
+          "desc": "Peanut butter, banana, chilled milk",
+          "sizes": [
+            {
+              "name": "Medium (450ml)",
+              "price": 149
+            },
+            {
+              "name": "Large (600ml)",
+              "price": 179
+            }
+          ],
+          "img": "assets/img/menu/pb-shake.jpg",
+          "badge": "",
+          "extras": [
+            "No Sugar",
+            "Less Sugar",
+            "Honey",
+            "Jaggery",
+            "No Ice",
+            "Ice Cream",
+            "Protein Milk",
+            "Whey Protein Scoop (22–26 g protein)"
+          ]
+        },
+        {
+          "name": "Whey Protein Shake",
+          "desc": "1 scoop whey, banana, chilled milk",
+          "sizes": [
+            {
+              "name": "Medium (450ml)",
+              "price": 189
+            },
+            {
+              "name": "Large (600ml)",
+              "price": 229
+            }
+          ],
+          "img": "assets/img/menu/whey-shake.jpg",
+          "badge": "",
+          "extras": [
+            "No Sugar",
+            "Less Sugar",
+            "Honey",
+            "Jaggery",
+            "No Ice",
+            "Ice Cream",
+            "Protein Milk",
+            "Whey Protein Scoop (22–26 g protein)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Cold Coffee",
+      "slug": "coffee",
+      "blurb": "Chilled coffee, blended or poured over ice.",
+      "accent": "#8B5E3C",
+      "hero": "assets/img/menu/iced-latte.jpg",
+      "items": [
+        {
+          "name": "Classic Cold Coffee",
+          "desc": "Blended coffee, chilled milk",
+          "sizes": [
+            {
+              "name": "Small (300ml)",
+              "price": 70
+            },
+            {
+              "name": "Medium (450ml)",
+              "price": 100
+            },
+            {
+              "name": "Large (600ml)",
+              "price": 130
+            }
+          ],
+          "img": "assets/img/menu/classic-cold-coffee.jpg",
+          "badge": "",
+          "extras": [
+            "Honey"
+          ]
+        },
+        {
+          "name": "Hand-Beaten Cold Coffee",
+          "desc": "Whipped coffee foam over chilled milk",
+          "sizes": [
+            {
+              "name": "Small (300ml)",
+              "price": 80
+            },
+            {
+              "name": "Medium (450ml)",
+              "price": 110
+            },
+            {
+              "name": "Large (600ml)",
+              "price": 140
+            }
+          ],
+          "img": "assets/img/menu/hand-beaten-coffee.jpg",
+          "badge": "",
+          "extras": [
+            "Honey"
+          ]
+        },
+        {
+          "name": "Hazelnut Cold Coffee",
+          "desc": "Blended coffee, hazelnut, chilled milk",
+          "sizes": [
+            {
+              "name": "Small (300ml)",
+              "price": 85
+            },
+            {
+              "name": "Medium (450ml)",
+              "price": 115
+            },
+            {
+              "name": "Large (600ml)",
+              "price": 145
+            }
+          ],
+          "img": "assets/img/menu/hazelnut-cold-coffee.jpg",
+          "badge": "",
+          "extras": [
+            "Honey"
+          ]
+        },
+        {
+          "name": "Iced Latte",
+          "desc": "Strong coffee over milk and ice",
+          "sizes": [
+            {
+              "name": "Small (300ml)",
+              "price": 80
+            },
+            {
+              "name": "Medium (450ml)",
+              "price": 110
+            },
+            {
+              "name": "Large (600ml)",
+              "price": 140
+            }
+          ],
+          "img": "assets/img/menu/iced-latte.jpg",
+          "badge": "",
+          "extras": [
+            "Honey"
+          ]
+        },
+        {
+          "name": "Protein Cold Coffee",
+          "desc": "Blended coffee, 1 scoop whey, chilled milk",
+          "sizes": [
+            {
+              "name": "Small (300ml)",
+              "price": 90
+            },
+            {
+              "name": "Medium (450ml)",
+              "price": 120
+            },
+            {
+              "name": "Large (600ml)",
+              "price": 150
+            }
+          ],
+          "img": "assets/img/menu/protein-cold-coffee.jpg",
+          "badge": "",
+          "extras": [
+            "Honey"
           ]
         }
       ]
@@ -597,40 +900,6 @@ window.MENU = {
           "tags": [
             "Muscle",
             "Healthy fats"
-          ]
-        },
-        {
-          "name": "Mango Protein",
-          "desc": "1 scoop whey",
-          "sizes": [
-            {
-              "name": "300ml",
-              "price": 159
-            },
-            {
-              "name": "450ml",
-              "price": 199
-            },
-            {
-              "name": "600ml",
-              "price": 249
-            }
-          ],
-          "img": "assets/img/menu/mango-protein.jpg",
-          "badge": "",
-          "extras": [
-            "No Sugar",
-            "Less Sugar",
-            "No Ice",
-            "With Water (no milk)",
-            "Extra Whey Scoop",
-            "Dates"
-          ],
-          "kcal": 320,
-          "protein": 27,
-          "tags": [
-            "Muscle",
-            "Vit A"
           ]
         }
       ]
@@ -901,6 +1170,10 @@ window.MENU = {
       "price": 0
     },
     {
+      "name": "Jaggery",
+      "price": 0
+    },
+    {
       "name": "No Ice",
       "price": 0
     },
@@ -921,6 +1194,18 @@ window.MENU = {
     {
       "name": "Dates",
       "price": 10
+    },
+    {
+      "name": "Ice Cream",
+      "price": 20
+    },
+    {
+      "name": "Protein Milk",
+      "price": 40
+    },
+    {
+      "name": "Whey Protein Scoop (22–26 g protein)",
+      "price": 90
     }
   ]
 };
