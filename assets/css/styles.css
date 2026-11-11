@@ -1420,3 +1420,8 @@ body.is-locked { position: fixed; left: 0; right: 0; overflow: hidden; }
 .footer__tag { letter-spacing: .24em; }
 .seal__core img { width: 58px; height: auto; display: block; margin-top: -6px; }
 @media (max-width: 640px) { .seal__core img { width: 44px; } }
+.sr-only { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* build-your-own is switched off (final menu, 11 Nov 2026): make sure hidden cards/stats stay hidden */
+.play__card[hidden], .why__stat[hidden] { display: none !important; }
+.play:has(> .play__card--build[hidden]) { grid-template-columns: 1fr; }

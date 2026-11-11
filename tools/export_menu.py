@@ -31,22 +31,20 @@ BLEND_IMAGES = {"orange": "orange", "mosambi": "mosambi", "watermelon": "waterme
 
 # Website-only extras the POS doesn't store: photo, accent colour, short blurb.
 CATEGORY_META = {
-    "Fresh Juices": {"slug": "juices", "blurb": "One fruit. Squeezed when you order.", "accent": "#F2A23A", "hero": "orange"},
-    "RE:Wellness": {"slug": "wellness", "blurb": "Our signature blends for a mid-day reset.", "accent": "#7DB46C", "hero": "re-green"},
-    "Smoothies": {"slug": "smoothies", "blurb": "Thick, creamy, real fruit.", "accent": "#E46A7E", "hero": "berry-smoothie",
-                  "why": ["🥤 Blended thick with real fruit the minute you order, never from a powder or a premix.",
-                          "🍯 Sweetness is your call: no sugar, less sugar, or dates (+₹10)."]},
-    "Shakes": {"slug": "shakes", "blurb": "Classic milkshakes, thick and cold. Medium or large.", "accent": "#B98A5E",
+    # final menu, 11 Nov 2026 (POS order)
+    "Shakes": {"slug": "shakes", "blurb": "Classic milkshakes, thick and cold. Regular or large.", "accent": "#B98A5E",
                "hero": "chocolate-shake"},
+    "Fresh Juices": {"slug": "juices", "blurb": "Fresh fruit, squeezed when you order.", "accent": "#F2A23A", "hero": "orange"},
     "Cold Coffee": {"slug": "coffee", "blurb": "Chilled coffee, blended or poured over ice.", "accent": "#8B5E3C",
                     "hero": "iced-latte"},
-    "RE:Protein": {"slug": "protein", "blurb": "A full scoop of whey in every glass.", "accent": "#B98A5E", "hero": "chocolate-protein"},
-    "RE:Bowls": {"slug": "bowls", "blurb": "Fruit bowls, overnight oats and yogurt bowls, made fresh every morning.",
-                 "accent": "#E9A23B", "hero": "fruit-bowl",
-                 "why": ["🍉 Fruit bowls: cut every morning from what's in season, tropical one day, classic favourites the next. Just fruit, no preservatives, portioned to fill you up.",
-                         "🥣 Overnight oats: soaked overnight so they're soft and creamy by morning. Sweetened only with fruit, figs or dates, with no added sugar and no preservatives.",
-                         "🍓 Yogurt bowls: thick low-fat yogurt with fresh fruit and crunchy muesli. Made when you order, no artificial flavours."]},
-    "RE:Bites": {"slug": "bites", "blurb": "Light, filling snacks to go with your sip.", "accent": "#D9B44A", "hero": "avocado-sandwich"},
+    "Sandwiches": {"slug": "sandwiches", "blurb": "Toasted fresh and generously filled.", "accent": "#D9B44A",
+                   "hero": "veg-sandwich"},
+    "Chaat": {"slug": "chaat", "blurb": "Tangy, crunchy chaat, made to order.", "accent": "#E07A3B", "hero": "chickpea-chaat"},
+    "Bowls": {"slug": "bowls", "blurb": "Smoothie, oats and muesli bowls, made fresh.", "accent": "#E9A23B", "hero": "fig-oats"},
+    "Tea & Hot Drinks": {"slug": "hot", "blurb": "Hot tea, coffee and badam milk.", "accent": "#A8723F"},
+    "Desserts": {"slug": "desserts", "blurb": "A little something sweet to finish.", "accent": "#8E3B4E"},
+    "Protein Shakes": {"slug": "protein", "blurb": "Shakes with a full scoop of whey. Regular or large.", "accent": "#B98A5E",
+                       "hero": "chocolate-protein"},
 }
 
 ITEM_IMAGES = {
@@ -57,6 +55,12 @@ ITEM_IMAGES = {
     "Strawberry Smoothie": "strawberry-smoothie", "Mixed Berry Smoothie": "berry-smoothie",
     "Banana Protein": "banana-protein", "Chocolate Protein": "chocolate-protein",
     "Peanut Butter Protein": "pb-protein", "Mango Protein": "mango-protein",
+    # final menu (11 Nov): renamed items keep their photos
+    "Orange Juice": "orange", "Mosambi Juice": "mosambi", "Pineapple Juice": "pineapple",
+    "Pomegranate Juice": "pomegranate", "ABC Juice": "abc", "Banana Protein Shake": "banana-protein",
+    "Chocolate Protein Shake": "chocolate-protein", "Mango Protein Shake": "mango-protein",
+    "Sweet Corn Chaat": "corn-chaat", "Tandoori Paneer Sandwich": "paneer-sandwich",
+    "Mango Shake": "mango-smoothie", "Strawberry Protein Shake": "strawberry-shake",
     "Peanut Chaat": "peanut-chaat", "Chickpea Chaat": "chickpea-chaat", "Boiled Corn": "boiled-corn",
     "Air-Fried Corn Chaat": "corn-chaat", "Grilled Veg Sandwich": "veg-sandwich",
     "Paneer Sandwich": "paneer-sandwich", "Avocado Sandwich": "avocado-sandwich",
@@ -75,10 +79,20 @@ ITEM_IMAGES = {
 }
 
 # Items with no photo yet: the card shows these emoji on a soft colour tile instead, e.g. "New Bowl": "🥣🍓".
-ITEM_ART = {}
+ITEM_ART = {
+    "KitKat Shake": "🍫🥤", "Oreo Shake": "🍪🥤", "KitKat Protein Shake": "🍫💪", "Oreo Protein Shake": "🍪💪",
+    "Mixed Fruit Juice": "🍎🍊🍍", "Hydrarush Special": "💧🥤",
+    "re.juve Special Coffee": "☕✨", "Caramel Cold Coffee": "🍮☕", "Mocha Cold Coffee": "🍫☕", "Iced Spanish Latte": "🥛☕",
+    "Fresh Veg Sandwich": "🥪🥒", "Cheese Veg Sandwich": "🧀🥪", "Spinach Corn Sandwich": "🥬🌽", "Avocado Toast": "🥑🍞",
+    "Sprouts Chaat": "🌱🥗", "Special Bhel Chaat": "🥗🌶️", "Samosa Chaat": "🥟🌶️", "Sabudana Tikki Chaat": "🥔🌿",
+    "Banana Smoothie Bowl": "🍌🥣", "Overnight Oats Bowl": "🥣🌾", "Muesli Protein Bowl (24g protein)": "🥣💪",
+    "Cozy Tea": "☕", "Warm Coffee": "☕", "Lemon Tea": "🍋🍵", "Royal Badam Bliss": "🌰🥛",
+    "Chocolate Lava Cake": "🍫🎂", "Belgian Chocolate Brownie": "🍫", "Chocolate Mousse Cup": "🍮",
+}
 
 # Items to highlight with a small badge on the website.
-BADGES = {"RE:GREEN": "Bestseller", "RE:GLOW": "Signature", "ABC": "Detox", "IMMUNITY": "Vit C",
+BADGES = {"ABC Juice": "Detox", "re.juve Special Coffee": "Signature",
+          "RE:GREEN": "Bestseller", "RE:GLOW": "Signature", "ABC": "Detox", "IMMUNITY": "Vit C",
           "Peanut Butter Protein": "Gym fav", "Avocado Sandwich": "New",
           "Seasonal Fruit Bowl": "New", "Cocoa Peanut Overnight Oats": "New"}
 
@@ -103,6 +117,15 @@ NUTRITION = {
     "Chocolate Protein": (310, 27, ["Muscle", "Recovery"]),
     "Peanut Butter Protein": (380, 32, ["Muscle", "Healthy fats"]),
     "Mango Protein": (320, 27, ["Muscle", "Vit A"]),
+    # final menu (11 Nov): renamed items, same drinks
+    "Orange Juice": (135, 2, ["Vit C", "Immunity"]),
+    "Mosambi Juice": (120, 1, ["Vit C", "Hydrating"]),
+    "Pineapple Juice": (150, 1, ["Digestion", "Vit C"]),
+    "Pomegranate Juice": (165, 1, ["Antioxidants", "Heart-friendly"]),
+    "ABC Juice": (120, 2, ["Vit A", "Antioxidants"]),
+    "Banana Protein Shake": (300, 28, ["Muscle", "Energy"]),
+    "Chocolate Protein Shake": (310, 27, ["Muscle", "Recovery"]),
+    "Mango Protein Shake": (320, 27, ["Muscle", "Vit A"]),
     "Peanut Chaat": (250, 11, ["Protein", "Healthy fats"]),
     "Chickpea Chaat": (220, 10, ["Protein", "Fibre"]),
     "Boiled Corn": (150, 5, ["Fibre", "Light"]),
@@ -110,6 +133,23 @@ NUTRITION = {
     "Grilled Veg Sandwich": (280, 9, ["Fibre", "Veggies"]),
     "Paneer Sandwich": (350, 18, ["Protein", "Calcium"]),
     "Avocado Sandwich": (320, 8, ["Healthy fats", "Fibre"]),
+    # Added 22 Oct, worked out from the POS draft recipes (standard nutrition values, sweetener left out).
+    # Per 300ml like the rest; the site scales to the chosen size (whey protein barely scales: 1 scoop per glass).
+    # Recheck these when the recipes are locked in Recipe Lab.
+    "Banana Chocolate Smoothie": (210, 7, ["Energy", "Chocolate"]),
+    "Protein Smoothie": (370, 32, ["Muscle", "Antioxidants"]),
+    "Banana Shake": (255, 7, ["Energy", "Potassium"]),
+    "Chikoo Shake": (240, 6, ["Energy", "Fibre"]),
+    "Chocolate Shake": (225, 8, ["Chocolate", "Calcium"]),
+    "Vanilla Ice Cream Shake": (305, 8, ["Creamy", "Treat"]),
+    "Strawberry Shake": (190, 6, ["Vit C", "Calcium"]),
+    "Peanut Butter Shake": (330, 12, ["Protein", "Healthy fats"]),
+    "Whey Protein Shake": (290, 30, ["Muscle", "Recovery"]),
+    "Classic Cold Coffee": (200, 7, ["Caffeine", "Calcium"]),
+    "Hand-Beaten Cold Coffee": (200, 7, ["Caffeine", "Calcium"]),
+    "Hazelnut Cold Coffee": (240, 7, ["Caffeine", "Hazelnut"]),
+    "Iced Latte": (165, 6, ["Caffeine", "Calcium"]),
+    "Protein Cold Coffee": (320, 31, ["Muscle", "Caffeine"]),
     # bowls: kitchen estimates per bowl/jar; check them when the recipes are locked in Recipe Lab
     "Seasonal Fruit Bowl": (170, 2, ["Seasonal fruit", "Light"]),
     "Fig & Fruit Overnight Oats": (360, 12, ["Oats", "Fibre"]),

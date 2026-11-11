@@ -29,8 +29,8 @@ const call = async (name, { method = "GET", body, query = "", headers = {}, ip =
 const sync = (body = {}) => call("pos-sync", { method: "POST", headers: { "x-pos-key": KEY }, body });
 const allDay = { open: "00:00", close: "23:59", cutoff_min: 0, upi_id: "8816809822@ptsbi", upi_name: "re.juve/89" };
 const ITEMS = [
-  { name: "Orange + Carrot + Ginger", size: "450ml", opts: ["No Ice"], adds: [], qty: 2 },
-  { name: "Banana Protein", size: "300ml", opts: [], adds: ["Extra Whey Scoop"], qty: 1 },
+  { name: "ABC Juice", size: "Large (450ml)", opts: ["No Ice"], adds: [], qty: 2 },
+  { name: "Banana Protein Shake", size: "Regular (350ml)", opts: [], adds: ["Extra Whey Scoop"], qty: 1 },
   { name: "Peanut Chaat", size: "", opts: [], adds: [], qty: 1 },
 ];
 const order = (extra = {}) => call("order", { method: "POST", ip: `9.9.9.${Math.floor(Math.random() * 250)}`,
@@ -70,11 +70,11 @@ test("full flow: place, sync to POS, pay by UPI, status updates", async () => {
   const placed = await order({ payment: "upi" });
   assert.equal(placed.status, 201, JSON.stringify(placed.data));
   const o = placed.data.order;
-  // server-side prices: 2 x 139 + (139 + 70) + 89 = 576
-  assert.equal(o.total, 2 * 139 + 209 + 89);
+  // server-side prices: 2 x 99 + (149 + 70) + 69 = 486
+  assert.equal(o.total, 2 * 99 + 219 + 69);
   assert.match(o.code, /^W\d{3}$/);
   assert.equal(o.payment_status, "pending");
-  assert.match(placed.data.upi.link, /^upi:\/\/pay\?pa=8816809822%40ptsbi&pn=re.juve%2F89&am=576.00&cu=INR&tn=Order%20W\d{3}$/);
+  assert.match(placed.data.upi.link, /^upi:\/\/pay\?pa=8816809822%40ptsbi&pn=re.juve%2F89&am=486.00&cu=INR&tn=Order%20W\d{3}$/);
 
   // POS pulls it (token never leaves the mailbox)
   let s = await sync({ config: { ...allDay, mode: "web_pos" } });
@@ -102,9 +102,9 @@ test("rejects bad orders", async () => {
   await bad({ phone: "12345" }, /mobile/);
   await bad({ items: [] }, /empty/);
   await bad({ items: [{ name: "Free Beer", size: "300ml", qty: 1 }] }, /not on the menu/);
-  await bad({ items: [{ name: "Strawberry Smoothie", size: "300ml", qty: 1, adds: ["Extra Whey Scoop"] }] }, /isn't available/);
-  await bad({ items: [{ name: "Orange Fresh", size: "900ml", qty: 1 }] }, /size/);
-  await bad({ items: [{ name: "Orange Fresh", size: "300ml", qty: 50 }] }, /Quantity/);
+  await bad({ items: [{ name: "Strawberry Shake", size: "Regular (350ml)", qty: 1, adds: ["Extra Whey Scoop"] }] }, /isn't available/);
+  await bad({ items: [{ name: "Orange Juice", size: "900ml", qty: 1 }] }, /size/);
+  await bad({ items: [{ name: "Orange Juice", size: "Regular (350ml)", qty: 50 }] }, /Quantity/);
   assert.equal((await order({ website: "http://spam" })).status, 400);   // honeypot
 });
 
@@ -112,12 +112,12 @@ test("rejects malformed or tricky input without crashing", async () => {
   await sync({ config: { ...allDay, mode: "web_pos" } });
   const bad = async (extra, re) => { const r = await order(extra); assert.equal(r.status, 400); if (re) assert.match(r.data.error, re); };
   await bad({ items: [null] });
-  await bad({ items: "Orange Fresh" }, /empty/);
+  await bad({ items: "Orange Juice" }, /empty/);
   await bad({ items: [{ name: "constructor", size: "300ml", qty: 1 }] }, /not on the menu/);
-  await bad({ items: [{ name: "Orange Fresh", size: "toString", qty: 1 }] }, /size/);
-  await bad({ items: [{ name: "Banana Protein", size: "300ml", qty: 1, adds: ["toString"] }] }, /isn't available/);
-  await bad({ items: [{ name: "Banana Protein", size: "300ml", qty: 1, adds: "Extra Whey Scoop" }] }, /add-ons/);
-  await bad({ items: [{ name: "Orange Fresh", size: "300ml", qty: 1.5 }] }, /Quantity/);
+  await bad({ items: [{ name: "Orange Juice", size: "toString", qty: 1 }] }, /size/);
+  await bad({ items: [{ name: "Banana Protein Shake", size: "Regular (350ml)", qty: 1, adds: ["toString"] }] }, /isn't available/);
+  await bad({ items: [{ name: "Banana Protein Shake", size: "Regular (350ml)", qty: 1, adds: "Extra Whey Scoop" }] }, /add-ons/);
+  await bad({ items: [{ name: "Orange Juice", size: "Regular (350ml)", qty: 1.5 }] }, /Quantity/);
   await bad({ pickup_in: "soon" }, /pickup/);
   for (const raw of ["not json", "null", "[1,2]", JSON.stringify({ x: "y".repeat(40000) })]) {
     const res = await fn.order(new Request("http://site/api/order", { method: "POST", headers: { "content-type": "application/json" }, body: raw }), { ip: "7.7.7.7" });

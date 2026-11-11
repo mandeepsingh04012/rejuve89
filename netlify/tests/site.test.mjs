@@ -32,7 +32,7 @@ test("share and SEO tags use absolute URLs", () => {
   }
   assert.match(html, /<link rel="canonical" href="https:\/\//);
   const ld = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
-  assert.equal(ld["@type"], "JuiceBar");
+  assert.equal(ld["@type"], "CafeOrCoffeeShop");
   for (const u of [ld.url, ld.logo, ...ld.image]) assert.match(u, /^https:\/\//);
 });
 
@@ -45,4 +45,16 @@ test("prices on the What's on cards and sugar page match the menu", () => {
     const want = price(name, size) + (combo ? price(combo) : 0);
     assert.equal(Number(shown), want, `${name}${combo ? " + " + combo : ""} shows ₹${shown}, menu says ₹${want}`);
   }
+});
+
+test("FAQ structured data matches the visible FAQ", () => {
+  const ld = JSON.parse(html.match(/<script type="application\/ld\+json" id="faqLd">([\s\S]*?)<\/script>/)[1]);
+  const text = (x) => x.replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/&#x27;|&#39;/g, "'").trim();
+  const list = html.slice(html.indexOf('class="faq__list"'));
+  const shown = [...list.matchAll(/<details class="reveal"><summary[^>]*>(.*?)<\/summary><p[^>]*>(.*?)<\/p><\/details>/g)].map(([, q, a]) => [text(q), text(a)]);
+  assert.equal(ld.mainEntity.length, shown.length, "FAQ count differs: update the FAQPage JSON-LD in index.html");
+  ld.mainEntity.forEach((e, i) => {
+    assert.equal(e.name, shown[i][0]);
+    assert.equal(e.acceptedAnswer.text, shown[i][1], `answer ${i + 1} differs from the visible FAQ`);
+  });
 });

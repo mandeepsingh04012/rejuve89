@@ -166,11 +166,11 @@
     "Are you a smoothie? Because I've got a crush on you, and it's blended.",
     "Is your name Mosambi? Because you're sweet, local and totally my type.",
     "Watermelon you doing later? Let's grab a juice.",
-    "I'm not saying you're the one… but you're definitely my 600ml.",
+    "I'm not saying you're the one… but you're definitely my Large.",
     "Are you a protein shake? Because you make every rep worth it.",
     "You must be orange juice, because you just made my morning.",
     "Lettuce be honest: you deserve something fresh.",
-    "Are you RE:GLOW? Because you're absolutely radiant.",
+    "Are you a Hydrarush Special? Because you're seriously refreshing.",
     "I'd ask you out for coffee, but you look like a fresh-juice kind of person.",
     "Let's skip the small talk and go straight to a large ABC.",
     "You're the pineapple of my eye.",
@@ -218,6 +218,12 @@
     return "";
   };
 
+  // hero "40+ things on the menu" and the scrolling ticker follow the real menu
+  const itemCount = cats.reduce((n, c) => n + c.items.length, 0);
+  if (itemCount >= 10) $$("[data-menu-count]").forEach(el => { el.textContent = `${Math.floor(itemCount / 5) * 5}+`; });
+  const track = $("#marqueeTrack");
+  if (track && cats.length) { const once = cats.map(c => `<span>${esc(c.name)}</span><i>✦</i>`).join(""); track.innerHTML = once + once; }
+
   // Category tabs, each with a small round photo (they replace the big category tiles)
   const tabs = $("#tabs");
   tabs.innerHTML = cats.map(c =>
@@ -257,7 +263,7 @@
   const grid = $("#menuGrid"), blurb = $("#menuBlurb");
 
   // "Pick by goal": filters across categories, built only from menu facts (protein, kcal, tags, price)
-  const KIDS = ["Banana Chocolate Smoothie", "Strawberry Smoothie", "Banana Shake", "Chocolate Shake", "Watermelon Fresh", "Orange Fresh"];
+  const KIDS = ["Banana Shake", "Strawberry Shake", "Mango Shake", "Oreo Shake", "KitKat Shake", "Orange Juice"];
   const isDrink = it => it.sizes.length > 1;
   const GOALS = [
     { id: "workout", icon: "💪", label: "Post-workout", note: "15 g+ protein in a 300ml glass or a sandwich.", test: it => it.protein >= 15 },
@@ -671,6 +677,7 @@
   function applyOrdering() {
     const web = ordering.channel === "web", open = canOrder();
     $$(".web-only").forEach(el => (el.hidden = !web));
+    $("#pickWhen").closest("label").style.display = prelaunch() ? "none" : "";   // no pickup times before opening
     $("#payUpiOpt").hidden = !(web && ordering.upi);
     if (!(web && ordering.upi)) { const c = $("input[name=pay][value=counter]"); if (c) c.checked = true; }
     const btn = $("#sendOrder"), notice = $("#orderNotice");

@@ -2,27 +2,208 @@
 window.MENU = {
   "categories": [
     {
+      "name": "Shakes",
+      "slug": "shakes",
+      "blurb": "Classic milkshakes, thick and cold. Regular or large.",
+      "accent": "#B98A5E",
+      "hero": "assets/img/menu/chocolate-shake.jpg",
+      "items": [
+        {
+          "name": "Banana Shake",
+          "desc": "Ripe banana, chilled milk",
+          "sizes": [
+            {
+              "name": "Regular (350ml)",
+              "price": 79
+            },
+            {
+              "name": "Large (450ml)",
+              "price": 109
+            }
+          ],
+          "img": "assets/img/menu/banana-shake.jpg",
+          "badge": "",
+          "extras": [
+            "No Sugar",
+            "Less Sugar",
+            "Honey",
+            "Jaggery",
+            "No Ice",
+            "Ice Cream",
+            "Protein Milk",
+            "Whey Protein Scoop (22–26 g protein)"
+          ],
+          "kcal": 255,
+          "protein": 7,
+          "tags": [
+            "Energy",
+            "Potassium"
+          ]
+        },
+        {
+          "name": "KitKat Shake",
+          "desc": "",
+          "sizes": [
+            {
+              "name": "Regular (350ml)",
+              "price": 129
+            },
+            {
+              "name": "Large (450ml)",
+              "price": 159
+            }
+          ],
+          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "badge": "",
+          "art": "🍫🥤",
+          "extras": [
+            "No Sugar",
+            "Less Sugar",
+            "Honey",
+            "Jaggery",
+            "No Ice",
+            "Ice Cream",
+            "Protein Milk",
+            "Whey Protein Scoop (22–26 g protein)"
+          ]
+        },
+        {
+          "name": "Oreo Shake",
+          "desc": "",
+          "sizes": [
+            {
+              "name": "Regular (350ml)",
+              "price": 129
+            },
+            {
+              "name": "Large (450ml)",
+              "price": 159
+            }
+          ],
+          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "badge": "",
+          "art": "🍪🥤",
+          "extras": [
+            "No Sugar",
+            "Less Sugar",
+            "Honey",
+            "Jaggery",
+            "No Ice",
+            "Ice Cream",
+            "Protein Milk",
+            "Whey Protein Scoop (22–26 g protein)"
+          ]
+        },
+        {
+          "name": "Chocolate Shake",
+          "desc": "Cocoa, chocolate, chilled milk",
+          "sizes": [
+            {
+              "name": "Regular (350ml)",
+              "price": 129
+            },
+            {
+              "name": "Large (450ml)",
+              "price": 159
+            }
+          ],
+          "img": "assets/img/menu/chocolate-shake.jpg",
+          "badge": "",
+          "extras": [
+            "No Sugar",
+            "Less Sugar",
+            "Honey",
+            "Jaggery",
+            "No Ice",
+            "Ice Cream",
+            "Protein Milk",
+            "Whey Protein Scoop (22–26 g protein)"
+          ],
+          "kcal": 225,
+          "protein": 8,
+          "tags": [
+            "Chocolate",
+            "Calcium"
+          ]
+        },
+        {
+          "name": "Strawberry Shake",
+          "desc": "Fresh strawberries, chilled milk",
+          "sizes": [
+            {
+              "name": "Regular (350ml)",
+              "price": 129
+            },
+            {
+              "name": "Large (450ml)",
+              "price": 159
+            }
+          ],
+          "img": "assets/img/menu/strawberry-shake.jpg",
+          "badge": "",
+          "extras": [
+            "No Sugar",
+            "Less Sugar",
+            "Honey",
+            "Jaggery",
+            "No Ice",
+            "Ice Cream",
+            "Protein Milk",
+            "Whey Protein Scoop (22–26 g protein)"
+          ],
+          "kcal": 190,
+          "protein": 6,
+          "tags": [
+            "Vit C",
+            "Calcium"
+          ]
+        },
+        {
+          "name": "Mango Shake",
+          "desc": "",
+          "sizes": [
+            {
+              "name": "Regular (350ml)",
+              "price": 129
+            },
+            {
+              "name": "Large (450ml)",
+              "price": 159
+            }
+          ],
+          "img": "assets/img/menu/mango-smoothie.jpg",
+          "badge": "",
+          "extras": [
+            "No Sugar",
+            "Less Sugar",
+            "Honey",
+            "Jaggery",
+            "No Ice",
+            "Ice Cream",
+            "Protein Milk",
+            "Whey Protein Scoop (22–26 g protein)"
+          ]
+        }
+      ]
+    },
+    {
       "name": "Fresh Juices",
       "slug": "juices",
-      "blurb": "One fruit. Squeezed when you order.",
+      "blurb": "Fresh fruit, squeezed when you order.",
       "accent": "#F2A23A",
       "hero": "assets/img/menu/orange.jpg",
       "items": [
         {
-          "name": "Orange Fresh",
+          "name": "Orange Juice",
           "desc": "",
           "sizes": [
             {
-              "name": "300ml",
-              "price": 79
+              "name": "Regular (350ml)",
+              "price": 69
             },
             {
-              "name": "450ml",
-              "price": 109
-            },
-            {
-              "name": "600ml",
-              "price": 139
+              "name": "Large (450ml)",
+              "price": 89
             }
           ],
           "img": "assets/img/menu/orange.jpg",
@@ -42,20 +223,16 @@ window.MENU = {
           ]
         },
         {
-          "name": "Mosambi Fresh",
+          "name": "Mosambi Juice",
           "desc": "",
           "sizes": [
             {
-              "name": "300ml",
+              "name": "Regular (350ml)",
               "price": 69
             },
             {
-              "name": "450ml",
-              "price": 99
-            },
-            {
-              "name": "600ml",
-              "price": 129
+              "name": "Large (450ml)",
+              "price": 89
             }
           ],
           "img": "assets/img/menu/mosambi.jpg",
@@ -75,53 +252,16 @@ window.MENU = {
           ]
         },
         {
-          "name": "Watermelon Fresh",
+          "name": "Pineapple Juice",
           "desc": "",
           "sizes": [
             {
-              "name": "300ml",
-              "price": 59
+              "name": "Regular (350ml)",
+              "price": 69
             },
             {
-              "name": "450ml",
+              "name": "Large (450ml)",
               "price": 89
-            },
-            {
-              "name": "600ml",
-              "price": 119
-            }
-          ],
-          "img": "assets/img/menu/watermelon.jpg",
-          "badge": "",
-          "extras": [
-            "No Sugar",
-            "Less Sugar",
-            "Honey",
-            "No Ice",
-            "Black Salt / Masala"
-          ],
-          "kcal": 90,
-          "protein": 1,
-          "tags": [
-            "Hydrating",
-            "Low cal"
-          ]
-        },
-        {
-          "name": "Pineapple Fresh",
-          "desc": "",
-          "sizes": [
-            {
-              "name": "300ml",
-              "price": 79
-            },
-            {
-              "name": "450ml",
-              "price": 109
-            },
-            {
-              "name": "600ml",
-              "price": 139
             }
           ],
           "img": "assets/img/menu/pineapple.jpg",
@@ -141,20 +281,69 @@ window.MENU = {
           ]
         },
         {
-          "name": "Pomegranate Fresh",
+          "name": "ABC Juice",
+          "desc": "Apple + Beetroot + Carrot",
+          "sizes": [
+            {
+              "name": "Regular (350ml)",
+              "price": 79
+            },
+            {
+              "name": "Large (450ml)",
+              "price": 99
+            }
+          ],
+          "img": "assets/img/menu/abc.jpg",
+          "badge": "Detox",
+          "extras": [
+            "No Sugar",
+            "Less Sugar",
+            "Honey",
+            "No Ice",
+            "Black Salt / Masala"
+          ],
+          "kcal": 120,
+          "protein": 2,
+          "tags": [
+            "Vit A",
+            "Antioxidants"
+          ]
+        },
+        {
+          "name": "Mixed Fruit Juice",
           "desc": "",
           "sizes": [
             {
-              "name": "300ml",
-              "price": 119
+              "name": "Regular (350ml)",
+              "price": 89
             },
             {
-              "name": "450ml",
-              "price": 169
+              "name": "Large (450ml)",
+              "price": 109
+            }
+          ],
+          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "badge": "",
+          "art": "🍎🍊🍍",
+          "extras": [
+            "No Sugar",
+            "Less Sugar",
+            "Honey",
+            "No Ice",
+            "Black Salt / Masala"
+          ]
+        },
+        {
+          "name": "Pomegranate Juice",
+          "desc": "",
+          "sizes": [
+            {
+              "name": "Regular (350ml)",
+              "price": 89
             },
             {
-              "name": "600ml",
-              "price": 219
+              "name": "Large (450ml)",
+              "price": 109
             }
           ],
           "img": "assets/img/menu/pomegranate.jpg",
@@ -174,497 +363,27 @@ window.MENU = {
           ]
         },
         {
-          "name": "ABC",
-          "desc": "Apple + Beetroot + Carrot",
+          "name": "Hydrarush Special",
+          "desc": "",
           "sizes": [
             {
-              "name": "300ml",
-              "price": 99
-            },
-            {
-              "name": "450ml",
-              "price": 139
-            },
-            {
-              "name": "600ml",
-              "price": 179
-            }
-          ],
-          "img": "assets/img/menu/abc.jpg",
-          "badge": "Detox",
-          "extras": [
-            "No Sugar",
-            "Less Sugar",
-            "Honey",
-            "No Ice",
-            "Black Salt / Masala"
-          ],
-          "kcal": 120,
-          "protein": 2,
-          "tags": [
-            "Vit A",
-            "Antioxidants"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "RE:Wellness",
-      "slug": "wellness",
-      "blurb": "Our signature blends for a mid-day reset.",
-      "accent": "#7DB46C",
-      "hero": "assets/img/menu/re-green.jpg",
-      "items": [
-        {
-          "name": "RE:GREEN",
-          "desc": "Apple + Cucumber + Mint + Lemon",
-          "sizes": [
-            {
-              "name": "300ml",
-              "price": 99
-            },
-            {
-              "name": "450ml",
-              "price": 139
-            },
-            {
-              "name": "600ml",
-              "price": 179
-            }
-          ],
-          "img": "assets/img/menu/re-green.jpg",
-          "badge": "Bestseller",
-          "extras": [
-            "No Sugar",
-            "Less Sugar",
-            "Honey",
-            "No Ice",
-            "Black Salt / Masala"
-          ],
-          "kcal": 100,
-          "protein": 1,
-          "tags": [
-            "Low cal",
-            "Hydrating"
-          ]
-        },
-        {
-          "name": "RE:GLOW",
-          "desc": "Pineapple + Orange + Mint",
-          "sizes": [
-            {
-              "name": "300ml",
-              "price": 109
-            },
-            {
-              "name": "450ml",
-              "price": 149
-            },
-            {
-              "name": "600ml",
-              "price": 189
-            }
-          ],
-          "img": "assets/img/menu/re-glow.jpg",
-          "badge": "Signature",
-          "extras": [
-            "No Sugar",
-            "Less Sugar",
-            "Honey",
-            "No Ice",
-            "Black Salt / Masala"
-          ],
-          "kcal": 140,
-          "protein": 1,
-          "tags": [
-            "Vit C",
-            "Skin glow"
-          ]
-        },
-        {
-          "name": "RE:HYDRATE",
-          "desc": "Watermelon + Lemon + Mint",
-          "sizes": [
-            {
-              "name": "300ml",
-              "price": 79
-            },
-            {
-              "name": "450ml",
-              "price": 109
-            },
-            {
-              "name": "600ml",
-              "price": 139
-            }
-          ],
-          "img": "assets/img/menu/re-hydrate.jpg",
-          "badge": "",
-          "extras": [
-            "No Sugar",
-            "Less Sugar",
-            "Honey",
-            "No Ice",
-            "Black Salt / Masala"
-          ],
-          "kcal": 85,
-          "protein": 1,
-          "tags": [
-            "Hydrating",
-            "Low cal"
-          ]
-        },
-        {
-          "name": "IMMUNITY",
-          "desc": "Orange + Lemon + Ginger",
-          "sizes": [
-            {
-              "name": "300ml",
+              "name": "Regular (350ml)",
               "price": 89
             },
             {
-              "name": "450ml",
-              "price": 129
-            },
-            {
-              "name": "600ml",
-              "price": 169
+              "name": "Large (450ml)",
+              "price": 109
             }
           ],
-          "img": "assets/img/menu/immunity.jpg",
-          "badge": "Vit C",
+          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "badge": "",
+          "art": "💧🥤",
           "extras": [
             "No Sugar",
             "Less Sugar",
             "Honey",
             "No Ice",
             "Black Salt / Masala"
-          ],
-          "kcal": 125,
-          "protein": 1,
-          "tags": [
-            "Vit C",
-            "Ginger"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Smoothies",
-      "slug": "smoothies",
-      "blurb": "Thick, creamy, real fruit.",
-      "accent": "#E46A7E",
-      "why": [
-        "🥤 Blended thick with real fruit the minute you order, never from a powder or a premix.",
-        "🍯 Sweetness is your call: no sugar, less sugar, or dates (+₹10)."
-      ],
-      "hero": "assets/img/menu/berry-smoothie.jpg",
-      "items": [
-        {
-          "name": "Banana Chocolate Smoothie",
-          "desc": "",
-          "sizes": [
-            {
-              "name": "300ml",
-              "price": 129
-            },
-            {
-              "name": "450ml",
-              "price": 169
-            },
-            {
-              "name": "600ml",
-              "price": 209
-            }
-          ],
-          "img": "assets/img/menu/banana-choc-smoothie.jpg",
-          "badge": "",
-          "extras": [
-            "No Sugar",
-            "Less Sugar",
-            "No Ice",
-            "Dates"
-          ]
-        },
-        {
-          "name": "Strawberry Smoothie",
-          "desc": "",
-          "sizes": [
-            {
-              "name": "300ml",
-              "price": 139
-            },
-            {
-              "name": "450ml",
-              "price": 179
-            },
-            {
-              "name": "600ml",
-              "price": 219
-            }
-          ],
-          "img": "assets/img/menu/strawberry-smoothie.jpg",
-          "badge": "",
-          "extras": [
-            "No Sugar",
-            "Less Sugar",
-            "No Ice",
-            "Dates"
-          ],
-          "kcal": 200,
-          "protein": 6,
-          "tags": [
-            "Vit C",
-            "Antioxidants"
-          ]
-        },
-        {
-          "name": "Mixed Berry Smoothie",
-          "desc": "",
-          "sizes": [
-            {
-              "name": "300ml",
-              "price": 149
-            },
-            {
-              "name": "450ml",
-              "price": 199
-            },
-            {
-              "name": "600ml",
-              "price": 249
-            }
-          ],
-          "img": "assets/img/menu/berry-smoothie.jpg",
-          "badge": "",
-          "extras": [
-            "No Sugar",
-            "Less Sugar",
-            "No Ice",
-            "Dates"
-          ],
-          "kcal": 210,
-          "protein": 6,
-          "tags": [
-            "Antioxidants",
-            "Fibre"
-          ]
-        },
-        {
-          "name": "Protein Smoothie",
-          "desc": "",
-          "sizes": [
-            {
-              "name": "300ml",
-              "price": 189
-            },
-            {
-              "name": "450ml",
-              "price": 209
-            },
-            {
-              "name": "600ml",
-              "price": 239
-            }
-          ],
-          "img": "assets/img/menu/protein-smoothie.jpg",
-          "badge": "",
-          "extras": [
-            "No Sugar",
-            "Less Sugar",
-            "No Ice",
-            "Dates"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Shakes",
-      "slug": "shakes",
-      "blurb": "Classic milkshakes, thick and cold. Medium or large.",
-      "accent": "#B98A5E",
-      "hero": "assets/img/menu/chocolate-shake.jpg",
-      "items": [
-        {
-          "name": "Banana Shake",
-          "desc": "Ripe banana, chilled milk",
-          "sizes": [
-            {
-              "name": "Medium (450ml)",
-              "price": 119
-            },
-            {
-              "name": "Large (600ml)",
-              "price": 149
-            }
-          ],
-          "img": "assets/img/menu/banana-shake.jpg",
-          "badge": "",
-          "extras": [
-            "No Sugar",
-            "Less Sugar",
-            "Honey",
-            "Jaggery",
-            "No Ice",
-            "Ice Cream",
-            "Protein Milk",
-            "Whey Protein Scoop (22–26 g protein)"
-          ]
-        },
-        {
-          "name": "Chikoo Shake",
-          "desc": "Ripe chikoo, chilled milk",
-          "sizes": [
-            {
-              "name": "Medium (450ml)",
-              "price": 129
-            },
-            {
-              "name": "Large (600ml)",
-              "price": 159
-            }
-          ],
-          "img": "assets/img/menu/chikoo-shake.jpg",
-          "badge": "",
-          "extras": [
-            "No Sugar",
-            "Less Sugar",
-            "Honey",
-            "Jaggery",
-            "No Ice",
-            "Ice Cream",
-            "Protein Milk",
-            "Whey Protein Scoop (22–26 g protein)"
-          ]
-        },
-        {
-          "name": "Chocolate Shake",
-          "desc": "Cocoa, chocolate, chilled milk",
-          "sizes": [
-            {
-              "name": "Medium (450ml)",
-              "price": 139
-            },
-            {
-              "name": "Large (600ml)",
-              "price": 169
-            }
-          ],
-          "img": "assets/img/menu/chocolate-shake.jpg",
-          "badge": "",
-          "extras": [
-            "No Sugar",
-            "Less Sugar",
-            "Honey",
-            "Jaggery",
-            "No Ice",
-            "Ice Cream",
-            "Protein Milk",
-            "Whey Protein Scoop (22–26 g protein)"
-          ]
-        },
-        {
-          "name": "Vanilla Ice Cream Shake",
-          "desc": "Vanilla ice cream, chilled milk",
-          "sizes": [
-            {
-              "name": "Medium (450ml)",
-              "price": 149
-            },
-            {
-              "name": "Large (600ml)",
-              "price": 179
-            }
-          ],
-          "img": "assets/img/menu/vanilla-shake.jpg",
-          "badge": "",
-          "extras": [
-            "No Sugar",
-            "Less Sugar",
-            "Honey",
-            "Jaggery",
-            "No Ice",
-            "Ice Cream",
-            "Protein Milk",
-            "Whey Protein Scoop (22–26 g protein)"
-          ]
-        },
-        {
-          "name": "Strawberry Shake",
-          "desc": "Fresh strawberries, chilled milk",
-          "sizes": [
-            {
-              "name": "Medium (450ml)",
-              "price": 139
-            },
-            {
-              "name": "Large (600ml)",
-              "price": 169
-            }
-          ],
-          "img": "assets/img/menu/strawberry-shake.jpg",
-          "badge": "",
-          "extras": [
-            "No Sugar",
-            "Less Sugar",
-            "Honey",
-            "Jaggery",
-            "No Ice",
-            "Ice Cream",
-            "Protein Milk",
-            "Whey Protein Scoop (22–26 g protein)"
-          ]
-        },
-        {
-          "name": "Peanut Butter Shake",
-          "desc": "Peanut butter, banana, chilled milk",
-          "sizes": [
-            {
-              "name": "Medium (450ml)",
-              "price": 149
-            },
-            {
-              "name": "Large (600ml)",
-              "price": 179
-            }
-          ],
-          "img": "assets/img/menu/pb-shake.jpg",
-          "badge": "",
-          "extras": [
-            "No Sugar",
-            "Less Sugar",
-            "Honey",
-            "Jaggery",
-            "No Ice",
-            "Ice Cream",
-            "Protein Milk",
-            "Whey Protein Scoop (22–26 g protein)"
-          ]
-        },
-        {
-          "name": "Whey Protein Shake",
-          "desc": "1 scoop whey, banana, chilled milk",
-          "sizes": [
-            {
-              "name": "Medium (450ml)",
-              "price": 189
-            },
-            {
-              "name": "Large (600ml)",
-              "price": 229
-            }
-          ],
-          "img": "assets/img/menu/whey-shake.jpg",
-          "badge": "",
-          "extras": [
-            "No Sugar",
-            "Less Sugar",
-            "Honey",
-            "Jaggery",
-            "No Ice",
-            "Ice Cream",
-            "Protein Milk",
-            "Whey Protein Scoop (22–26 g protein)"
           ]
         }
       ]
@@ -681,43 +400,42 @@ window.MENU = {
           "desc": "Blended coffee, chilled milk",
           "sizes": [
             {
-              "name": "Small (300ml)",
-              "price": 70
+              "name": "Regular (350ml)",
+              "price": 79
             },
             {
-              "name": "Medium (450ml)",
-              "price": 100
-            },
-            {
-              "name": "Large (600ml)",
-              "price": 130
+              "name": "Large (450ml)",
+              "price": 99
             }
           ],
           "img": "assets/img/menu/classic-cold-coffee.jpg",
           "badge": "",
           "extras": [
             "Honey"
+          ],
+          "kcal": 200,
+          "protein": 7,
+          "tags": [
+            "Caffeine",
+            "Calcium"
           ]
         },
         {
-          "name": "Hand-Beaten Cold Coffee",
-          "desc": "Whipped coffee foam over chilled milk",
+          "name": "re.juve Special Coffee",
+          "desc": "",
           "sizes": [
             {
-              "name": "Small (300ml)",
-              "price": 80
+              "name": "Regular (350ml)",
+              "price": 99
             },
             {
-              "name": "Medium (450ml)",
-              "price": 110
-            },
-            {
-              "name": "Large (600ml)",
-              "price": 140
+              "name": "Large (450ml)",
+              "price": 139
             }
           ],
-          "img": "assets/img/menu/hand-beaten-coffee.jpg",
-          "badge": "",
+          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "badge": "Signature",
+          "art": "☕✨",
           "extras": [
             "Honey"
           ]
@@ -727,66 +445,82 @@ window.MENU = {
           "desc": "Blended coffee, hazelnut, chilled milk",
           "sizes": [
             {
-              "name": "Small (300ml)",
-              "price": 85
+              "name": "Regular (350ml)",
+              "price": 99
             },
             {
-              "name": "Medium (450ml)",
-              "price": 115
-            },
-            {
-              "name": "Large (600ml)",
-              "price": 145
+              "name": "Large (450ml)",
+              "price": 129
             }
           ],
           "img": "assets/img/menu/hazelnut-cold-coffee.jpg",
           "badge": "",
           "extras": [
             "Honey"
+          ],
+          "kcal": 240,
+          "protein": 7,
+          "tags": [
+            "Caffeine",
+            "Hazelnut"
           ]
         },
         {
-          "name": "Iced Latte",
-          "desc": "Strong coffee over milk and ice",
+          "name": "Caramel Cold Coffee",
+          "desc": "",
           "sizes": [
             {
-              "name": "Small (300ml)",
-              "price": 80
+              "name": "Regular (350ml)",
+              "price": 99
             },
             {
-              "name": "Medium (450ml)",
-              "price": 110
-            },
-            {
-              "name": "Large (600ml)",
-              "price": 140
+              "name": "Large (450ml)",
+              "price": 129
             }
           ],
-          "img": "assets/img/menu/iced-latte.jpg",
+          "img": "assets/img/scene/fruit-flatlay.jpg",
           "badge": "",
+          "art": "🍮☕",
           "extras": [
             "Honey"
           ]
         },
         {
-          "name": "Protein Cold Coffee",
-          "desc": "Blended coffee, 1 scoop whey, chilled milk",
+          "name": "Mocha Cold Coffee",
+          "desc": "",
           "sizes": [
             {
-              "name": "Small (300ml)",
-              "price": 90
+              "name": "Regular (350ml)",
+              "price": 129
             },
             {
-              "name": "Medium (450ml)",
-              "price": 120
-            },
-            {
-              "name": "Large (600ml)",
-              "price": 150
+              "name": "Large (450ml)",
+              "price": 149
             }
           ],
-          "img": "assets/img/menu/protein-cold-coffee.jpg",
+          "img": "assets/img/scene/fruit-flatlay.jpg",
           "badge": "",
+          "art": "🍫☕",
+          "extras": [
+            "Honey"
+          ]
+        },
+        {
+          "name": "Iced Spanish Latte",
+          "desc": "",
+          "sizes": [
+            {
+              "name": "Regular (350ml)",
+              "price": 129
+            },
+            {
+              "name": "Large (450ml)",
+              "price": 149
+            }
+          ],
+          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "badge": "",
+          "art": "🥛☕",
           "extras": [
             "Honey"
           ]
@@ -794,27 +528,384 @@ window.MENU = {
       ]
     },
     {
-      "name": "RE:Protein",
+      "name": "Sandwiches",
+      "slug": "sandwiches",
+      "blurb": "Toasted fresh and generously filled.",
+      "accent": "#D9B44A",
+      "hero": "assets/img/menu/veg-sandwich.jpg",
+      "items": [
+        {
+          "name": "Fresh Veg Sandwich",
+          "desc": "",
+          "sizes": [
+            {
+              "name": "Regular",
+              "price": 129
+            }
+          ],
+          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "badge": "",
+          "art": "🥪🥒",
+          "extras": []
+        },
+        {
+          "name": "Cheese Veg Sandwich",
+          "desc": "",
+          "sizes": [
+            {
+              "name": "Regular",
+              "price": 139
+            }
+          ],
+          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "badge": "",
+          "art": "🧀🥪",
+          "extras": []
+        },
+        {
+          "name": "Spinach Corn Sandwich",
+          "desc": "",
+          "sizes": [
+            {
+              "name": "Regular",
+              "price": 139
+            }
+          ],
+          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "badge": "",
+          "art": "🥬🌽",
+          "extras": []
+        },
+        {
+          "name": "Tandoori Paneer Sandwich",
+          "desc": "",
+          "sizes": [
+            {
+              "name": "Regular",
+              "price": 149
+            }
+          ],
+          "img": "assets/img/menu/paneer-sandwich.jpg",
+          "badge": "",
+          "extras": []
+        },
+        {
+          "name": "Avocado Toast",
+          "desc": "",
+          "sizes": [
+            {
+              "name": "Regular",
+              "price": 139
+            }
+          ],
+          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "badge": "",
+          "art": "🥑🍞",
+          "extras": []
+        }
+      ]
+    },
+    {
+      "name": "Chaat",
+      "slug": "chaat",
+      "blurb": "Tangy, crunchy chaat, made to order.",
+      "accent": "#E07A3B",
+      "hero": "assets/img/menu/chickpea-chaat.jpg",
+      "items": [
+        {
+          "name": "Peanut Chaat",
+          "desc": "Protein + healthy fats",
+          "sizes": [
+            {
+              "name": "Regular",
+              "price": 69
+            }
+          ],
+          "img": "assets/img/menu/peanut-chaat.jpg",
+          "badge": "",
+          "extras": [],
+          "kcal": 250,
+          "protein": 11,
+          "tags": [
+            "Protein",
+            "Healthy fats"
+          ]
+        },
+        {
+          "name": "Sprouts Chaat",
+          "desc": "",
+          "sizes": [
+            {
+              "name": "Regular",
+              "price": 99
+            }
+          ],
+          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "badge": "",
+          "art": "🌱🥗",
+          "extras": []
+        },
+        {
+          "name": "Sweet Corn Chaat",
+          "desc": "",
+          "sizes": [
+            {
+              "name": "Regular",
+              "price": 79
+            }
+          ],
+          "img": "assets/img/menu/corn-chaat.jpg",
+          "badge": "",
+          "extras": []
+        },
+        {
+          "name": "Chickpea Chaat",
+          "desc": "Protein + fibre",
+          "sizes": [
+            {
+              "name": "Regular",
+              "price": 79
+            }
+          ],
+          "img": "assets/img/menu/chickpea-chaat.jpg",
+          "badge": "",
+          "extras": [],
+          "kcal": 220,
+          "protein": 10,
+          "tags": [
+            "Protein",
+            "Fibre"
+          ]
+        },
+        {
+          "name": "Special Bhel Chaat",
+          "desc": "",
+          "sizes": [
+            {
+              "name": "Regular",
+              "price": 79
+            }
+          ],
+          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "badge": "",
+          "art": "🥗🌶️",
+          "extras": []
+        },
+        {
+          "name": "Samosa Chaat",
+          "desc": "",
+          "sizes": [
+            {
+              "name": "Regular",
+              "price": 79
+            }
+          ],
+          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "badge": "",
+          "art": "🥟🌶️",
+          "extras": []
+        },
+        {
+          "name": "Sabudana Tikki Chaat",
+          "desc": "",
+          "sizes": [
+            {
+              "name": "Regular",
+              "price": 99
+            }
+          ],
+          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "badge": "",
+          "art": "🥔🌿",
+          "extras": []
+        }
+      ]
+    },
+    {
+      "name": "Bowls",
+      "slug": "bowls",
+      "blurb": "Smoothie, oats and muesli bowls, made fresh.",
+      "accent": "#E9A23B",
+      "hero": "assets/img/menu/fig-oats.jpg",
+      "items": [
+        {
+          "name": "Banana Smoothie Bowl",
+          "desc": "",
+          "sizes": [
+            {
+              "name": "Regular",
+              "price": 159
+            }
+          ],
+          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "badge": "",
+          "art": "🍌🥣",
+          "extras": []
+        },
+        {
+          "name": "Overnight Oats Bowl",
+          "desc": "",
+          "sizes": [
+            {
+              "name": "Regular",
+              "price": 149
+            }
+          ],
+          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "badge": "",
+          "art": "🥣🌾",
+          "extras": []
+        },
+        {
+          "name": "Muesli Protein Bowl (24g protein)",
+          "desc": "",
+          "sizes": [
+            {
+              "name": "Regular",
+              "price": 199
+            }
+          ],
+          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "badge": "",
+          "art": "🥣💪",
+          "extras": []
+        }
+      ]
+    },
+    {
+      "name": "Tea & Hot Drinks",
+      "slug": "hot",
+      "blurb": "Hot tea, coffee and badam milk.",
+      "accent": "#A8723F",
+      "hero": "assets/img/scene/fruit-flatlay.jpg",
+      "items": [
+        {
+          "name": "Cozy Tea",
+          "desc": "",
+          "sizes": [
+            {
+              "name": "Regular",
+              "price": 29
+            }
+          ],
+          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "badge": "",
+          "art": "☕",
+          "extras": []
+        },
+        {
+          "name": "Warm Coffee",
+          "desc": "",
+          "sizes": [
+            {
+              "name": "Regular",
+              "price": 39
+            }
+          ],
+          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "badge": "",
+          "art": "☕",
+          "extras": []
+        },
+        {
+          "name": "Lemon Tea",
+          "desc": "",
+          "sizes": [
+            {
+              "name": "Regular",
+              "price": 39
+            }
+          ],
+          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "badge": "",
+          "art": "🍋🍵",
+          "extras": []
+        },
+        {
+          "name": "Royal Badam Bliss",
+          "desc": "",
+          "sizes": [
+            {
+              "name": "Regular",
+              "price": 99
+            }
+          ],
+          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "badge": "",
+          "art": "🌰🥛",
+          "extras": []
+        }
+      ]
+    },
+    {
+      "name": "Desserts",
+      "slug": "desserts",
+      "blurb": "A little something sweet to finish.",
+      "accent": "#8E3B4E",
+      "hero": "assets/img/scene/fruit-flatlay.jpg",
+      "items": [
+        {
+          "name": "Chocolate Lava Cake",
+          "desc": "",
+          "sizes": [
+            {
+              "name": "Regular",
+              "price": 99
+            }
+          ],
+          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "badge": "",
+          "art": "🍫🎂",
+          "extras": []
+        },
+        {
+          "name": "Belgian Chocolate Brownie",
+          "desc": "",
+          "sizes": [
+            {
+              "name": "Regular",
+              "price": 99
+            }
+          ],
+          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "badge": "",
+          "art": "🍫",
+          "extras": []
+        },
+        {
+          "name": "Chocolate Mousse Cup",
+          "desc": "",
+          "sizes": [
+            {
+              "name": "Regular",
+              "price": 109
+            }
+          ],
+          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "badge": "",
+          "art": "🍮",
+          "extras": []
+        }
+      ]
+    },
+    {
+      "name": "Protein Shakes",
       "slug": "protein",
-      "blurb": "A full scoop of whey in every glass.",
+      "blurb": "Shakes with a full scoop of whey. Regular or large.",
       "accent": "#B98A5E",
       "hero": "assets/img/menu/chocolate-protein.jpg",
       "items": [
         {
-          "name": "Banana Protein",
+          "name": "Banana Protein Shake",
           "desc": "1 scoop whey",
           "sizes": [
             {
-              "name": "300ml",
-              "price": 139
+              "name": "Regular (350ml)",
+              "price": 149
             },
             {
-              "name": "450ml",
-              "price": 179
-            },
-            {
-              "name": "600ml",
-              "price": 229
+              "name": "Large (450ml)",
+              "price": 189
             }
           ],
           "img": "assets/img/menu/banana-protein.jpg",
@@ -835,20 +926,66 @@ window.MENU = {
           ]
         },
         {
-          "name": "Chocolate Protein",
+          "name": "KitKat Protein Shake",
+          "desc": "",
+          "sizes": [
+            {
+              "name": "Regular (350ml)",
+              "price": 169
+            },
+            {
+              "name": "Large (450ml)",
+              "price": 199
+            }
+          ],
+          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "badge": "",
+          "art": "🍫💪",
+          "extras": [
+            "No Sugar",
+            "Less Sugar",
+            "No Ice",
+            "With Water (no milk)",
+            "Extra Whey Scoop",
+            "Dates"
+          ]
+        },
+        {
+          "name": "Oreo Protein Shake",
+          "desc": "",
+          "sizes": [
+            {
+              "name": "Regular (350ml)",
+              "price": 169
+            },
+            {
+              "name": "Large (450ml)",
+              "price": 199
+            }
+          ],
+          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "badge": "",
+          "art": "🍪💪",
+          "extras": [
+            "No Sugar",
+            "Less Sugar",
+            "No Ice",
+            "With Water (no milk)",
+            "Extra Whey Scoop",
+            "Dates"
+          ]
+        },
+        {
+          "name": "Chocolate Protein Shake",
           "desc": "1 scoop whey",
           "sizes": [
             {
-              "name": "300ml",
-              "price": 149
+              "name": "Regular (350ml)",
+              "price": 169
             },
             {
-              "name": "450ml",
-              "price": 189
-            },
-            {
-              "name": "600ml",
-              "price": 239
+              "name": "Large (450ml)",
+              "price": 199
             }
           ],
           "img": "assets/img/menu/chocolate-protein.jpg",
@@ -869,24 +1006,44 @@ window.MENU = {
           ]
         },
         {
-          "name": "Peanut Butter Protein",
+          "name": "Strawberry Protein Shake",
+          "desc": "",
+          "sizes": [
+            {
+              "name": "Regular (350ml)",
+              "price": 169
+            },
+            {
+              "name": "Large (450ml)",
+              "price": 199
+            }
+          ],
+          "img": "assets/img/menu/strawberry-shake.jpg",
+          "badge": "",
+          "extras": [
+            "No Sugar",
+            "Less Sugar",
+            "No Ice",
+            "With Water (no milk)",
+            "Extra Whey Scoop",
+            "Dates"
+          ]
+        },
+        {
+          "name": "Mango Protein Shake",
           "desc": "1 scoop whey",
           "sizes": [
             {
-              "name": "300ml",
-              "price": 159
+              "name": "Regular (350ml)",
+              "price": 169
             },
             {
-              "name": "450ml",
+              "name": "Large (450ml)",
               "price": 199
-            },
-            {
-              "name": "600ml",
-              "price": 249
             }
           ],
-          "img": "assets/img/menu/pb-protein.jpg",
-          "badge": "Gym fav",
+          "img": "assets/img/menu/mango-protein.jpg",
+          "badge": "",
           "extras": [
             "No Sugar",
             "Less Sugar",
@@ -895,262 +1052,11 @@ window.MENU = {
             "Extra Whey Scoop",
             "Dates"
           ],
-          "kcal": 380,
-          "protein": 32,
+          "kcal": 320,
+          "protein": 27,
           "tags": [
             "Muscle",
-            "Healthy fats"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "RE:Bites",
-      "slug": "bites",
-      "blurb": "Light, filling snacks to go with your sip.",
-      "accent": "#D9B44A",
-      "hero": "assets/img/menu/avocado-sandwich.jpg",
-      "items": [
-        {
-          "name": "Peanut Chaat",
-          "desc": "Protein + healthy fats",
-          "sizes": [
-            {
-              "name": "Regular",
-              "price": 89
-            }
-          ],
-          "img": "assets/img/menu/peanut-chaat.jpg",
-          "badge": "",
-          "extras": [],
-          "kcal": 250,
-          "protein": 11,
-          "tags": [
-            "Protein",
-            "Healthy fats"
-          ]
-        },
-        {
-          "name": "Chickpea Chaat",
-          "desc": "Protein + fibre",
-          "sizes": [
-            {
-              "name": "Regular",
-              "price": 99
-            }
-          ],
-          "img": "assets/img/menu/chickpea-chaat.jpg",
-          "badge": "",
-          "extras": [],
-          "kcal": 220,
-          "protein": 10,
-          "tags": [
-            "Protein",
-            "Fibre"
-          ]
-        },
-        {
-          "name": "Boiled Corn",
-          "desc": "Fibre + carbohydrates",
-          "sizes": [
-            {
-              "name": "Regular",
-              "price": 79
-            }
-          ],
-          "img": "assets/img/menu/boiled-corn.jpg",
-          "badge": "",
-          "extras": [],
-          "kcal": 150,
-          "protein": 5,
-          "tags": [
-            "Fibre",
-            "Light"
-          ]
-        },
-        {
-          "name": "Air-Fried Corn Chaat",
-          "desc": "Fibre · lower-oil preparation",
-          "sizes": [
-            {
-              "name": "Regular",
-              "price": 99
-            }
-          ],
-          "img": "assets/img/menu/corn-chaat.jpg",
-          "badge": "",
-          "extras": [],
-          "kcal": 180,
-          "protein": 5,
-          "tags": [
-            "Fibre",
-            "Low oil"
-          ]
-        },
-        {
-          "name": "Grilled Veg Sandwich",
-          "desc": "Fibre + vegetables",
-          "sizes": [
-            {
-              "name": "Regular",
-              "price": 129
-            }
-          ],
-          "img": "assets/img/menu/veg-sandwich.jpg",
-          "badge": "",
-          "extras": [],
-          "kcal": 280,
-          "protein": 9,
-          "tags": [
-            "Fibre",
-            "Veggies"
-          ]
-        },
-        {
-          "name": "Paneer Sandwich",
-          "desc": "Protein + calcium",
-          "sizes": [
-            {
-              "name": "Regular",
-              "price": 149
-            }
-          ],
-          "img": "assets/img/menu/paneer-sandwich.jpg",
-          "badge": "",
-          "extras": [],
-          "kcal": 350,
-          "protein": 18,
-          "tags": [
-            "Protein",
-            "Calcium"
-          ]
-        },
-        {
-          "name": "Avocado Sandwich",
-          "desc": "Healthy fats + fibre",
-          "sizes": [
-            {
-              "name": "Regular",
-              "price": 169
-            }
-          ],
-          "img": "assets/img/menu/avocado-sandwich.jpg",
-          "badge": "New",
-          "extras": [],
-          "kcal": 320,
-          "protein": 8,
-          "tags": [
-            "Healthy fats",
-            "Fibre"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "RE:Bowls",
-      "slug": "bowls",
-      "blurb": "Fruit bowls, overnight oats and yogurt bowls, made fresh every morning.",
-      "accent": "#E9A23B",
-      "why": [
-        "🍉 Fruit bowls: cut every morning from what's in season, tropical one day, classic favourites the next. Just fruit, no preservatives, portioned to fill you up.",
-        "🥣 Overnight oats: soaked overnight so they're soft and creamy by morning. Sweetened only with fruit, figs or dates, with no added sugar and no preservatives.",
-        "🍓 Yogurt bowls: thick low-fat yogurt with fresh fruit and crunchy muesli. Made when you order, no artificial flavours."
-      ],
-      "hero": "assets/img/menu/fruit-bowl.jpg",
-      "items": [
-        {
-          "name": "Seasonal Fruit Bowl",
-          "desc": "Cut fresh every morning from what's in season",
-          "sizes": [
-            {
-              "name": "Regular",
-              "price": 149
-            }
-          ],
-          "img": "assets/img/menu/fruit-bowl.jpg",
-          "badge": "New",
-          "extras": [],
-          "kcal": 170,
-          "protein": 2,
-          "tags": [
-            "Seasonal fruit",
-            "Light"
-          ]
-        },
-        {
-          "name": "Fig & Fruit Overnight Oats",
-          "desc": "Oats, milk, figs, fruit · no added sugar",
-          "sizes": [
-            {
-              "name": "Regular",
-              "price": 139
-            }
-          ],
-          "img": "assets/img/menu/fig-oats.jpg",
-          "badge": "",
-          "extras": [],
-          "kcal": 360,
-          "protein": 12,
-          "tags": [
-            "Oats",
-            "Fibre"
-          ]
-        },
-        {
-          "name": "Cocoa Peanut Overnight Oats",
-          "desc": "Oats, cocoa, peanut butter, dates · no added sugar",
-          "sizes": [
-            {
-              "name": "Regular",
-              "price": 149
-            }
-          ],
-          "img": "assets/img/menu/cocoa-oats.jpg",
-          "badge": "New",
-          "extras": [],
-          "kcal": 430,
-          "protein": 15,
-          "tags": [
-            "Oats",
-            "Peanut"
-          ]
-        },
-        {
-          "name": "Berry Muesli Yogurt Bowl",
-          "desc": "Low-fat yogurt, berries, crunchy muesli",
-          "sizes": [
-            {
-              "name": "Regular",
-              "price": 220
-            }
-          ],
-          "img": "assets/img/menu/berry-yogurt-bowl.jpg",
-          "badge": "",
-          "extras": [],
-          "kcal": 260,
-          "protein": 10,
-          "tags": [
-            "Yogurt",
-            "Muesli"
-          ]
-        },
-        {
-          "name": "Strawberry Banana Yogurt Bowl",
-          "desc": "Low-fat yogurt, strawberry, banana",
-          "sizes": [
-            {
-              "name": "Regular",
-              "price": 220
-            }
-          ],
-          "img": "assets/img/menu/strawberry-yogurt-bowl.jpg",
-          "badge": "",
-          "extras": [],
-          "kcal": 220,
-          "protein": 8,
-          "tags": [
-            "Yogurt",
-            "Fruit"
+            "Vit A"
           ]
         }
       ]
