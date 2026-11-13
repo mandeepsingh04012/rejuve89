@@ -70,11 +70,11 @@ test("full flow: place, sync to POS, pay by UPI, status updates", async () => {
   const placed = await order({ payment: "upi" });
   assert.equal(placed.status, 201, JSON.stringify(placed.data));
   const o = placed.data.order;
-  // server-side prices: 2 x 99 + (149 + 70) + 69 = 486
-  assert.equal(o.total, 2 * 99 + 219 + 69);
+  // server-side prices: 2 x 109 + (149 + 70) + 79 = 516
+  assert.equal(o.total, 2 * 109 + 219 + 79);
   assert.match(o.code, /^W\d{3}$/);
   assert.equal(o.payment_status, "pending");
-  assert.match(placed.data.upi.link, /^upi:\/\/pay\?pa=8816809822%40ptsbi&pn=re.juve%2F89&am=486.00&cu=INR&tn=Order%20W\d{3}$/);
+  assert.match(placed.data.upi.link, /^upi:\/\/pay\?pa=8816809822%40ptsbi&pn=re.juve%2F89&am=516.00&cu=INR&tn=Order%20W\d{3}$/);
 
   // POS pulls it (token never leaves the mailbox)
   let s = await sync({ config: { ...allDay, mode: "web_pos" } });

@@ -30,21 +30,31 @@ BLEND_IMAGES = {"orange": "orange", "mosambi": "mosambi", "watermelon": "waterme
                 "cucumber": "re-green"}
 
 # Website-only extras the POS doesn't store: photo, accent colour, short blurb.
+# "photo" = the section photo from the printed menu (data/MenuPOS.pdf, 13 Nov); items without their own photo use it.
 CATEGORY_META = {
     # final menu, 11 Nov 2026 (POS order)
     "Shakes": {"slug": "shakes", "blurb": "Classic milkshakes, thick and cold. Regular or large.", "accent": "#B98A5E",
-               "hero": "chocolate-shake"},
-    "Fresh Juices": {"slug": "juices", "blurb": "Fresh fruit, squeezed when you order.", "accent": "#F2A23A", "hero": "orange"},
+               "hero": "chocolate-shake",
+               "photo": "menu-shakes"},
+    "Fresh Juices": {"slug": "juices", "blurb": "Fresh fruit, squeezed when you order.", "accent": "#F2A23A", "hero": "orange",
+                     "photo": "menu-juices"},
     "Cold Coffee": {"slug": "coffee", "blurb": "Chilled coffee, blended or poured over ice.", "accent": "#8B5E3C",
-                    "hero": "iced-latte"},
+                    "hero": "iced-latte",
+                    "photo": "menu-coffee"},
     "Sandwiches": {"slug": "sandwiches", "blurb": "Toasted fresh and generously filled.", "accent": "#D9B44A",
-                   "hero": "veg-sandwich"},
-    "Chaat": {"slug": "chaat", "blurb": "Tangy, crunchy chaat, made to order.", "accent": "#E07A3B", "hero": "chickpea-chaat"},
-    "Bowls": {"slug": "bowls", "blurb": "Smoothie, oats and muesli bowls, made fresh.", "accent": "#E9A23B", "hero": "fig-oats"},
-    "Tea & Hot Drinks": {"slug": "hot", "blurb": "Hot tea, coffee and badam milk.", "accent": "#A8723F"},
-    "Desserts": {"slug": "desserts", "blurb": "A little something sweet to finish.", "accent": "#8E3B4E"},
+                   "hero": "veg-sandwich",
+                   "photo": "menu-sandwiches"},
+    "Chaat": {"slug": "chaat", "blurb": "Tangy, crunchy chaat, made to order.", "accent": "#E07A3B", "hero": "chickpea-chaat",
+              "photo": "menu-chaat"},
+    "Bowls": {"slug": "bowls", "blurb": "Smoothie, oats and muesli bowls, made fresh.", "accent": "#E9A23B", "hero": "fig-oats",
+              "photo": "menu-bowls"},
+    "Tea & Hot Drinks": {"slug": "hot", "blurb": "Hot tea, coffee and badam milk.", "accent": "#A8723F", "hero": "menu-hot",
+                         "photo": "menu-hot"},
+    "Desserts": {"slug": "desserts", "blurb": "A little something sweet to finish.", "accent": "#8E3B4E", "hero": "menu-desserts",
+                 "photo": "menu-desserts"},
     "Protein Shakes": {"slug": "protein", "blurb": "Shakes with a full scoop of whey. Regular or large.", "accent": "#B98A5E",
-                       "hero": "chocolate-protein"},
+                       "hero": "chocolate-protein",
+                       "photo": "menu-protein"},
 }
 
 ITEM_IMAGES = {
@@ -76,6 +86,8 @@ ITEM_IMAGES = {
     "Seasonal Fruit Bowl": "fruit-bowl", "Fig & Fruit Overnight Oats": "fig-oats",
     "Cocoa Peanut Overnight Oats": "cocoa-oats", "Berry Muesli Yogurt Bowl": "berry-yogurt-bowl",
     "Strawberry Banana Yogurt Bowl": "strawberry-yogurt-bowl",
+    # printed menu (13 Nov) renames
+    "Grilled Paneer Sandwich": "paneer-sandwich",
 }
 
 # Items with no photo yet: the card shows these emoji on a soft colour tile instead, e.g. "New Bowl": "🥣🍓".
@@ -91,7 +103,11 @@ ITEM_ART = {
 }
 
 # Items to highlight with a small badge on the website.
-BADGES = {"ABC Juice": "Detox", "re.juve Special Coffee": "Signature",
+# "Must try" = starred on the printed menu (data/MenuPOS.pdf, 13 Nov).
+BADGES = {"Oreo Shake": "Must try", "Mixed Fruit Juice": "Must try", "Hydrarush Special": "Must try",
+          "Grilled Paneer Sandwich": "Must try", "Sabudana Tikki Chaat": "Must try", "Banana Smoothie Bowl": "Must try",
+          "Royal Badam Bliss": "Must try", "Chocolate Mousse Jar": "Must try", "KitKat Protein Shake": "Must try",
+          "ABC Juice": "Detox", "re.juve Special Coffee": "Signature",
           "RE:GREEN": "Bestseller", "RE:GLOW": "Signature", "ABC": "Detox", "IMMUNITY": "Vit C",
           "Peanut Butter Protein": "Gym fav", "Avocado Sandwich": "New",
           "Seasonal Fruit Bowl": "New", "Cocoa Peanut Overnight Oats": "New"}
@@ -132,6 +148,7 @@ NUTRITION = {
     "Air-Fried Corn Chaat": (180, 5, ["Fibre", "Low oil"]),
     "Grilled Veg Sandwich": (280, 9, ["Fibre", "Veggies"]),
     "Paneer Sandwich": (350, 18, ["Protein", "Calcium"]),
+    "Grilled Paneer Sandwich": (350, 18, ["Protein", "Calcium"]),
     "Avocado Sandwich": (320, 8, ["Healthy fats", "Fibre"]),
     # Added 22 Oct, worked out from the POS draft recipes (standard nutrition values, sweetener left out).
     # Per 300ml like the rest; the site scales to the chosen size (whey protein barely scales: 1 scoop per glass).
@@ -195,7 +212,7 @@ def export(db_path: Path) -> dict:
                 "SELECT name, price FROM item_sizes WHERE item_id = ? ORDER BY sort, id", (it["id"],))]
             if not sizes:
                 continue
-            img = ITEM_IMAGES.get(it["name"])
+            img = ITEM_IMAGES.get(it["name"]) or meta.get("photo")
             items.append({
                 "name": it["name"],
                 "desc": it["description"],
@@ -211,6 +228,7 @@ def export(db_path: Path) -> dict:
         if items:
             meta = dict(meta)
             hero = meta.pop("hero", None)
+            meta.pop("photo", None)
             meta["hero"] = f"assets/img/menu/{hero}.jpg" if hero else items[0]["img"]
             menu["categories"].append({"name": c["name"], **meta, "items": items})
     for a in con.execute("SELECT name, price, kind FROM addons WHERE active = 1 ORDER BY sort, id"):

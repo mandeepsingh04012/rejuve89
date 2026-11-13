@@ -14,11 +14,11 @@ window.MENU = {
           "sizes": [
             {
               "name": "Regular (350ml)",
-              "price": 79
+              "price": 89
             },
             {
               "name": "Large (450ml)",
-              "price": 109
+              "price": 119
             }
           ],
           "img": "assets/img/menu/banana-shake.jpg",
@@ -46,16 +46,15 @@ window.MENU = {
           "sizes": [
             {
               "name": "Regular (350ml)",
-              "price": 129
+              "price": 139
             },
             {
               "name": "Large (450ml)",
               "price": 159
             }
           ],
-          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "img": "assets/img/menu/menu-shakes.jpg",
           "badge": "",
-          "art": "🍫🥤",
           "extras": [
             "No Sugar",
             "Less Sugar",
@@ -73,16 +72,15 @@ window.MENU = {
           "sizes": [
             {
               "name": "Regular (350ml)",
-              "price": 129
+              "price": 139
             },
             {
               "name": "Large (450ml)",
               "price": 159
             }
           ],
-          "img": "assets/img/scene/fruit-flatlay.jpg",
-          "badge": "",
-          "art": "🍪🥤",
+          "img": "assets/img/menu/menu-shakes.jpg",
+          "badge": "Must try",
           "extras": [
             "No Sugar",
             "Less Sugar",
@@ -104,7 +102,7 @@ window.MENU = {
             },
             {
               "name": "Large (450ml)",
-              "price": 159
+              "price": 149
             }
           ],
           "img": "assets/img/menu/chocolate-shake.jpg",
@@ -132,11 +130,11 @@ window.MENU = {
           "sizes": [
             {
               "name": "Regular (350ml)",
-              "price": 129
+              "price": 149
             },
             {
               "name": "Large (450ml)",
-              "price": 159
+              "price": 169
             }
           ],
           "img": "assets/img/menu/strawberry-shake.jpg",
@@ -164,7 +162,7 @@ window.MENU = {
           "sizes": [
             {
               "name": "Regular (350ml)",
-              "price": 129
+              "price": 139
             },
             {
               "name": "Large (450ml)",
@@ -257,11 +255,11 @@ window.MENU = {
           "sizes": [
             {
               "name": "Regular (350ml)",
-              "price": 69
+              "price": 99
             },
             {
               "name": "Large (450ml)",
-              "price": 89
+              "price": 129
             }
           ],
           "img": "assets/img/menu/pineapple.jpg",
@@ -290,7 +288,7 @@ window.MENU = {
             },
             {
               "name": "Large (450ml)",
-              "price": 99
+              "price": 109
             }
           ],
           "img": "assets/img/menu/abc.jpg",
@@ -315,16 +313,15 @@ window.MENU = {
           "sizes": [
             {
               "name": "Regular (350ml)",
-              "price": 89
+              "price": 99
             },
             {
               "name": "Large (450ml)",
-              "price": 109
+              "price": 119
             }
           ],
-          "img": "assets/img/scene/fruit-flatlay.jpg",
-          "badge": "",
-          "art": "🍎🍊🍍",
+          "img": "assets/img/menu/menu-juices.jpg",
+          "badge": "Must try",
           "extras": [
             "No Sugar",
             "Less Sugar",
@@ -339,11 +336,11 @@ window.MENU = {
           "sizes": [
             {
               "name": "Regular (350ml)",
-              "price": 89
+              "price": 99
             },
             {
               "name": "Large (450ml)",
-              "price": 109
+              "price": 139
             }
           ],
           "img": "assets/img/menu/pomegranate.jpg",
@@ -368,16 +365,15 @@ window.MENU = {
           "sizes": [
             {
               "name": "Regular (350ml)",
-              "price": 89
+              "price": 99
             },
             {
               "name": "Large (450ml)",
-              "price": 109
+              "price": 129
             }
           ],
-          "img": "assets/img/scene/fruit-flatlay.jpg",
-          "badge": "",
-          "art": "💧🥤",
+          "img": "assets/img/menu/menu-juices.jpg",
+          "badge": "Must try",
           "extras": [
             "No Sugar",
             "Less Sugar",
@@ -401,11 +397,11 @@ window.MENU = {
           "sizes": [
             {
               "name": "Regular (350ml)",
-              "price": 79
+              "price": 89
             },
             {
               "name": "Large (450ml)",
-              "price": 99
+              "price": 109
             }
           ],
           "img": "assets/img/menu/classic-cold-coffee.jpg",
@@ -426,16 +422,15 @@ window.MENU = {
           "sizes": [
             {
               "name": "Regular (350ml)",
-              "price": 99
+              "price": 119
             },
             {
               "name": "Large (450ml)",
               "price": 139
             }
           ],
-          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "img": "assets/img/menu/menu-coffee.jpg",
           "badge": "Signature",
-          "art": "☕✨",
           "extras": [
             "Honey"
           ]
@@ -446,11 +441,11 @@ window.MENU = {
           "sizes": [
             {
               "name": "Regular (350ml)",
-              "price": 99
+              "price": 129
             },
             {
               "name": "Large (450ml)",
-              "price": 129
+              "price": 149
             }
           ],
           "img": "assets/img/menu/hazelnut-cold-coffee.jpg",
@@ -471,16 +466,15 @@ window.MENU = {
           "sizes": [
             {
               "name": "Regular (350ml)",
-              "price": 99
+              "price": 129
             },
             {
               "name": "Large (450ml)",
-              "price": 129
+              "price": 149
             }
           ],
-          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "img": "assets/img/menu/menu-coffee.jpg",
           "badge": "",
-          "art": "🍮☕",
           "extras": [
             "Honey"
           ]
@@ -491,16 +485,15 @@ window.MENU = {
           "sizes": [
             {
               "name": "Regular (350ml)",
-              "price": 129
+              "price": 139
             },
             {
               "name": "Large (450ml)",
-              "price": 149
+              "price": 159
             }
           ],
-          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "img": "assets/img/menu/menu-coffee.jpg",
           "badge": "",
-          "art": "🍫☕",
           "extras": [
             "Honey"
           ]
@@ -511,16 +504,15 @@ window.MENU = {
           "sizes": [
             {
               "name": "Regular (350ml)",
-              "price": 129
+              "price": 139
             },
             {
               "name": "Large (450ml)",
-              "price": 149
+              "price": 159
             }
           ],
-          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "img": "assets/img/menu/menu-coffee.jpg",
           "badge": "",
-          "art": "🥛☕",
           "extras": [
             "Honey"
           ]
@@ -535,7 +527,7 @@ window.MENU = {
       "hero": "assets/img/menu/veg-sandwich.jpg",
       "items": [
         {
-          "name": "Fresh Veg Sandwich",
+          "name": "Grilled Veg Sandwich",
           "desc": "",
           "sizes": [
             {
@@ -543,10 +535,15 @@ window.MENU = {
               "price": 129
             }
           ],
-          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "img": "assets/img/menu/veg-sandwich.jpg",
           "badge": "",
-          "art": "🥪🥒",
-          "extras": []
+          "extras": [],
+          "kcal": 280,
+          "protein": 9,
+          "tags": [
+            "Fibre",
+            "Veggies"
+          ]
         },
         {
           "name": "Cheese Veg Sandwich",
@@ -554,12 +551,11 @@ window.MENU = {
           "sizes": [
             {
               "name": "Regular",
-              "price": 139
+              "price": 149
             }
           ],
-          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "img": "assets/img/menu/menu-sandwiches.jpg",
           "badge": "",
-          "art": "🧀🥪",
           "extras": []
         },
         {
@@ -571,23 +567,28 @@ window.MENU = {
               "price": 139
             }
           ],
-          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "img": "assets/img/menu/menu-sandwiches.jpg",
           "badge": "",
-          "art": "🥬🌽",
           "extras": []
         },
         {
-          "name": "Tandoori Paneer Sandwich",
+          "name": "Grilled Paneer Sandwich",
           "desc": "",
           "sizes": [
             {
               "name": "Regular",
-              "price": 149
+              "price": 159
             }
           ],
           "img": "assets/img/menu/paneer-sandwich.jpg",
-          "badge": "",
-          "extras": []
+          "badge": "Must try",
+          "extras": [],
+          "kcal": 350,
+          "protein": 18,
+          "tags": [
+            "Protein",
+            "Calcium"
+          ]
         },
         {
           "name": "Avocado Toast",
@@ -595,12 +596,11 @@ window.MENU = {
           "sizes": [
             {
               "name": "Regular",
-              "price": 139
+              "price": 149
             }
           ],
-          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "img": "assets/img/menu/menu-sandwiches.jpg",
           "badge": "",
-          "art": "🥑🍞",
           "extras": []
         }
       ]
@@ -618,7 +618,7 @@ window.MENU = {
           "sizes": [
             {
               "name": "Regular",
-              "price": 69
+              "price": 79
             }
           ],
           "img": "assets/img/menu/peanut-chaat.jpg",
@@ -640,9 +640,8 @@ window.MENU = {
               "price": 99
             }
           ],
-          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "img": "assets/img/menu/menu-chaat.jpg",
           "badge": "",
-          "art": "🌱🥗",
           "extras": []
         },
         {
@@ -651,7 +650,7 @@ window.MENU = {
           "sizes": [
             {
               "name": "Regular",
-              "price": 79
+              "price": 89
             }
           ],
           "img": "assets/img/menu/corn-chaat.jpg",
@@ -664,7 +663,7 @@ window.MENU = {
           "sizes": [
             {
               "name": "Regular",
-              "price": 79
+              "price": 99
             }
           ],
           "img": "assets/img/menu/chickpea-chaat.jpg",
@@ -686,9 +685,8 @@ window.MENU = {
               "price": 79
             }
           ],
-          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "img": "assets/img/menu/menu-chaat.jpg",
           "badge": "",
-          "art": "🥗🌶️",
           "extras": []
         },
         {
@@ -697,12 +695,11 @@ window.MENU = {
           "sizes": [
             {
               "name": "Regular",
-              "price": 79
+              "price": 89
             }
           ],
-          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "img": "assets/img/menu/menu-chaat.jpg",
           "badge": "",
-          "art": "🥟🌶️",
           "extras": []
         },
         {
@@ -711,12 +708,11 @@ window.MENU = {
           "sizes": [
             {
               "name": "Regular",
-              "price": 99
+              "price": 129
             }
           ],
-          "img": "assets/img/scene/fruit-flatlay.jpg",
-          "badge": "",
-          "art": "🥔🌿",
+          "img": "assets/img/menu/menu-chaat.jpg",
+          "badge": "Must try",
           "extras": []
         }
       ]
@@ -734,12 +730,11 @@ window.MENU = {
           "sizes": [
             {
               "name": "Regular",
-              "price": 159
+              "price": 189
             }
           ],
-          "img": "assets/img/scene/fruit-flatlay.jpg",
-          "badge": "",
-          "art": "🍌🥣",
+          "img": "assets/img/menu/menu-bowls.jpg",
+          "badge": "Must try",
           "extras": []
         },
         {
@@ -748,12 +743,11 @@ window.MENU = {
           "sizes": [
             {
               "name": "Regular",
-              "price": 149
+              "price": 169
             }
           ],
-          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "img": "assets/img/menu/menu-bowls.jpg",
           "badge": "",
-          "art": "🥣🌾",
           "extras": []
         },
         {
@@ -762,12 +756,11 @@ window.MENU = {
           "sizes": [
             {
               "name": "Regular",
-              "price": 199
+              "price": 269
             }
           ],
-          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "img": "assets/img/menu/menu-bowls.jpg",
           "badge": "",
-          "art": "🥣💪",
           "extras": []
         }
       ]
@@ -777,24 +770,10 @@ window.MENU = {
       "slug": "hot",
       "blurb": "Hot tea, coffee and badam milk.",
       "accent": "#A8723F",
-      "hero": "assets/img/scene/fruit-flatlay.jpg",
+      "hero": "assets/img/menu/menu-hot.jpg",
       "items": [
         {
-          "name": "Cozy Tea",
-          "desc": "",
-          "sizes": [
-            {
-              "name": "Regular",
-              "price": 29
-            }
-          ],
-          "img": "assets/img/scene/fruit-flatlay.jpg",
-          "badge": "",
-          "art": "☕",
-          "extras": []
-        },
-        {
-          "name": "Warm Coffee",
+          "name": "Ginger Tea",
           "desc": "",
           "sizes": [
             {
@@ -802,9 +781,21 @@ window.MENU = {
               "price": 39
             }
           ],
-          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "img": "assets/img/menu/menu-hot.jpg",
           "badge": "",
-          "art": "☕",
+          "extras": []
+        },
+        {
+          "name": "Hot Coffee",
+          "desc": "",
+          "sizes": [
+            {
+              "name": "Regular",
+              "price": 49
+            }
+          ],
+          "img": "assets/img/menu/menu-hot.jpg",
+          "badge": "",
           "extras": []
         },
         {
@@ -813,12 +804,11 @@ window.MENU = {
           "sizes": [
             {
               "name": "Regular",
-              "price": 39
+              "price": 49
             }
           ],
-          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "img": "assets/img/menu/menu-hot.jpg",
           "badge": "",
-          "art": "🍋🍵",
           "extras": []
         },
         {
@@ -830,9 +820,8 @@ window.MENU = {
               "price": 99
             }
           ],
-          "img": "assets/img/scene/fruit-flatlay.jpg",
-          "badge": "",
-          "art": "🌰🥛",
+          "img": "assets/img/menu/menu-hot.jpg",
+          "badge": "Must try",
           "extras": []
         }
       ]
@@ -842,10 +831,10 @@ window.MENU = {
       "slug": "desserts",
       "blurb": "A little something sweet to finish.",
       "accent": "#8E3B4E",
-      "hero": "assets/img/scene/fruit-flatlay.jpg",
+      "hero": "assets/img/menu/menu-desserts.jpg",
       "items": [
         {
-          "name": "Chocolate Lava Cake",
+          "name": "Chocolate Mousse Jar",
           "desc": "",
           "sizes": [
             {
@@ -853,13 +842,12 @@ window.MENU = {
               "price": 99
             }
           ],
-          "img": "assets/img/scene/fruit-flatlay.jpg",
-          "badge": "",
-          "art": "🍫🎂",
+          "img": "assets/img/menu/menu-desserts.jpg",
+          "badge": "Must try",
           "extras": []
         },
         {
-          "name": "Belgian Chocolate Brownie",
+          "name": "Belgian Walnut Brownie",
           "desc": "",
           "sizes": [
             {
@@ -867,13 +855,12 @@ window.MENU = {
               "price": 99
             }
           ],
-          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "img": "assets/img/menu/menu-desserts.jpg",
           "badge": "",
-          "art": "🍫",
           "extras": []
         },
         {
-          "name": "Chocolate Mousse Cup",
+          "name": "Berry Cheese Mousse Cup",
           "desc": "",
           "sizes": [
             {
@@ -881,9 +868,8 @@ window.MENU = {
               "price": 109
             }
           ],
-          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "img": "assets/img/menu/menu-desserts.jpg",
           "badge": "",
-          "art": "🍮",
           "extras": []
         }
       ]
@@ -931,16 +917,15 @@ window.MENU = {
           "sizes": [
             {
               "name": "Regular (350ml)",
-              "price": 169
+              "price": 189
             },
             {
               "name": "Large (450ml)",
-              "price": 199
+              "price": 239
             }
           ],
-          "img": "assets/img/scene/fruit-flatlay.jpg",
-          "badge": "",
-          "art": "🍫💪",
+          "img": "assets/img/menu/menu-protein.jpg",
+          "badge": "Must try",
           "extras": [
             "No Sugar",
             "Less Sugar",
@@ -956,16 +941,15 @@ window.MENU = {
           "sizes": [
             {
               "name": "Regular (350ml)",
-              "price": 169
+              "price": 199
             },
             {
               "name": "Large (450ml)",
-              "price": 199
+              "price": 249
             }
           ],
-          "img": "assets/img/scene/fruit-flatlay.jpg",
+          "img": "assets/img/menu/menu-protein.jpg",
           "badge": "",
-          "art": "🍪💪",
           "extras": [
             "No Sugar",
             "Less Sugar",
@@ -981,7 +965,7 @@ window.MENU = {
           "sizes": [
             {
               "name": "Regular (350ml)",
-              "price": 169
+              "price": 179
             },
             {
               "name": "Large (450ml)",
@@ -1011,11 +995,11 @@ window.MENU = {
           "sizes": [
             {
               "name": "Regular (350ml)",
-              "price": 169
+              "price": 189
             },
             {
               "name": "Large (450ml)",
-              "price": 199
+              "price": 219
             }
           ],
           "img": "assets/img/menu/strawberry-shake.jpg",
@@ -1035,7 +1019,7 @@ window.MENU = {
           "sizes": [
             {
               "name": "Regular (350ml)",
-              "price": 169
+              "price": 179
             },
             {
               "name": "Large (450ml)",
